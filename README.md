@@ -3,8 +3,14 @@
 Database openen
 1. Ga naar de map waar het bestand manage.py is opgeslagen: in mijn geval C:\Users\Suzan\Desktop\Project-C\Django\website.
 2. Zorg ervoor dat niets geselecteerd is en klik bij het menu(bovenin) op 'Bestand' --> 'Windows Powershell openen' --> 'Windows Powershell openen als admin'
-3. Typ in: py manage.py runserver
-4. Ga naar http://127.0.0.1:8000/admin om bestanden in de database te zetten
+3. Als dit de 1e keer is dat je deze database op je huidige computer in Django opent:
+   Typ in: py manage.py createsuperuser
+   username: admin
+   email: random email, bijv admin@admin.com
+   password: admin
+   password (again): admin
+4. Typ in: py manage.py runserver
+5. Ga naar http://127.0.0.1:8000/admin om de database te bekijken en bestanden in de database te zetten
 
 Nieuwe tabellen maken
 1. Ga naar Project-C\Django\website\art in de map waar je de Git repository hebt opgeslagen
