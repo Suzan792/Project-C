@@ -1,14 +1,18 @@
 from django.db import models
+import datetime
 
 # Create your models here.
-class Painting(models.Model):
-    painting_name = models.CharField(max_length = 60)
-    painter_name = models.CharField(max_length = 100)
-    photo = models.ImageField(upload_to='img')
-    def __str__(self):
-        return 'Painting: ' + self.painting_name
+class User(models.Model):
+    fname = models.CharField(max_length = 60)
+    lname = models.CharField(max_length = 100)
+    username = models.CharField(max_length = 60)
+    password = models.CharField(max_length = 60)
+    salt = models.IntegerField(max_length = 60)
+    user_role = models.CharField(max_length = 60)
+    address = models.CharField(max_length = 60)
+    country = models.CharField(max_length = 60)
+    language = models.CharField(max_length = 60)
+    sign_up_date = models.DateField(("Date"), default=datetime.date.today)
 
-class Testmodel(models.Model):
-    test = models.CharField(max_length = 60)
     def __str__(self):
-        return 'test: ' + self.test
+        return 'User: ' + self.username
