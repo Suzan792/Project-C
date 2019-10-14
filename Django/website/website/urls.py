@@ -18,9 +18,10 @@ from django.urls import path
 from art import views as art_views
 from website import settings
 from django.conf.urls.static import static
+from . import views
 
 urlpatterns = [
-    # path('', admin.site.urls),
+    path('', views.home_page),
     path('admin/', admin.site.urls),
     # path('art/', art_views, name='art'),
 ]
