@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'website.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ljdowsto',
-        'USER' : 'ljdowsto',
-        'PASSWORD' : 'fgN68UR9L9ZLVNifEfK-oVJ8glhMWiM9',
-        'HOST' : 'salt.db.elephantsql.com',
+        'NAME': 'lonwtpea',
+        'USER' : 'lonwtpea',
+        'PASSWORD' : 'ovXQGaKlWKf9dm_YkKD9J9rjQWrmvhUM',
+        'HOST' : 'balarama.db.elephantsql.com',
         'PORT': '5432',
     }
 }
