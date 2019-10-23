@@ -1,6 +1,7 @@
 from django.db import models
 
-import users, art
+import users.models as users
+import art.models as art
 import datetime
 
 # Create your models here.
@@ -16,10 +17,19 @@ class Product(models.Model):
         return 'Product: ' + self.product_name + ' Upload date: ' + self.upload_date
 
 class Order(models.Model):
-    user_id = models.ForeignKey(users.User)
-    product_id = models.ForeignKey(Product)
-    artwork_id = models.ForeignKey(art.Artwork)
+    user = models.ForeignKey(users.User, on_delete = models.SET('unknown'))
+    product = models.ForeignKey(Product, on_delete = models.SET('deleted'))
+    artwork = models.ForeignKey(art.Artwork, on_delete = models.SET('deleted'))
     order_date = models.DateField(("Date"), default=datetime.date.today)
 
     def __str__(self):
         return 'Order: ' + self.ID + ' Order date: ' + self.order_date
+
+class Wish(models.Model):
+    user = models.ForeignKey(users.User, on_delete = models.SET('unknown'))
+    product = models.ForeignKey(Product, on_delete = models.SET('deleted'))
+    artwork = models.ForeignKey(art.Artwork, on_delete = models.SET('deleted'))
+    wish_date = models.DateField(("Date"), default=datetime.date.today)
+
+    def __str__(self):
+        return 'Wish: ' + self.ID + ' Wish date: ' + self.wish_date
