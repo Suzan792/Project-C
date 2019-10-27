@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %} Profile {% endblock %}
+
+{% block body %}
+<div class="content-section">
+<div class="media">
+  <img class="rounded-circle account-img prifile-pic"  src="{{ user.user.image.url }}">
+  <div class="media-body">
+    <h2 class="account-heading">{{ user.username }}</h2>
+    <p class="text-secondary">{{ user.email }}</p>
+  </div>
+</div>
+</div>
+{% endblock body %}

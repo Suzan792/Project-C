@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %} Registration {% endblock %}
+
+{% block body %}
+    <h3> You have been logged out</h3>
+    <div class="border-top pt-3">
+      <small class="text-muted">
+        <a href="{% url 'register_page' %}">Login</a>
+      </small>
+    </div>
+{% endblock body %}

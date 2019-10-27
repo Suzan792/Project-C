@@ -5,15 +5,15 @@
 <head>
   <meta charset="utf-8">
   <title>{% block title %} {% endblock %}</title>
-  <link href="css/normalize.css" rel="stylesheet">
 
+  <link href="{% static 'css/normalize.css' %}" rel="stylesheet">
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/custom.css'%}" >
 
 </head>
 
@@ -39,25 +39,39 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'contact_page' %}">Contact</a>
           </li>
+          {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'register_page' %}">SignUp | Register</a>
+            <a class="nav-link" href="{% url 'logout_page' %}">Logout</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile_page' %}">Profile</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register_page' %}">SignUp</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login_page' %}">Login</a>
+          </li>
+          {% endif %}
+
+
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Page Content -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
 
-        </ul>
-      </div>
-    </div>
-  </div>
 
-  <div class="container">
+  <div class="container mt-3">
+    {% if messages %}
+     {% for message in messages%}
+     <div class="alert alert-{{ message.tags }}">
+       {{message}}
+     </div>
+     {% endfor %}
+    {% endif %}
+
   {% block body %} {% endblock %}
   </div>
   <!-- Optional JavaScript -->

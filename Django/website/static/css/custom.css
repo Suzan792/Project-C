@@ -1,0 +1,12 @@
+.prifile-pic{
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+}
+.media{
+  padding: 10px;
+  border-bottom: 1px solid black;
+}
+.media-body{
+  margin: 10px
+}

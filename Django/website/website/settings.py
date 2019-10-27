@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'art',
     'users',
     'products',
-    
+    'crispy_forms',
+
 ]
 
 MIDDLEWARE = [
@@ -127,12 +128,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'home_page'
+
+LOGIN_URL= 'login_page'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
-
-MEDIA_ROOT = (
-    BASE_DIR
-)
-
-MEDIA_URL = '/media/'
