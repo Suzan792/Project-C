@@ -6,7 +6,7 @@ import datetime
 # Create your models here.
 class Artwork(models.Model):
     artwork_name = models.CharField(max_length = 60)
-    artist = models.ForeignKey(users.User, on_delete = models.SET('unknown'))
+    artist = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
     artwork_description = models.CharField(max_length = 600)
     artwork_likes = models.IntegerField()
     artwork_photo = models.ImageField()
@@ -16,7 +16,7 @@ class Artwork(models.Model):
         return 'Artwork: ' + self.artwork_name + ' Upload date: ' + self.upload_date
 
 class Comment(models.Model):
-    commenter = models.ForeignKey(users.User, on_delete = models.SET('unknown'))
+    commenter = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
     artwork = models.ForeignKey(Artwork, on_delete = models.SET('deleted'))
     comment = models.CharField(max_length = 600)
     comment_date = models.DateField(("Date"), default=datetime.date.today)
