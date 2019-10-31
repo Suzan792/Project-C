@@ -20,9 +20,8 @@ def register(request):
 def profile(request):
     if request.method == 'POST':
         user_update_form = UserUpdateForm(request.POST,instance=request.user)
-        profile_photo_update_form = ProfilePhotoUpdateForm(request.POST,
-                                                            request.FILES,
-                                                            instance=request.user.userprofile)
+        profile_photo_update_form = ProfilePhotoUpdateForm(request.POST,request.FILES,
+                                                        instance=request.user.userprofile)
         if user_update_form.is_valid and profile_photo_update_form.is_valid():
             user_update_form.save()
             profile_photo_update_form.save()
