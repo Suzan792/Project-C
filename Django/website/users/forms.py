@@ -35,7 +35,7 @@ class ProfileInfoForm(forms.ModelForm):
     house_nr = forms.CharField(max_length = 60)
     postcode = forms.CharField(max_length = 60)
     city = forms.CharField(max_length = 60)
-    country = forms.CharField(label="Language:", widget=forms.Select(choices=[('netherland','Netherland'),('usa','USA'),('germany','Germany'),('uk','United Kingdom')]))
+    country = forms.CharField(label="Country:", widget=forms.Select(choices=[('netherland','Netherland'),('usa','USA'),('germany','Germany'),('uk','United Kingdom')]))
     language = forms.CharField(label="Language:", widget=forms.Select(choices=[('english','English'),('dutch','Dutch')]))
     class Meta:
         model = UserProfile
