@@ -20,14 +20,16 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-pills static-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Drop Art</a>
+      <a class="navbar-brand" href="#">
+        <img src="https://i.ibb.co/SNg4gm8/Logo.jpg"  width="50" , height="50", alt="logo">
+        Drop Art</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto nav-pills">
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'home_page' %}">Home
               <span class="sr-only">(current)</span>
@@ -47,14 +49,20 @@
             <a class="nav-link" href="{% url 'profile_page' %}">Profile</a>
           </li>
           {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'register_page' %}">SignUp</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">SignUp</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'register_page' %}">User</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Artist</a>
+
+            </div>
+
           </li>
-          <li class="nav-item">
+          <li class="nav-item ">
             <a class="nav-link" href="{% url 'login_page' %}">Login</a>
           </li>
           {% endif %}
-
 
         </ul>
       </div>
@@ -63,7 +71,7 @@
 
 
 
-  <div class="container mt-3">
+  <div class="container width">
     {% if messages %}
      {% for message in messages%}
      <div class="alert alert-{{ message.tags }}">
@@ -76,6 +84,7 @@
   </div>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://kit.fontawesome.com/c1e3069171.js" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
