@@ -8,12 +8,12 @@ class Artwork(models.Model):
     artwork_name = models.CharField(max_length = 60)
     artist = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
     artwork_description = models.CharField(max_length = 600)
-    artwork_likes = models.IntegerField()
-    artwork_photo = models.ImageField()
+    artwork_likes = models.IntegerField(default=0)
+    artwork_photo = models.ImageField(default='default_art.png',upload_to='art_pics')
     upload_date = models.DateField(("Date"), default=datetime.date.today)
 
     def __str__(self):
-        return 'Artwork: ' + self.artwork_name + ' Upload date: ' + self.upload_date
+        return 'Artwork: ' + self.artwork_name
 
 class Comment(models.Model):
     commenter = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))

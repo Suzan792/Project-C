@@ -8,14 +8,14 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     lname_prefix = models.CharField(max_length = 60, null = True, blank = True)
     image = models.ImageField(default='default.png', upload_to='profile_pics')
-    user_role = models.CharField(max_length = 60, default = 'Customer')
+    user_role = models.CharField(max_length = 60,choices=(('customer','Customer'),('artist','Artist')), default = 'Customer')
     street_name = models.CharField(max_length = 60, null = True, blank = True)
     house_nr = models.CharField(max_length = 60, null = True, blank = True)
     addition = models.CharField(max_length = 60, null = True, blank = True)
     postcode = models.CharField(max_length = 60, null = True, blank = True)
     city = models.CharField(max_length = 60, null = True, blank = True)
-    country = models.CharField(max_length = 60, null = True, blank = True)
-    language = models.CharField(max_length = 60, default = 'English')
+    country = models.CharField(max_length = 60, choices=(('','Country'),('netherland','Netherland'),('usa','USA'),('germany','Germany'),('uk','United Kingdom')),default = 'null')
+    language = models.CharField(max_length = 60, choices=(('english','English'),('dutch','Dutch')),default = 'English')
     sign_up_date = models.DateField(("Date"), default=datetime.date.today)
 
     def __str__(self):
