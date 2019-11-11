@@ -115,18 +115,19 @@
       {% if Artworks.has_previous %}
       <a href="?page={{Artworks.previous_page_number }}"class="page-link" >Previous</a>
       {% endif %}
-    </li>
+      {% for num in Artworks.paginator.page_range %}
+        {% if Artworks.number == num %}
+          <li class="page-item"><a href="?page={{num}}" class="page-link text-success" >{{ num }}</a></li>
+        {% elif num > Artworks.number|add:'-3' and num < Artworks.number|add:'3' %}
+          <li class="page-item"><a href="?page={{num}}" class="page-link" >{{ num }}</a></li>
+        {% endif %}
+      {% endfor %}
 
-    {% for num in Artworks.paginator.page_range %}
-      {% if Artworks.number == num %}
-        <li href="?page={{num}}"class="page-item"><a class="page-link">{{ num }}</a></li>
-      {% endif %}
-    {% endfor %}
-    <li class="page-item">
       {% if Artworks.has_next %}
       <a href="?page={{Artworks.next_page_number}}"class="page-link">Next</a>
       {% endif %}
     </li>
+
   </ul>
 </nav>
 <!--/Page navigation-->
