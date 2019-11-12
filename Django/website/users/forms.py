@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import  UserCreationForm
 from django.core.exceptions import ValidationError
+from website.functions import check_real_email
 from .models import UserProfile
 
 
@@ -12,9 +13,11 @@ class UserRegistrationForm(UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
+        check_real_email(email)
         if User.objects.filter(email=email).exists():
             raise ValidationError("Account with this email already exists.")
-        return self.cleaned_data
+        # return self.cleaned_data
+        return email
 
     class Meta:
         model = User
