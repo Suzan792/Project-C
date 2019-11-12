@@ -113,7 +113,8 @@
   <ul class="pagination pg-blue justify-content-center">
     <li class="page-item ">
       {% if Artworks.has_previous %}
-      <a href="?page={{Artworks.previous_page_number }}"class="page-link" >Previous</a>
+      <li class="page-item"><a href="?page=1"class="page-link" >First</a></li>
+      <li class="page-item"><a href="?page={{Artworks.previous_page_number }}"class="page-link" >Previous</a></li>
       {% endif %}
       {% for num in Artworks.paginator.page_range %}
         {% if Artworks.number == num %}
@@ -124,7 +125,8 @@
       {% endfor %}
 
       {% if Artworks.has_next %}
-      <a href="?page={{Artworks.next_page_number}}"class="page-link">Next</a>
+      <li class="page-item"><a href="?page={{Artworks.next_page_number}}"class="page-link">Next</a></li>
+      <li class="page-item"><a href="?page={{Artworks.paginator.num_pages}}"class="page-link" >Last</a></li>
       {% endif %}
     </li>
 
