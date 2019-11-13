@@ -6,8 +6,13 @@
 .media{
   padding: 10px;
   border-bottom: 1px solid black;
-  
+
 }
 .media-body{
   margin: 10px
+}
+.article-img{
+  width: 30px;
+  height: 30px;
+  
 }
