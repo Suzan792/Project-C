@@ -25,3 +25,17 @@ body{
   margin-top: -100px;
   clear: both;
 }
+#home_gallery{
+  width: 100%;
+  margin: 5px;
+}
+@media (min-width: 1024px){
+  #home_gallery{
+    column-count: 3;
+  }
+}
+@media (min-width: 500px) and (max-width:1024px){
+  #home_gallery{
+    column-count:2;
+  }
+}
