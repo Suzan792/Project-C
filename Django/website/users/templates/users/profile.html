@@ -3,25 +3,28 @@
 {% block title %} Profile {% endblock %}
 
 {% block body %}
-<div class="content-section">
-<div class="media">
-  <img class="rounded-circle account-img prifile-pic"  src="{{ user.userprofile.image.url }}">
-  <div class="media-body">
-    <h2 class="account-heading">{{ user.username }}</h2>
-    <p class="text-secondary">{{ user.email }}</p>
-  </div>
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <fieldset class="form-group">
-      <legend class="border-bottom mb-4">Update your profile information</legend>
-      {{ user_update_form|crispy }}
-      {{ profile_info_update_form|crispy }}
-      {{ profile_photo_update_form }}
-    </fieldset>
-    <div class="form-group">
-      <button class="btn btn-outline-info" type="submit">Update</button>
+  <div class="container row">
+    <div class="border-bottom col-lg-2 col-md-3 col-sm-3  mt-5 pb-3 ">
+      <img class="rounded-circle account-img prifile-pic"  src="{{ user.userprofile.image.url }}">
+      </div>
+      <div class=" border-bottom col-lg-10 col-md-9 col-sm-9 mt-sm-5 ">
+        <h2 class="account-heading">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
+      </div>
+
+    <div class="mt-5 col-lg-12 col-sm-12">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class=" mb-4 ">Update your profile information</legend>
+          {{ user_update_form|crispy }}
+          {{ profile_info_update_form|crispy }}
+          {{ profile_photo_update_form }}
+        </fieldset>
+        <div class="form-group">
+          <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
+      </form>
     </div>
-  </form>
-</div>
-</div>
+  </div>
 {% endblock body %}
