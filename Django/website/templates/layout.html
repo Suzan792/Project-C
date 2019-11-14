@@ -17,19 +17,18 @@
 
 </head>
 
-<body>
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-pills static-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="https://i.ibb.co/SNg4gm8/Logo.jpg"  width="50" , height="50", alt="logo">
-        Drop Art</a>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-pills static-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img src="https://i.ibb.co/SNg4gm8/Logo.jpg"  width="50" , height="50", alt="logo">
+      Drop Art</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <!-- Search form -->
-      <input class="form-control col- mx-4" type="text" placeholder="Search" aria-label="Search">
+      <input class="form-control col- " type="text" placeholder="Search" aria-label="Search">
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto nav-pills">
           <li class="nav-item active">
@@ -72,147 +71,126 @@
   </nav>
 
 
+<body>
+  <div id="container">
+      <div id="main">
+        <div class="container width">
+          {% if messages %}
+          {% for message in messages%}
+          <div class="alert alert-{{ message.tags }}">
+            {{message}}
+          </div>
+          {% endfor %}
+          {% endif %}
 
-  <div class="container width">
-    {% if messages %}
-     {% for message in messages%}
-     <div class="alert alert-{{ message.tags }}">
-       {{message}}
-     </div>
-     {% endfor %}
-    {% endif %}
+          {% block body %} {% endblock %}
+        </div>
+      </div>
+    </div>
+  </body>
 
-  {% block body %} {% endblock %}
-  </div>
+
+  <!-- Footer -->
+  <footer id="footer" >
+    <!-- Footer Links -->
+    <div class="container text-center text-md-left">
+      <!-- Grid row -->
+      <div class="row">
+        <!-- Grid column -->
+        <div class="col-md-3 mx-auto">
+          <!-- Links -->
+          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">about us</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">Blog</a>
+            </li>
+            <li>
+              <a href="#!">News</a>
+            </li>
+            <li>
+              <a href="#!">Contact</a>
+            </li>
+            <li>
+              <a href="#!">who are we</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Grid column -->
+        <hr class="clearfix w-100 d-md-none">
+        <!-- Grid column -->
+        <div class="col-md-3 mx-auto">
+          <!-- Links -->
+          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">For artists</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">Starting guid</a>
+            </li>
+            <li>
+              <a href="#!">why sell</a>
+            </li>
+            <li>
+              <a href="#!">Create an account</a>
+            </li>
+            <li>
+              <a href="#!">Terms</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Grid column -->
+        <hr class="clearfix w-100 d-md-none">
+        <!-- Grid column -->
+        <div class="col-md-3 mx-auto">
+          <!-- Links -->
+          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">For buyers</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">FAQ</a>
+            </li>
+            <li>
+              <a href="#!">Catalog</a>
+            </li>
+            <li>
+              <a href="#!">Transport and shipment</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Grid column -->
+        <hr class="clearfix w-100 d-md-none">
+        <!-- Grid column -->
+        <div class="col-md-3 mx-auto">
+          <!-- Links -->
+          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Top catagories</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">Photos</a>
+            </li>
+            <li>
+              <a href="#!">Paintings</a>
+            </li>
+            <li>
+              <a href="#!">Digital art</a>
+            </li>
+            <li>
+              <a href="#!">Customizations</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+    <!-- Footer Links -->
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2019 Copyright: DropArt.nl
+    </div>
+    <!-- Copyright -->
+  </footer>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://kit.fontawesome.com/c1e3069171.js" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-<!-- Footer -->
-<footer class="page-footer font-small indigo">
 
-  <!-- Footer Links -->
-  <div class="container text-center text-md-left">
 
-    <!-- Grid row -->
-    <div class="row">
-
-      <!-- Grid column -->
-      <div class="col-md-3 mx-auto">
-
-        <!-- Links -->
-        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">about us</h5>
-
-        <ul class="list-unstyled">
-          <li>
-            <a href="#!">Blog</a>
-          </li>
-          <li>
-            <a href="#!">News</a>
-          </li>
-          <li>
-            <a href="#!">Contact</a>
-          </li>
-          <li>
-            <a href="#!">who are we</a>
-          </li>
-        </ul>
-
-      </div>
-      <!-- Grid column -->
-
-      <hr class="clearfix w-100 d-md-none">
-
-      <!-- Grid column -->
-      <div class="col-md-3 mx-auto">
-
-        <!-- Links -->
-        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">For artists</h5>
-
-        <ul class="list-unstyled">
-          <li>
-            <a href="#!">Starting guid</a>
-          </li>
-          <li>
-            <a href="#!">why sell</a>
-          </li>
-          <li>
-            <a href="#!">Create an account</a>
-          </li>
-          <li>
-            <a href="#!">Terms</a>
-          </li>
-        </ul>
-
-      </div>
-      <!-- Grid column -->
-
-      <hr class="clearfix w-100 d-md-none">
-
-      <!-- Grid column -->
-      <div class="col-md-3 mx-auto">
-
-        <!-- Links -->
-        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">For buyers</h5>
-
-        <ul class="list-unstyled">
-          <li>
-            <a href="#!">FAQ</a>
-          </li>
-          <li>
-            <a href="#!">Catalog</a>
-          </li>
-          <li>
-            <a href="#!">Transport and shipment</a>
-          </li>
-
-        </ul>
-
-      </div>
-      <!-- Grid column -->
-
-      <hr class="clearfix w-100 d-md-none">
-
-      <!-- Grid column -->
-      <div class="col-md-3 mx-auto">
-
-        <!-- Links -->
-        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Top catagories</h5>
-
-        <ul class="list-unstyled">
-          <li>
-            <a href="#!">Photos</a>
-          </li>
-          <li>
-            <a href="#!">Paintings</a>
-          </li>
-          <li>
-            <a href="#!">Digital art</a>
-          </li>
-          <li>
-            <a href="#!">Customizations</a>
-          </li>
-        </ul>
-
-      </div>
-      <!-- Grid column -->
-
-    </div>
-    <!-- Grid row -->
-
-  </div>
-  <!-- Footer Links -->
-
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2019 Copyright: DropArt.nl
-
-  </div>
-  <!-- Copyright -->
-
-</footer>
-<!-- Footer -->
-
-</html>
+  </html>
