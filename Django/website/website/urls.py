@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from art import views as art_views
 from users import views as user_views
 from website import settings
@@ -33,6 +33,13 @@ urlpatterns = [
     path('', ArtListView.as_view(), name='home_page'),
     path('art/<int:pk>/', ArtDetailView.as_view(), name='artDetail_page'),
     path('contact', views.contact_page, name='contact_page'),
+    re_path('password_reset/$', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    re_path('password_reset/done/$', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    re_path('reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    re_path('reset/done/$', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    # path('^', include('django.contrib.auth.urls')),
+    # path('forgotten_password', user_views.forgotten_password, name='forgotten_password_page'),
 
     # path('art/', art_views, name='art'),
 ]
