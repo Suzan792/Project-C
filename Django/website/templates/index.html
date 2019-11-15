@@ -65,13 +65,12 @@
 </div>
 
 <!--/.Carousel Wrapper-->
-<h1 class="display-3 text-center">Our current favorites</h1>
-<div class="row">
-
+<h1 class="display-3 text-center ">Our current favorites</h1>
+<div class="card-columns">
    {% for artwork in Artworks %}
-       <div class="col-lg-4 col-sm-6 mb-4">
+
          <!--Card-->
-         <div class="card card-cascade card-ecommerce narrower">
+         <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 ">
            <!--Card image-->
            <div class="view view-cascade overlay">
              <img class="card-img-top" src="{{ artwork.artwork_photo.url }}"
@@ -88,7 +87,7 @@
              <!--Description-->
              <p class="card-text">{{artwork.artwork_description }}</p>
              <!--Card footer-->
-             <div class="card-footer">
+             <div class="card-footer mb-2">
                <span class="float-left">
                  <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ artwork.artist.user.userprofile.image.url }}"></a>
                </span>
@@ -108,12 +107,11 @@
          </div>
          <!--/.Card-->
 
-       </div>
+
 
     {% endfor %}
+       </div>
 
-
-</div>
 <!--/.Card-->
 <!--Page navigation-->
 <nav aria-label="Page navigation example">
