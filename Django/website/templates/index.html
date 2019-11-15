@@ -66,11 +66,11 @@
 
 <!--/.Carousel Wrapper-->
 <h1 class="display-3 text-center ">Our current favorites</h1>
-<div id="home_gallery">
+<div class="card-columns">
    {% for artwork in Artworks %}
 
          <!--Card-->
-         <div id="art_item" class="card card-cascade card-ecommerce narrower mt-3 ">
+         <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 ">
            <!--Card image-->
            <div class="view view-cascade overlay">
              <img class="card-img-top" src="{{ artwork.artwork_photo.url }}"
