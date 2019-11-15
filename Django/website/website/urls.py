@@ -38,10 +38,9 @@ urlpatterns = [
     re_path('reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     re_path('reset/done/$', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-    # path('^', include('django.contrib.auth.urls')),
-    # path('forgotten_password', user_views.forgotten_password, name='forgotten_password_page'),
-
-    # path('art/', art_views, name='art'),
+    path('change-password/', auth_views.PasswordChangeView.as_view(template_name="registration\change_password.html"), name='change_password'),
+    path('password_change_done/', auth_views.PasswordChangeDoneView.as_view(
+        template_name="registration\password_change_done.html"), name='password_change_done'),
 ]
 
 if settings.DEBUG:
