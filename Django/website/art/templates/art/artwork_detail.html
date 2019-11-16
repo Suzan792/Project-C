@@ -3,7 +3,8 @@
 {% block title %} Contact {% endblock %}
 
 {% block body %}
-<div class="col-lg-8 col-sm-8 mb-8 mt-5">
+<body onload="heart_sign_color()">
+<div class="col-lg-8 col-sm-8 mb-8 mt-5" >
   <!--Card-->
   <div class="card card-cascade card-ecommerce narrower">
     <!--Card image-->
@@ -16,7 +17,7 @@
     </div>
     <!--/.Card image-->
     <!--Card content-->
-    <div class="card-body card-body-cascade">
+    <div class="card-body card-body-cascade" >
       <!--Category & Title-->
       <h4 class="card-title"><strong><a href="">{{ object.artwork_name }}</a></strong></h4>
       <!--Description-->
@@ -26,16 +27,17 @@
         <span class="float-left">
           <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ object.artist.user.userprofile.image.url }}"></a>
         </span>
-        <span class="float-right">
-            <form id = "form-id" method="post" action="{% url 'artDetail_page' object.pk %}">
+        <span class="float-right" >
+            <form id = "form-id"  >
                 {% csrf_token %}
-                <a type="submit" href="#"onclick="document.forms['form-id'].submit();" > <i class="fas fa-heart {% if liked %} text-danger {% endif %}" ></i></a>
+
+                <a class="like_button button"type="submit" onclick="like_button()" onload="heart_sign_color()" > <i id="heart_sign"class="fas fa-heart" ></i></a>
             </form>
         </span>
         <span class="float-right" >
-        <p class="mr-1">{{object.like_set.count}}</p>
+        <p id="like_count"class= "mr-1">{{object.like_set.count}}</p>
         </span>
-        <span class="float-right">
+        <span class="float-right" >
           <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><i class="far fa-comments mr-3"></i></a>
         </span>
 
@@ -43,4 +45,38 @@
     </div>
   </div>
 </div>
+</body>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  function heart_sign_color(){
+    $('#heart_sign').addClass("{{color}}");
+    console.log("HI")
+  }
+
+  function like_button(){
+    $.ajax({
+      type: 'POST',
+      url: "{% url 'artDetail_page' object.pk %}",
+      data: {
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: LikePost,
+      dataType: 'html'
+    });
+    function LikePost(data, jqXHR) {
+      var data = $.parseJSON(data)
+      if (data['liked']) {
+        $('#heart_sign').addClass('text-danger')
+        $('#like_count').text(data['like_count'])
+      }
+      else
+      {
+        $('#heart_sign').removeClass('text-danger')
+        $('#like_count').text(data['like_count'])
+      }
+    };
+  };
+</script>
 {% endblock %}
