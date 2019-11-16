@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'users',
     'products',
     'crispy_forms',
+    'like_count',
+
 
 ]
 

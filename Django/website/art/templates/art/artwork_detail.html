@@ -8,7 +8,7 @@
   <div class="card card-cascade card-ecommerce narrower">
     <!--Card image-->
     <div class="view view-cascade overlay">
-      <img class="card-img-top" src="{{ artwork.artwork_photo.url }}"
+      <img class="card-img-top" src="{{ object.artwork_photo.url }}"
       alt="artwork">
       <a>
         <div class="mask rgba-white-slight"></div>
@@ -27,7 +27,13 @@
           <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ object.artist.user.userprofile.image.url }}"></a>
         </span>
         <span class="float-right">
-          <a class="" data-toggle="tooltip" data-placement="top" title="Add to Wishlist">{{object.artwork_likes}}  <i class="fas fa-heart"></i></a>
+            <form id = "form-id" method="post" action="{% url 'like_toggle' object.pk %}">
+                {% csrf_token %}
+                <a type="submit" href="#"onclick="document.forms['form-id'].submit();" > <i class="fas fa-heart {% if liked %} text-danger {% endif %}" ></i></a>
+            </form>
+        </span>
+        <span class="float-right" >
+        <p class="mr-1">{{object.like_set.count}}</p>
         </span>
         <span class="float-right">
           <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><i class="far fa-comments mr-3"></i></a>
