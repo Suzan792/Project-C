@@ -95,7 +95,7 @@
                  <a href="#">{{ artwork.artist.user.username }}</a>
                </span>
                <span class="float-right">
-                 <a class="" data-toggle="tooltip" data-placement="top" title="Add to Wishlist">{{ artwork.like_set.count}}  <i class="fas fa-heart"></i></a>
+                 <a class="" data-toggle="tooltip" data-placement="top" title="Add to Wishlist">{{ artwork.like_set.count}}  <i class="fas fa-heart {% for item in liked_list %} {% if item.art == artwork %} text-danger {% endif %} {% endfor %}"></i></a>
                </span>
                <span class="float-right">
                  <a href="{% url 'artDetail_page' artwork.id %}" class="" data-toggle="tooltip" data-placement="top" title="Add a comment"><i class="far fa-comments mr-3"></i></a>

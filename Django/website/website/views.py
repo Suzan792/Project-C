@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, View
 from art.models import Artwork
 from like_count.models import Like
+from django.utils import timezone
 
 
 def contact_page(request):
@@ -13,7 +14,14 @@ class ArtListView(ListView):
     context_object_name = 'Artworks'
     ordering = ['-upload_date']
     paginate_by = 6
-    queryset = Artwork.objects.all()
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            user = self.request.user.userprofile
+            context['liked_list'] = Like.objects.filter(user=user)
+        return context
 
 class ArtDetailView(View):
     def get(self, request, *args, **kwargs):

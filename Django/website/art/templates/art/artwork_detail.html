@@ -27,7 +27,7 @@
           <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ object.artist.user.userprofile.image.url }}"></a>
         </span>
         <span class="float-right">
-            <form id = "form-id" method="post" action="{% url 'like_toggle' object.pk %}">
+            <form id = "form-id" method="post" action="{% url 'artDetail_page' object.pk %}">
                 {% csrf_token %}
                 <a type="submit" href="#"onclick="document.forms['form-id'].submit();" > <i class="fas fa-heart {% if liked %} text-danger {% endif %}" ></i></a>
             </form>
