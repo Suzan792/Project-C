@@ -21,8 +21,28 @@ class ArtListView(ListView):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
             user = self.request.user.userprofile
-            context['liked_list'] = Like.objects.filter(user=user)
+            liked_art_list = []
+            like_list = Like.objects.filter(user=user)
+            for item in like_list:
+                liked_art_list.append(item.art.id)
+
+            context['liked_art_list'] = liked_art_list
         return context
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            art_pk = request.POST.get('id', None)
+            art = Artwork.objects.get(pk=art_pk)
+            user = request.user.userprofile
+
+            if Like.objects.filter(user=user).filter(art=art).exists():
+                Like.objects.filter(user=user).filter(art=art).delete()
+                liked = False
+            else:
+                like_instance = Like.objects.create(user=user,art=art)
+                like_instance.save()
+                liked = True
+            like_count = Like.objects.filter(art=art).count()
+            return JsonResponse({'liked':liked,'like_count':like_count,'art_pk':art_pk})
 
 class ArtDetailView(View):
     def get(self, request, *args, **kwargs):
