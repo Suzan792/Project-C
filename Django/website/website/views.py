@@ -13,7 +13,7 @@ class ArtListView(ListView):
     model = Artwork
     template_name = 'index.html'
     context_object_name = 'Artworks'
-    ordering = ['-upload_date']
+    ordering = ['-upload_date_time']
     paginate_by = 6
 
 
@@ -41,20 +41,20 @@ class ArtListView(ListView):
                 like_instance = Like.objects.create(user=user,art=art)
                 like_instance.save()
                 liked = True
-            like_count = Like.objects.filter(art=art).count()
+            like_count = art.artwork_likes.count()
             return JsonResponse({'liked':liked,'like_count':like_count,'art_pk':art_pk})
 
 class ArtDetailView(View):
     def get(self, request, *args, **kwargs):
         user = request.user.userprofile
-        object = Artwork.objects.get(pk=self.kwargs.get('pk'))
+        art = Artwork.objects.get(pk=self.kwargs.get('pk'))
         liked = False
         color = ""
-        if Like.objects.filter(user=user).filter(art=object):
+        if art.artwork_likes.filter(id=user.id).exists():
             liked = True
             color = "text-danger"
         context = {
-        'object': object,
+        'object': art,
         'color':color,
         }
         return render(request, 'art/artwork_detail.html', context)
@@ -62,12 +62,11 @@ class ArtDetailView(View):
         if request.user.is_authenticated:
             art = Artwork.objects.get(pk=self.kwargs.get('pk'))
             user = request.user.userprofile
-            if Like.objects.filter(user=user).filter(art=art).exists():
-                Like.objects.filter(user=user).filter(art=art).delete()
+            if art.artwork_likes.filter(id=user.id).exists():
+                art.artwork_likes.remove(user)
                 liked = False
             else:
-                like_instance = Like.objects.create(user=user,art=art)
-                like_instance.save()
+                art.artwork_likes.add(user)
                 liked = True
-            like_count = Like.objects.filter(art=art).count()
+            like_count = art.artwork_likes.count()
             return JsonResponse({'liked':liked,'like_count':like_count})

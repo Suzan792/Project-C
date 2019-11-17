@@ -3,79 +3,133 @@
 {% block title %} Contact {% endblock %}
 
 {% block body %}
-<body onload="heart_sign_color()">
-<div class="col-lg-8 col-sm-8 mb-8 mt-5" >
-  <!--Card-->
-  <div class="card card-cascade card-ecommerce narrower">
-    <!--Card image-->
-    <div class="view view-cascade overlay">
-      <img class="card-img-top" src="{{ object.artwork_photo.url }}"
-      alt="artwork">
-      <a>
-        <div class="mask rgba-white-slight"></div>
-      </a>
-    </div>
-    <!--/.Card image-->
-    <!--Card content-->
-    <div class="card-body card-body-cascade" >
-      <!--Category & Title-->
-      <h4 class="card-title"><strong><a href="">{{ object.artwork_name }}</a></strong></h4>
-      <!--Description-->
-      <p class="card-text">{{object.artwork_description }}</p>
-      <!--Card footer-->
-      <div class="card-footer">
-        <span class="float-left">
-          <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ object.artist.user.userprofile.image.url }}"></a>
-        </span>
-        <span class="float-right" >
-            <form id = "form-id"  >
+<body  onload="heart_sign_color()">
+  <div class="row">
+  <div class="row col-lg-8 col-md-12 col-sm-12">
+    <div class="col-lg-12 col-md-12 col-sm-12   mt-5" >
+      <!--Card-->
+      <div class="card card-cascade ">
+        <!--Card image-->
+        <div class="view view-cascade overlay">
+          <img class="card-img-top" src="{{ object.artwork_photo.url }}"
+          alt="artwork">
+          <a>
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <!--/.Card image-->
+        <!--Card content-->
+        <div class="card-body card-body-cascade" >
+          <!--Category & Title-->
+          <h4 class="card-title"><strong><a href="">{{ object.artwork_name }}</a></strong></h4>
+          <!--Description-->
+          <p class="card-text">{{object.artwork_description }}</p>
+          <!--Card footer-->
+          <div class="card-footer">
+            <span class="float-left">
+              <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ object.artist.user.userprofile.image.url }}"></a>
+            </span>
+            <span class="float-right" >
+              <form id = "form-id"  >
                 {% csrf_token %}
                 <a class="like_button button"type="submit" onclick="like_button()" onload="heart_sign_color()" > <i id="heart_sign"class="fas fa-heart" ></i></a>
-            </form>
-        </span>
-        <span class="float-right" >
-        <p id="like_count"class= "mr-1">{{object.like_set.count}}</p>
-        </span>
-        <span class="float-right" >
-          <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><i class="far fa-comments mr-3"></i></a>
-        </span>
+              </form>
+            </span>
+            <span class="float-right" >
+              <p id="like_count"class= "mr-1">{{object.artwork_likes.count}}</p>
+            </span>
+            <span class="float-right" >
+              <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><i class="far fa-comments mr-3"></i></a>
+            </span>
 
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="row col-lg-4 col-md-12 col-sm-12">
+
+    <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
+      <div class="card ">
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="#">Item One</a>
+          </h4>
+          <h5>$24.99</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
+      <div class="card ">
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="#">Item Two</a>
+          </h4>
+          <h5>$90.99</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
+      <div class="card ">
+        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="#">Item Three</a>
+          </h4>
+          <h5>$40.99</h5>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  </div>
+
 </body>
 {% endblock %}
 
 {% block javascript %}
 <script>
-  function heart_sign_color(){
-    $('#heart_sign').addClass("{{color}}");
-    console.log("HI")
-  }
+function heart_sign_color(){
+  $('#heart_sign').addClass("{{color}}");
+  console.log("HI")
+}
 
-  function like_button(){
-    $.ajax({
-      type: 'POST',
-      url: "{% url 'artDetail_page' object.pk %}",
-      data: {
-        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-      },
-      success: LikePost,
-      dataType: 'html'
-    });
-    function LikePost(data, jqXHR) {
-      var data = $.parseJSON(data)
-      if (data['liked']) {
-        $('#heart_sign').addClass('text-danger')
-        $('#like_count').text(data['like_count'])
-      }
-      else
-      {
-        $('#heart_sign').removeClass('text-danger')
-        $('#like_count').text(data['like_count'])
-      }
-    };
+function like_button(){
+  $.ajax({
+    type: 'POST',
+    url: "{% url 'artDetail_page' object.pk %}",
+    data: {
+      'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+    },
+    success: LikePost,
+    dataType: 'html'
+  });
+  function LikePost(data, jqXHR) {
+    var data = $.parseJSON(data)
+    if (data['liked']) {
+      $('#heart_sign').addClass('text-danger')
+      $('#like_count').text(data['like_count'])
+    }
+    else
+    {
+      $('#heart_sign').removeClass('text-danger')
+      $('#like_count').text(data['like_count'])
+    }
   };
+};
 </script>
 {% endblock %}
