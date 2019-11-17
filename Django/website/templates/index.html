@@ -5,6 +5,7 @@
 {% block body %}
 <!-- Page Content -->
 <!--Carousel Wrapper-->
+<body onload="heart_sign_color()">
 <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
   <!--Indicators-->
   <ol class="carousel-indicators">
@@ -18,7 +19,7 @@
     <div class="carousel-item active">
       <div class="view">
         <img class="d-block w-100" src="https://i.ibb.co/T86jC3J/2-880x385.jpg"
-          alt="First slide">
+        alt="First slide">
         <div class="mask rgba-black-light"></div>
       </div>
       <div class="carousel-caption">
@@ -30,7 +31,7 @@
       <!--Mask color-->
       <div class="view">
         <img class="d-block w-100" src="https://i.ibb.co/Pz3dyt0/1-880x385.jpg"
-          alt="Second slide">
+        alt="Second slide">
         <div class="mask rgba-black-strong"></div>
       </div>
       <div class="carousel-caption">
@@ -42,7 +43,7 @@
       <!--Mask color-->
       <div class="view">
         <img class="d-block w-100" src="https://i.ibb.co/DpsRj7c/3-880x385.jpg"
-          alt="Third slide">
+        alt="Third slide">
         <div class="mask rgba-black-slight"></div>
       </div>
       <div class="carousel-caption">
@@ -67,51 +68,60 @@
 <!--/.Carousel Wrapper-->
 <h1 class="display-3 text-center ">Our current favorites</h1>
 <div class="card-columns">
-   {% for artwork in Artworks %}
+  {% for artwork in Artworks %}
 
-         <!--Card-->
-         <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 ">
-           <!--Card image-->
-           <div class="view view-cascade overlay">
-             <img class="card-img-top" src="{{ artwork.artwork_photo.url }}"
-             alt="artwork">
-             <a>
-               <div class="mask rgba-white-slight"></div>
-             </a>
-           </div>
-           <!--/.Card image-->
-           <!--Card content-->
-           <div class="card-body card-body-cascade ">
-             <!--Category & Title-->
-             <h4 class="card-title text-center"><strong><a href="{% url 'artDetail_page' artwork.id %}">{{ artwork.artwork_name }}</a></strong></h4>
-             <!--Description-->
-             <p class="card-text">{{artwork.artwork_description }}</p>
-             <!--Card footer-->
-             <div class="card-footer mb-2">
-               <span class="float-left">
-                 <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ artwork.artist.user.userprofile.image.url }}"></a>
-               </span>
-               <span class="float-left ml-3">
-                 <a href="#">{{ artwork.artist.user.username }}</a>
-               </span>
-               <span class="float-right">
-                 <a class="" data-toggle="tooltip" data-placement="top" title="Add to Wishlist">{{ artwork.like_set.count}}  <i class="fas fa-heart"></i></a>
-               </span>
-               <span class="float-right">
-                 <a href="{% url 'artDetail_page' artwork.id %}" class="" data-toggle="tooltip" data-placement="top" title="Add a comment"><i class="far fa-comments mr-3"></i></a>
-               </span>
+  <!--Card-->
+  <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 ">
+    <!--Card image-->
+    <div class="view view-cascade overlay">
+      <img class="card-img-top" src="{{ artwork.artwork_photo.url }}"
+      alt="artwork">
+      <a>
+        <div class="mask rgba-white-slight"></div>
+      </a>
+    </div>
+    <!--/.Card image-->
+    <!--Card content-->
+    <div class="card-body card-body-cascade ">
+      <!--Category & Title-->
+      <h4 class="card-title text-center"><strong><a href="{% url 'artDetail_page' artwork.id %}">{{ artwork.artwork_name }}</a></strong></h4>
+      <!--Description-->
+      <p class="card-text">{{artwork.artwork_description }}</p>
+      <!--Card footer-->
+      <div class="card-footer mb-2">
+        <span class="float-left">
+          <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ artwork.artist.user.userprofile.image.url }}"></a>
+        </span>
+        <span class="float-left ml-3">
+          <a href="#">{{ artwork.artist.user.username }}</a>
+        </span>
+        <span class="float-right" >
+            <form id = "form-id"  >
+                {% csrf_token %}
+                <a class="like_button button"type="submit" onclick="like_button({{artwork.id}})" onload="heart_sign_color()" > <i id="heart_sign_color_{{artwork.id}}"class="fas fa-heart" ></i></a>
+            </form>
+        </span>
+        <span class="float-right" >
+        <p id="like_count_{{artwork.id}}"class= "mr-1">{{artwork.artwork_likes.count}}</p>
+        </span>
+        <span class="float-right">
+          <a href="{% url 'artDetail_page' artwork.id %}" class="" data-toggle="tooltip" data-placement="top" title="Add a comment"><i class="far fa-comments mr-3"></i></a>
+        </span>
 
-             </div>
-           </div>
-           <!--/.Card content-->
-         </div>
-         <!--/.Card-->
+      </div>
+    </div>
+    <!--/.Card content-->
+  </div>
+  <!--/.Card-->
 
 
 
-    {% endfor %}
-       </div>
+  {% endfor %}
 
+
+</div>
+
+</body>
 <!--/.Card-->
 <!--Page navigation-->
 <nav aria-label="Page navigation example">
@@ -122,11 +132,11 @@
       <li class="page-item"><a href="?page={{page_obj.previous_page_number }}"class="page-link" >Previous</a></li>
       {% endif %}
       {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-          <li class="page-item"><a href="?page={{num}}" class="page-link text-success" >{{ num }}</a></li>
-        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-          <li class="page-item"><a href="?page={{num}}" class="page-link" >{{ num }}</a></li>
-        {% endif %}
+      {% if page_obj.number == num %}
+      <li class="page-item"><a href="?page={{num}}" class="page-link text-success" >{{ num }}</a></li>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+      <li class="page-item"><a href="?page={{num}}" class="page-link" >{{ num }}</a></li>
+      {% endif %}
       {% endfor %}
 
       {% if page_obj.has_next %}
@@ -141,4 +151,42 @@
 
 
 <!-- /.container -->
+{% endblock %}
+
+{% block javascript %}
+<script>
+  function heart_sign_color(){
+    {% for item in liked_art_list %}
+      $('#heart_sign_color_{{item}}').addClass('text-danger')
+    {% endfor %}
+  };
+
+  function like_button(id){
+    var post_url ="{% url 'home_page' %}"
+    $.ajax({
+      type: 'POST',
+      url: post_url,
+      data: {
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+        'id':id,
+      },
+      success: LikePost,
+      dataType: 'html'
+    });
+    function LikePost(data, jqXHR) {
+      var data = $.parseJSON(data)
+      if (data['liked']) {
+        $('#heart_sign_color_'+data['art_pk']).addClass('text-danger')
+        $('#like_count_'+data['art_pk']).text(data['like_count'])
+      }
+      else
+      {
+        $('#heart_sign_color_'+data['art_pk']).removeClass('text-danger')
+        $('#like_count_'+data['art_pk']).text(data['like_count'])
+      }
+    };
+  };
+
+
+</script>
 {% endblock %}

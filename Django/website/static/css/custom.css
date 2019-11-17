@@ -11,6 +11,9 @@
 body{
   height: 100vh;
 }
+.button{
+  cursor: pointer;
+}
 #container {
   min-height: 100vh;
 }
@@ -28,7 +31,7 @@ body{
 }
 
 
-@media only screen and (min-width: 600px){
+@media only screen and (min-width: 500px){
   .card-columns{
     column-count: 2;
   }
