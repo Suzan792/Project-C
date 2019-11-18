@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, View
 from art.models import Artwork
-from like_count.models import Like
 from django.utils import timezone
 import json
 from django.http import JsonResponse
@@ -22,9 +21,9 @@ class ArtListView(ListView):
         if self.request.user.is_authenticated:
             user = self.request.user.userprofile
             liked_art_list = []
-            like_list = Like.objects.filter(user=user)
+            like_list = Artwork.objects.filter(artwork_likes__id=user.id)
             for item in like_list:
-                liked_art_list.append(item.art.id)
+                liked_art_list.append(item.id)
 
             context['liked_art_list'] = liked_art_list
         return context
@@ -34,12 +33,11 @@ class ArtListView(ListView):
             art = Artwork.objects.get(pk=art_pk)
             user = request.user.userprofile
 
-            if Like.objects.filter(user=user).filter(art=art).exists():
-                Like.objects.filter(user=user).filter(art=art).delete()
+            if art.artwork_likes.filter(id=user.id).exists():
+                art.artwork_likes.remove(user)
                 liked = False
             else:
-                like_instance = Like.objects.create(user=user,art=art)
-                like_instance.save()
+                art.artwork_likes.add(user)
                 liked = True
             like_count = art.artwork_likes.count()
             return JsonResponse({'liked':liked,'like_count':like_count,'art_pk':art_pk})

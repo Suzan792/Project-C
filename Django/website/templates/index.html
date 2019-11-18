@@ -5,7 +5,7 @@
 {% block body %}
 <!-- Page Content -->
 <!--Carousel Wrapper-->
-<body onload="heart_sign_color()">
+<body>
 <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
   <!--Indicators-->
   <ol class="carousel-indicators">
@@ -98,7 +98,7 @@
         <span class="float-right" >
             <form id = "form-id"  >
                 {% csrf_token %}
-                <a class="like_button button"type="submit" onclick="like_button({{artwork.id}})" onload="heart_sign_color()" > <i id="heart_sign_color_{{artwork.id}}"class="fas fa-heart" ></i></a>
+                <a class="like_button button"type="submit" onclick="{% if user.is_authenticated %}like_button({{artwork.id}}){% endif %}" onload="heart_sign_color()" > <i id="heart_sign_color_{{artwork.id}}"class="fas fa-heart " ></i></a>
             </form>
         </span>
         <span class="float-right" >
@@ -113,8 +113,6 @@
     <!--/.Card content-->
   </div>
   <!--/.Card-->
-
-
 
   {% endfor %}
 
@@ -154,12 +152,17 @@
 {% endblock %}
 
 {% block javascript %}
+
+
 <script>
-  function heart_sign_color(){
-    {% for item in liked_art_list %}
-      $('#heart_sign_color_{{item}}').addClass('text-danger')
-    {% endfor %}
-  };
+
+var heart_sign_name ='#heart_sign_color_'
+var liked_art_id_list = {{liked_art_list}}
+for (i in liked_art_id_list) {
+  var heart_sign_nameId='#heart_sign_color_'.concat(liked_art_id_list[i])
+  $(heart_sign_nameId).addClass('text-danger')
+}
+
 
   function like_button(id){
     var post_url ="{% url 'home_page' %}"
