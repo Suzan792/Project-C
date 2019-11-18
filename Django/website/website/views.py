@@ -14,19 +14,6 @@ class ArtListView(ListView):
     context_object_name = 'Artworks'
     ordering = ['-upload_date_time']
     paginate_by = 6
-
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            user = self.request.user.userprofile
-            liked_art_list = []
-            like_list = Artwork.objects.filter(artwork_likes__id=user.id)
-            for item in like_list:
-                liked_art_list.append(item.id)
-
-            context['liked_art_list'] = liked_art_list
-        return context
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             art_pk = request.POST.get('id', None)
@@ -51,13 +38,10 @@ class ArtDetailView(View):
         user = request.user.userprofile
         art = Artwork.objects.get(pk=self.kwargs.get('pk'))
         liked = False
-        color = ""
         if art.artwork_likes.filter(id=user.id).exists():
             liked = True
-            color = "text-danger"
         context = {
         'object': art,
-        'color':color,
         }
         return render(request, 'art/artwork_detail.html', context)
     def post(self, request, *args, **kwargs):

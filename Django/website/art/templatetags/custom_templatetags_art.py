@@ -8,7 +8,7 @@ register = template.Library()
 @register.simple_tag
 def isLiked(art_pk, user_pk):
     art = Artwork.objects.get(pk=art_pk)
-    user = User.objects.get(pk=user_pk)
+    user = User.objects.filter(pk=user_pk)
     if art.artwork_likes.filter(id=user_pk).exists():
         res = "text-danger"
     else:

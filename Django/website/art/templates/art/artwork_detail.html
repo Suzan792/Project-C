@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
-
+{% load custom_templatetags_art %}
 {% block title %} Contact {% endblock %}
 
 {% block body %}
-<body  onload="heart_sign_color()">
   <div class="row">
   <div class="row col-lg-8 col-md-12 col-sm-12">
     <div class="col-lg-12 col-md-12 col-sm-12   mt-5" >
@@ -32,7 +31,7 @@
             <span class="float-right" >
               <form id = "form-id"  >
                 {% csrf_token %}
-                <a class="like_button button"type="submit" onclick="like_button()" onload="heart_sign_color()" > <i id="heart_sign"class="fas fa-heart" ></i></a>
+                <a class="like_button button"type="submit" onclick="like_button()" onload="heart_sign_color()" > <i id="heart_sign"class="fas fa-heart " ></i></a>
               </form>
             </span>
             <span class="float-right" >
@@ -98,16 +97,10 @@
   </div>
   </div>
 
-</body>
 {% endblock %}
 
 {% block javascript %}
 <script>
-function heart_sign_color(){
-  $('#heart_sign').addClass("{{color}}");
-  console.log("HI")
-}
-
 function like_button(){
   $.ajax({
     type: 'POST',
