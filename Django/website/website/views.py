@@ -34,9 +34,13 @@ class ArtListView(ListView):
             user = request.user.userprofile
 
             if art.artwork_likes.filter(id=user.id).exists():
+                print(user.id)
+                print("True")
                 art.artwork_likes.remove(user)
                 liked = False
             else:
+                print(user.id)
+                print("False")
                 art.artwork_likes.add(user)
                 liked = True
             like_count = art.artwork_likes.count()
