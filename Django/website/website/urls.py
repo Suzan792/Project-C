@@ -21,7 +21,9 @@ from website import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import ArtListView, ArtDetailView
+from art.views import  ArtDetailView
+from products.views import ProductDetailView
+from .views import ArtListView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
@@ -32,6 +34,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout_page'),
     path('', ArtListView.as_view(), name='home_page'),
     path('art/<int:pk>/', ArtDetailView.as_view(), name='artDetail_page'),
+    path('product/<int:pk>/', ProductDetailView.as_view(), name='productDetail_page'),
     path('contact', views.contact_page, name='contact_page'),
 
     # path('art/', art_views, name='art'),

@@ -54,14 +54,14 @@
         <a href="#"><img class="card-img-top" src="{{product.product_photo.url}}" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="#">{{product.product_name}}</a>
+            <a href="{% url 'productDetail_page' product.id %}">{{product.product_name}}</a>
           </h4>
           <h5>${{product.price}}</h5>
            <div id="collapsible_text"class="collapse-content">
           <!-- Text -->
           <p class="card-text collapse" id="collapseContent_{{product.id}}">{{product.description}}</p>
           <!-- Button -->
-          <a class="btn info p-1 my-1 mr-0 mml-1 collapsed" data-toggle="collapse" href="#collapseContent_{{product.id}}" aria-expanded="false" aria-controls="collapseContent">Show description</a>
+          <a class="btn text-info p-0  collapsed" data-toggle="collapse" href="#collapseContent_{{product.id}}" aria-expanded="false" aria-controls="collapseContent">Show description</a>
           </div>
 
         </div>
