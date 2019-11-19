@@ -25,6 +25,7 @@ from art.views import  ArtDetailView
 from products.views import ProductDetailView
 from .views import ArtListView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from art.views import upload_art
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,6 +37,7 @@ urlpatterns = [
     path('art/<int:pk>/', ArtDetailView.as_view(), name='artDetail_page'),
     path('product/<int:pk>/', ProductDetailView.as_view(), name='productDetail_page'),
     path('contact', views.contact_page, name='contact_page'),
+    path('upload', upload_art, name='upload_art'),
 
     # path('art/', art_views, name='art'),
 ]

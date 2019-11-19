@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% block title %} Upload artwork {% endblock %}
+
+{% block body %}
+{% if user.userprofile.user_role  != "artist" %}
+<div class="container row">
+    <h2 class="mt-5 mb-5 text-center">This content is only for artists  </h2>
+</div>
+{% else %}
+
+{% endif %}
+{% endblock body %}

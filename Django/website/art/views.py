@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, View
@@ -34,3 +35,13 @@ class ArtDetailView(View):
                 liked = True
             like_count = art.artwork_likes.count()
             return JsonResponse({'liked':liked,'like_count':like_count})
+=======
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+# Create your views here.
+
+@login_required
+def upload_art(request):
+    return render(request,'uploadArt.html')
+>>>>>>> Stashed changes
