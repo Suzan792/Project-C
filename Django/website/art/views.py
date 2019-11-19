@@ -10,12 +10,13 @@ from django.http import JsonResponse
 # Create your views here.
 class ArtDetailView(View):
     def get(self, request, *args, **kwargs):
-        user = request.user.userprofile
+        product_list = Product.objects.all()
         art = Artwork.objects.get(pk=self.kwargs.get('pk'))
         liked = False
-        product_list = Product.objects.all()
-        if art.artwork_likes.filter(id=user.id).exists():
-            liked = True
+        if request.user.is_authenticated:
+            user = request.user.userprofile
+            if art.artwork_likes.filter(id=user.id).exists():
+                liked = True
         context = {
         'object': art,
         'product_list':product_list
