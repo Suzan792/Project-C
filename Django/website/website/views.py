@@ -8,7 +8,6 @@ import json
 from django.http import JsonResponse
 
 def contact_page(request):
-    print(request.user.userprofile.user_role)
     return render(request,'contact.html')
 class ArtListView(ListView):
     model = Artwork
