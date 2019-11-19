@@ -31,7 +31,7 @@
             <span class="float-right" >
               <form id = "form-id"  >
                 {% csrf_token %}
-                <a class="like_button button"type="submit" onclick="like_button()" onload="heart_sign_color()" > <i id="heart_sign"class="fas fa-heart " ></i></a>
+                <a class="like_button button"type="submit" onclick="like_button()" onload="heart_sign_color()" > <i id="heart_sign"class="fas fa-heart {%isLiked object.id user.id%}" ></i></a>
               </form>
             </span>
             <span class="float-right" >
@@ -51,10 +51,10 @@
 
     <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
       <div class="card ">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <a href="#"><img class="card-img-top" src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MX0C2_AV3?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1566856981539" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="#">Item One</a>
+            <a href="#">Iphone 11 cover</a>
           </h4>
           <h5>$24.99</h5>
           <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
@@ -66,12 +66,12 @@
     </div>
     <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
       <div class="card ">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <a href="#"><img class="card-img-top" src="https://ae01.alicdn.com/kf/HTB1YjcPat.LL1JjSZFEq6AVmXXaO/TOP-QUALITY-Summer-Solid-Blank-T-Shirt-Short-Sleeve-Cotton-T-shirt-Women-2017-Fashion-Tshirt.jpg" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="#">Item Two</a>
+            <a href="#">T-shirt</a>
           </h4>
-          <h5>$90.99</h5>
+          <h5>$29.99</h5>
           <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
         </div>
         <div class="card-footer">
@@ -81,10 +81,10 @@
     </div>
     <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
       <div class="card ">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+        <a href="#"><img class="card-img-top" src="https://previews.123rf.com/images/magryt/magryt1705/magryt170500270/79012830-empty-frame-on-light-brick-wall-blank-space-poster-or-art-frame-waiting-to-be-filled-square-black-fr.jpg" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="#">Item Three</a>
+            <a href="#">Art frame</a>
           </h4>
           <h5>$40.99</h5>
           <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
