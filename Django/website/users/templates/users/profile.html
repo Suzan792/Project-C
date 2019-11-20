@@ -26,5 +26,12 @@
         </div>
       </form>
     </div>
+    {% if user.userprofile.user_role  == "artist" %}
+      <div class="mt-5 col-lg-12 col-sm-12 border-top ">
+        <div class="form-group">
+          <h2 class="mt-3 mb-5 text-center">To upload a new artwork please <a href="{% url 'upload_art' %}" class="badge badge-primary">Click here</a></h2>
+          </div>
+      </div>
+    {% endif %}
   </div>
 {% endblock body %}

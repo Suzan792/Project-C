@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, View
@@ -6,8 +7,26 @@ from products.models import Product
 from django.utils import timezone
 import json
 from django.http import JsonResponse
-
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from . import forms
 # Create your views here.
+
+@login_required
+def upload_art(request):
+    if request.method == 'POST':
+        form = forms.uploadArt(request.POST,request.FILES)
+        if form.is_valid():
+            # save to db
+            instance = form.save(commit=False)
+            instance.artist = request.user.userprofile
+            instance.save()
+            messages.success(request, f'Your ArtWork  is uploaded')
+            return redirect('artDetail_page',form.instance.id)
+    else:
+        form = forms.uploadArt()
+    return render(request,'uploadArt.html',{'form':form})
+
 class ArtDetailView(View):
     def get(self, request, *args, **kwargs):
         product_list = Product.objects.all()
@@ -34,3 +53,5 @@ class ArtDetailView(View):
                 liked = True
             like_count = art.artwork_likes.count()
             return JsonResponse({'liked':liked,'like_count':like_count})
+
+    
