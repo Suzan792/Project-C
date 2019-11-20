@@ -12,6 +12,11 @@ from django.shortcuts import render
 from . import forms
 # Create your views here.
 
+class artistworkListView(ListView):
+    model = Artwork
+    template_name = 'artistwork.html'
+
+
 @login_required
 def upload_art(request):
     if request.method == 'POST':
