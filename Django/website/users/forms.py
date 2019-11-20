@@ -36,12 +36,12 @@ class ProfilePhotoUpdateForm(forms.ModelForm):
         fields = ['image']
 
 class ProfileInfoForm(forms.ModelForm):
-    street_name = forms.CharField(max_length = 60)
-    house_nr = forms.IntegerField()
+    street_name = forms.CharField(max_length = 60, required = False)
+    house_nr = forms.IntegerField( required = False)
     addition = forms.CharField(max_length = 60, required = False)
-    house_nr = forms.CharField(max_length = 60)
-    postcode = forms.CharField(max_length = 60)
-    city = forms.CharField(max_length = 60)
+    house_nr = forms.CharField(max_length = 60, required = False)
+    postcode = forms.CharField(max_length = 60, required = False)
+    city = forms.CharField(max_length = 60, required = False)
     class Meta:
         model = UserProfile
         fields = ['street_name','house_nr','addition','house_nr','postcode','city','country','language']

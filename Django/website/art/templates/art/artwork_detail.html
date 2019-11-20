@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
-
+{% load custom_templatetags_art %}
 {% block title %} Contact {% endblock %}
 
 {% block body %}
-<body  onload="heart_sign_color()">
   <div class="row">
   <div class="row col-lg-8 col-md-12 col-sm-12">
     <div class="col-lg-12 col-md-12 col-sm-12   mt-5" >
@@ -32,7 +31,7 @@
             <span class="float-right" >
               <form id = "form-id"  >
                 {% csrf_token %}
-                <a class="like_button button"type="submit" onclick="like_button()" onload="heart_sign_color()" > <i id="heart_sign"class="fas fa-heart" ></i></a>
+                <a class="like_button button"type="submit" onclick="like_button()" onload="heart_sign_color()" > <i id="heart_sign"class="fas fa-heart {%isLiked object.id user.id%}" ></i></a>
               </form>
             </span>
             <span class="float-right" >
@@ -49,64 +48,36 @@
     </div>
 
     <div class="row col-lg-4 col-md-12 col-sm-12">
+    {% for product in product_list %}
+    <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
+      <div class="card ">
+        <a href="{% url 'productDetail_page' product.id %}"><img class="card-img-top" src="{{product.product_photo.url}}" alt=""></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="{% url 'productDetail_page' product.id %}">{{product.product_name}}</a>
+          </h4>
+          <h5>${{product.price}}</h5>
+           <div id="collapsible_text"class="collapse-content">
+          <!-- Text -->
+          <p class="card-text collapse" id="collapseContent_{{product.id}}">{{product.description}}</p>
+          <!-- Button -->
+          <a class="btn text-info p-0  collapsed" data-toggle="collapse" href="#collapseContent_{{product.id}}" aria-expanded="false" aria-controls="collapseContent">Show description</a>
+          </div>
 
-    <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
-      <div class="card ">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-        <div class="card-body">
-          <h4 class="card-title">
-            <a href="#">Item One</a>
-          </h4>
-          <h5>$24.99</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
         </div>
         <div class="card-footer">
           <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
         </div>
       </div>
     </div>
-    <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
-      <div class="card ">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-        <div class="card-body">
-          <h4 class="card-title">
-            <a href="#">Item Two</a>
-          </h4>
-          <h5>$90.99</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
-      <div class="card ">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-        <div class="card-body">
-          <h4 class="card-title">
-            <a href="#">Item Three</a>
-          </h4>
-          <h5>$40.99</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
   </div>
 
-</body>
 {% endblock %}
 
 {% block javascript %}
 <script>
-function heart_sign_color(){
-  $('#heart_sign').addClass("{{color}}");
-  console.log("HI")
-}
 
 function like_button(){
   $.ajax({

@@ -9,12 +9,12 @@ class Product(models.Model):
     product_name = models.CharField(max_length = 60)
     stock = models.IntegerField()
     description = models.CharField(max_length = 600)
-    price = models.IntegerField()
-    product_photo = models.ImageField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    product_photo = models.ImageField(default='default_product.jpg',upload_to='product_pics')
     upload_date = models.DateField(("Date"), default=datetime.date.today)
 
     def __str__(self):
-        return 'Product: ' + self.product_name + ' Upload date: ' + self.upload_date
+        return 'Product: ' + self.product_name + ' Upload date: ' + str(self.upload_date)
 
 class Order(models.Model):
     user = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
