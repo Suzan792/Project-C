@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% block title %} Upload artwork {% endblock %}
+
+{% block body %}
+{% if user.userprofile.user_role  != "artist" %}
+<div class="mt-5 col-lg-12 col-sm-12">
+    <h2 class="mt-5 mb-5 text-center">This content is only for artists  </h2>
+</div>
+{% else %}
+<div class="mt-5 col-lg-12 col-sm-12">
+    <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+        <fieldset class="form-group">
+              <legend class=" mb-5">Upload your artwork</legend>
+            {{form|crispy}}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">upload</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+{% endblock body %}
