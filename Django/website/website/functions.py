@@ -15,7 +15,7 @@ def check_real_email(email):
     #     )
     #     return 
     # except ValidationError:
-    #     raise ValidationError("This email does not exist.")
+    #     raise ValidationError("An error occured.")
 
     # is_valid = validate_email(email, verify=True)
     if not validate_email(email, verify=True):

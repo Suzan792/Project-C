@@ -13,6 +13,7 @@
       </div>
 
     <div class="mt-5 col-lg-12 col-sm-12">
+      <button type="button" class="btn btn-outline-info" onclick= "location.href='{% url 'change_password' %}'"}>Change password</button>
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">

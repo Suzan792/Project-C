@@ -6,8 +6,10 @@
 {% block body %}
 
     <form method="POST" class="mt-5">
-      {% csrf_token %}
+      <!-- {% csrf_token %} -->
       <fieldset class="form-group">
+          {% csrf_token %}
+
         {{ form|crispy }}
       </fieldset>
       <div class="form-group">
