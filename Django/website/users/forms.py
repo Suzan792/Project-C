@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import  UserCreationForm
 from django.core.exceptions import ValidationError
-from website.functions import check_real_email, check_email_alrady_used
+from .functions import check_email_alrady_used
 from .models import UserProfile
 
 
@@ -11,14 +11,28 @@ class UserRegistrationForm(UserCreationForm):
     last_name = forms.CharField(max_length = 60)
     email = forms.EmailField(max_length = 60)
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        check_real_email(email)
-        check_email_alrady_used(email)
-
     class Meta:
         model = User
         fields =['first_name','last_name','username', 'email', 'password1', 'password2']
+
+    # def clean_email(self):
+    #     if User.objects.filter(email=self.cleaned_data.get('email')).exists():
+    #         raise ValidationError("This email address is already in use.")
+    
+    #     email = self.cleaned_data.get('email')
+        # check_email_alrady_used(email)
+        # try:
+        #     match = User.objects.get(email=email)
+        # except User.DoesNotExist:
+        #     # Unable to find a user, this is fine
+        #     return email
+
+        # # A user was found with this as a username, raise an error.
+        # raise forms.ValidationError('This email address is already in use.')
+
+        # if User.objects.filter(email=email).exists():
+        #     raise ValidationError("Account with this email already exists.")
+        # return self.cleaned_data
 
 class UserUpdateForm(forms.ModelForm):
     first_name = forms.CharField(max_length = 60)

@@ -26,8 +26,10 @@ from products.views import ProductDetailView
 from .views import ArtListView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from art.views import upload_art , artistworkListView
+from users import urls as users_urls
 
 urlpatterns = [
+    path('',include(users_urls)),
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register_page'),
     path('profile/', user_views.profile, name='profile_page'),
@@ -37,14 +39,6 @@ urlpatterns = [
     path('art/<int:pk>/', ArtDetailView.as_view(), name='artDetail_page'),
     path('product/<int:pk>/', ProductDetailView.as_view(), name='productDetail_page'),
     path('contact', views.contact_page, name='contact_page'),
-    re_path('password_reset/$', auth_views.PasswordResetView.as_view(), name='password_reset'),
-    re_path('password_reset/done/$', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    re_path('reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    re_path('reset/done/$', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-    path('change-password/', auth_views.PasswordChangeView.as_view(template_name="registration\change_password.html"), name='change_password'),
-    path('password_change_done/', auth_views.PasswordChangeDoneView.as_view(
-        template_name="registration\password_change_done.html"), name='password_change_done'),
     path('upload', upload_art, name='upload_art'),
     path('artistwork/',artistworkListView.as_view(),name = 'artistwork')
 
