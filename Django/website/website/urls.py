@@ -35,7 +35,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout_page'),
     path('', ArtListView.as_view(), name='home_page'),
     path('art/<int:pk>/', ArtDetailView.as_view(), name='artDetail_page'),
-    path('product/<int:pk>/', ProductDetailView.as_view(), name='productDetail_page'),
+    path('product/<int:product_pk>/<int:art_pk>/', ProductDetailView.as_view(), name='productDetail_page'),
     path('contact', views.contact_page, name='contact_page'),
     path('upload', upload_art, name='upload_art'),
     path('artistwork/',artistworkListView.as_view(),name = 'artistwork')

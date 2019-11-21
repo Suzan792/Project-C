@@ -58,5 +58,3 @@ class ArtDetailView(View):
                 liked = True
             like_count = art.artwork_likes.count()
             return JsonResponse({'liked':liked,'like_count':like_count})
-
-    
