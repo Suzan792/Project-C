@@ -2,42 +2,41 @@
 {% block title %} artist artwork {% endblock %}
 {% block body %}
 {% if user.userprofile.user_role  != "artist" %}
-<div class="mt-5 col-lg-12 col-sm-12">
-    <h2 class="mt-5 mb-5 text-center">This content is only for artists  </h2>
-</div>
+    <div class="mt-5 col-lg-12 col-sm-12">
+        <h2 class="mt-5 mb-5 text-center">This content is only for artists  </h2>
+    </div>
 {% else %}
-<h1 class="display-3 text-center ">All your Artworks</h1>
-<div class="card-columns">
-{% for artwork in object_list %}
-{% if artwork.artist.user.id == user.id %}
-<!--Card-->
-   <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 ">
-    <!--Card image-->
-    <div class="view view-cascade overlay">
-      <img class="card-img-top" src="{{ artwork.artwork_photo.url }}"
-      alt="artwork">
-      <a>
-        <div class="mask rgba-white-slight"></div>
-      </a>
-    </div>
-    <!--/.Card image-->
-    <!--Card content-->
-    <div class="card-body card-body-cascade ">
-      <!--Category & Title-->
-      <h4 class="card-title text-center"><strong><a href="{% url 'artDetail_page' artwork.id %}">{{ artwork.artwork_name }}</a></strong></h4>
-      <!--Description-->
-      <p class="card-text">{{artwork.artwork_description }}</p>
-      <!--Card footer-->
-      <div class="card-footer mb-2">
-          <a href="#" class="btn btn-primary">Edit Artwork</a>
-          <a href="#" class="btn btn-danger">Delete Artwork</a>
+    <h1 class="display-3 text-center ">All your Artworks</h1>
+    <div class="card-columns">
+    {% for artwork in object_list %}
+        {% if artwork.artist.user.id == user.id %}
+        <!--Card-->
+           <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 " >
+            <!--Card image-->
+            <div class="view view-cascade overlay">
+              <img class="card-img-top" src="{{ artwork.artwork_photo.url }}" alt="artwork">
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+            <!--/.Card image-->
+            <!--Card content-->
+            <div class="card-body card-body-cascade ">
+              <!--Category & Title-->
+              <h4 class="card-title text-center"><strong><a href="{% url 'artDetail_page' artwork.id %}">{{ artwork.artwork_name }}</a></strong></h4>
+              <!--Description-->
+              <p class="card-text">{{artwork.artwork_description }}</p>
+              <!--Card footer-->
+              <div class="card-footer mb-2">
+                  <a href="{% url 'artUpdate_view' artwork.id %}" class="btn btn-primary">Edit Artwork</a>
+                  <a href="{% url 'artDelete_view' artwork.id %}" class="btn btn-danger">Delete Artwork</a>
 
-      </div>
-    </div>
-    <!--/.Card content-->
-  </div>
-{%endif%}
-{% endfor %}
+              </div>
+            </div>
+            <!--/.Card content-->
+          </div>
+        {%endif%}
+    {% endfor %}
 {% endif %}
 </div>
 {% endblock body %}
