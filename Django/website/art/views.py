@@ -1,15 +1,16 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, render, redirect
-from django.core.paginator import Paginator
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView, View , DeleteView
 from art.models import Artwork
 from products.models import Product
-from django.utils import timezone
-import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from . import forms
+from users.models import User,UserProfile
+from django.contrib.auth.models import User
+
 # Create your views here.
 
 class artistworkListView(ListView):
@@ -31,6 +32,19 @@ def upload_art(request):
     else:
         form = forms.uploadArt()
     return render(request,'uploadArt.html',{'form':form})
+
+class deleteArtView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
+    model = Artwork
+    success_url = '/'
+
+    def test_func(self):
+        Artwork = self.get_object()
+        print(self.request.user)
+        print(Artwork.artist)
+        if self.request.user == Artwork.artist.user:
+            print(self.request.user)
+            return True
+        return False
 
 class ArtDetailView(View):
     def get(self, request, *args, **kwargs):
