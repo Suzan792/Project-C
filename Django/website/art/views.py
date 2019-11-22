@@ -38,7 +38,7 @@ class ArtworkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Artwork
     fields = ['artwork_name','artwork_description','artwork_photo']
     template_name = 'uploadArt.html'
-    success_url = '/'
+    success_url = '/artistwork'
 
     def form_valid(self, form):
         form.instance.artist = self.request.user.userprofile
