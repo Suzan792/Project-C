@@ -21,7 +21,7 @@ from website import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from . import views
-from art.views import  ArtDetailView , deleteArtView
+from art.views import  ArtDetailView , deleteArtView , ArtworkUpdateView
 from products.views import ProductDetailView
 from .views import ArtListView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -40,6 +40,7 @@ urlpatterns = [
     path('upload', upload_art, name='upload_art'),
     path('artistwork/',artistworkListView.as_view(),name = 'artistwork'),
     path('art/<int:pk>/delete', deleteArtView.as_view(), name='artDelete_view'),
+    path('art/<int:pk>/update/', ArtworkUpdateView.as_view(), name='artUpdate_view'),
 
     # path('art/', art_views, name='art'),
 ]
