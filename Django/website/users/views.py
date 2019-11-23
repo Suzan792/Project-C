@@ -1,49 +1,32 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm
-from django.contrib.auth.decorators import login_required
-from .functions import send_confirmation_email
-
-from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
-# from .forms import SignupForm
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.template.loader import render_to_string
-from .tokens import account_activation_token
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.core.mail import EmailMessage
+from django.shortcuts import render, redirect
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from django.core.mail import send_mail
-from django.core.exceptions import ValidationError
-from django import forms
-
+from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm
+from .functions import send_confirmation_email
+from .tokens import account_activation_token
 
 # Create your views here.
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('email')
-            if User.objects.filter(email=email).exists():
-                # raise forms.ValidationError("Account with this email already exists.")
-                messages.warning(request, f'An account with this email already exists')
-                return render(request,'users/register.html',{'form':form})
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'account created for {username}')
 
-            else:
-                user = form.save(commit=False)
-                user.is_active = False
-                user.save()
-                # user = form.save()
-                username = form.cleaned_data.get('username')
-                messages.success(request, f'account created for {username}')
-                
-                print(email)
-                send_confirmation_email(request, form, user, email)
-                
-            return redirect('login_page')
+            email = form.cleaned_data.get('email')
+            send_confirmation_email(request, form, user, email)
+            
+            # return redirect('login_page')
+            return render(request,'email/email_sent.html')
         # return HttpResponse('Please confirm your email address to complete the registration')
     else:
         form = UserRegistrationForm()
@@ -59,7 +42,6 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        # return redirect('home')
         return render(request,'email/confirmation_complete.html')
     else:
         return render(request,'email/invalid_link.html')

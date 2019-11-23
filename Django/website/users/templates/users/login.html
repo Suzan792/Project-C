@@ -4,12 +4,19 @@
 {% block title %} Registration {% endblock %}
 
 {% block body %}
-
     <form method="POST" class="mt-5">
       <!-- {% csrf_token %} -->
       <fieldset class="form-group">
-          {% csrf_token %}
-
+          {% if form.errors %}
+          {% with form.get_user as user %}
+            {% if user %}
+              {# the user is inactive #} 
+            {% else %}
+              {# no user matching username/password #} 
+            {% endif %}
+          {% endwith %}
+        {% endif %}
+        {% csrf_token %}
         {{ form|crispy }}
       </fieldset>
       <div class="form-group">

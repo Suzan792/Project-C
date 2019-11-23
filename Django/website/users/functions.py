@@ -10,11 +10,10 @@ from django.utils.encoding import force_bytes, force_text
 from django.core.mail import EmailMessage
 
 
-
 def send_confirmation_email(request, form, user, user_email):
     current_site = get_current_site(request)
     mail_subject = 'Activate your account.'
-    message = render_to_string('acc_active_email.html', {
+    message = render_to_string('email/activate_email.html', {
         'user': user,
         'domain': current_site.domain,
         'uid':urlsafe_base64_encode(force_bytes(user.pk)),
@@ -29,10 +28,3 @@ def send_confirmation_email(request, form, user, user_email):
         [user_email],
     )
     
-
-def check_email_alrady_used(email):
-#     if User.objects.filter(email=email).exists():
-#         raise ValidationError("Account with this email already exists.")
-#     return self.cleaned_data
-#     # return email
-    pass
