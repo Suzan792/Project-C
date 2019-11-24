@@ -40,67 +40,44 @@
             <span class="float-right" >
               <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><i class="far fa-comments mr-3"></i></a>
             </span>
-
           </div>
         </div>
       </div>
     </div>
     </div>
-
     <div class="row col-lg-4 col-md-12 col-sm-12">
-
+    {% for product in product_list %}
     <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
-      <div class="card ">
-        <a href="#"><img class="card-img-top" src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MX0C2_AV3?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1566856981539" alt=""></a>
+      <div id="productCart"class="card ">
+        <a href="{% url 'productDetail_page' product.id object.id %}"><img class="card-img-top" src="{{product.product_photo.url}}" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="#">Iphone 11 cover</a>
+            <a href="{% url 'productDetail_page' product.id object.id %}">{{product.product_name}}</a>
           </h4>
-          <h5>$24.99</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+          <h5>${{product.price}}</h5>
+           <div id="collapsible_text"class="collapse-content">
+          <!-- Text -->
+          <p class="card-text collapse" id="collapseContent_{{product.id}}">{{product.description}}</p>
+          <!-- Button -->
+          <a class="btn text-info p-0  collapsed" data-toggle="collapse" href="#collapseContent_{{product.id}}" aria-expanded="false" aria-controls="collapseContent">Show description</a>
+          </div>
         </div>
         <div class="card-footer">
           <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
         </div>
       </div>
     </div>
-    <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
-      <div class="card ">
-        <a href="#"><img class="card-img-top" src="https://ae01.alicdn.com/kf/HTB1YjcPat.LL1JjSZFEq6AVmXXaO/TOP-QUALITY-Summer-Solid-Blank-T-Shirt-Short-Sleeve-Cotton-T-shirt-Women-2017-Fashion-Tshirt.jpg" alt=""></a>
-        <div class="card-body">
-          <h4 class="card-title">
-            <a href="#">T-shirt</a>
-          </h4>
-          <h5>$29.99</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
-      <div class="card ">
-        <a href="#"><img class="card-img-top" src="https://previews.123rf.com/images/magryt/magryt1705/magryt170500270/79012830-empty-frame-on-light-brick-wall-blank-space-poster-or-art-frame-waiting-to-be-filled-square-black-fr.jpg" alt=""></a>
-        <div class="card-body">
-          <h4 class="card-title">
-            <a href="#">Art frame</a>
-          </h4>
-          <h5>$40.99</h5>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
   </div>
 
 {% endblock %}
 
 {% block javascript %}
+
 <script>
+
+
 function like_button(){
   $.ajax({
     type: 'POST',

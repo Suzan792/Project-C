@@ -4,10 +4,19 @@
 {% block title %} Registration {% endblock %}
 
 {% block body %}
-
     <form method="POST" class="mt-5">
-      {% csrf_token %}
+      <!-- {% csrf_token %} -->
       <fieldset class="form-group">
+          {% if form.errors %}
+          {% with form.get_user as user %}
+            {% if user %}
+              {# the user is inactive #} 
+            {% else %}
+              {# no user matching username/password #} 
+            {% endif %}
+          {% endwith %}
+        {% endif %}
+        {% csrf_token %}
         {{ form|crispy }}
       </fieldset>
       <div class="form-group">
@@ -17,6 +26,7 @@
     <div class="border-top pt-3">
       <small class="text-muted">
         Need an account? <a class="ml-2" href="{% url 'register_page' %}">Sign up</a>
+        Forgot your password? <a class="ml-2" href="{% url 'password_reset' %}">Reset password</a>
       </small>
     </div>
 {% endblock body %}

@@ -1,0 +1,33 @@
+
+{% extends "layout.html" %}
+
+{% block title %} Product {% endblock %}
+
+{% block body %}
+<div class="col-lg-8 col-md-8 col-sm-12 mt-5">
+  <div class="card">
+    <a ><img  class="card-img-top "  src="{{product.product_photo.url}}" alt=""></a>
+    <a ><img  class="card-img-top draggable" id="draggable" style=" height: 70%; width: 30%;"  src="{{art.artwork_photo.url}}" alt=""></a>
+    <div class="card-body">
+      <h4 class="card-title">
+        <a href="#">{{product.product_name}}</a>
+      </h4>
+      <h5>${{product.price}}</h5>
+       <div id="collapsible_text"class="collapse-content">
+      <!-- Text -->
+      <p class="card-text" id="collapseContent_{{product.id}}">{{product.description}}</p>
+      <!-- Button -->
+      </div>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+    </div>
+  </div>
+</div>
+{% endblock body%}
+{% block javascript %}
+<script>
+ $('.draggable').draggable()
+
+</script>
+{% endblock %}

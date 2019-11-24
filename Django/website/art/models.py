@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 import users.models as users
 import datetime
 
@@ -15,6 +15,7 @@ class Artwork(models.Model):
     def __str__(self):
         return 'Artwork: ' + self.artwork_name
 
+
 class Comment(models.Model):
     commenter = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
     artwork = models.ForeignKey(Artwork, on_delete = models.SET('deleted'))
@@ -23,3 +24,5 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Comment for artwork: ' + self.artwork_id + ', ' + self.comment_date + ' ' + self.ID
+
+

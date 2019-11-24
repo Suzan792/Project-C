@@ -41,3 +41,10 @@ body{
     column-count: 3;
   }
 }
+
+
+/* #collapsible_text p.collapse {
+    display: block;
+    height: 70px !important;
+    overflow: hidden;
+} */
