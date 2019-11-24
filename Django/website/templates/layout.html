@@ -37,7 +37,9 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <!-- Search form -->
-      <input class="form-control col- " type="text" placeholder="Search" aria-label="Search">
+      <form action="{% url 'search_results' %}" method="GET" value="{{request.GET.q}}">
+      <input class="form-control col- " name="q" type="text" value="{{request.GET.q}}" placeholder="Search" aria-label="Search">
+      </form>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto nav-pills">
           <li class="nav-item active">
