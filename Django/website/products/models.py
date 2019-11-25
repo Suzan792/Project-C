@@ -37,6 +37,6 @@ class Wish(models.Model):
 class Design(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     art = models.ForeignKey(art.Artwork,on_delete=models.CASCADE)
-    coordinate_left = models.CharField(max_length=30)
-    coordinate_top = models.CharField(max_length=30)
-    height = models.IntegerField()
+    coordinate_left = models.DecimalField(default=10, max_digits=10, decimal_places=3)
+    coordinate_top = models.DecimalField(default=10, max_digits=10, decimal_places=3)
+    height = models.IntegerField(default= 300)

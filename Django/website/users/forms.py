@@ -34,13 +34,11 @@ class UserRegistrationForm(UserCreationForm):
     first_name = forms.CharField(max_length = 60)
     last_name = forms.CharField(max_length = 60)
     email = forms.EmailField(max_length = 60)
-
     def clean_email(self):
         cleaned_email = self.cleaned_data.get('email')
         if User.objects.filter(email=cleaned_email).exists():
             raise forms.ValidationError('An account with this email already exists')
         return cleaned_email
-
     class Meta:
         model = User
         fields =['first_name','last_name','username', 'email', 'password1', 'password2']
@@ -49,17 +47,14 @@ class UserUpdateForm(forms.ModelForm):
     first_name = forms.CharField(max_length = 60)
     last_name = forms.CharField(max_length = 60)
     email = forms.EmailField(max_length = 60)
-
     class Meta:
         model = User
         fields =['first_name','last_name','username', 'email']
 
 class ProfilePhotoUpdateForm(forms.ModelForm):
-
     class Meta:
         model = UserProfile
         fields = ['image']
-
 class ProfileInfoForm(forms.ModelForm):
     street_name = forms.CharField(max_length = 60, required = False)
     house_nr = forms.IntegerField( required = False)

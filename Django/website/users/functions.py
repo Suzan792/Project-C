@@ -1,7 +1,6 @@
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
-from validate_email import validate_email
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from users.tokens import account_activation_token
@@ -20,11 +19,10 @@ def send_confirmation_email(request, form, user, user_email):
         'token':account_activation_token.make_token(user),
     })
     print(message)
-    
+
     send_mail(
         mail_subject,
         message,
         'artdrop.project@gmail.com',
         [user_email],
     )
-    
