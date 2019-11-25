@@ -43,8 +43,32 @@ body{
 }
 
 
-/* #collapsible_text p.collapse {
-    display: block;
-    height: 70px !important;
-    overflow: hidden;
-} */
+#imageEditSpace{
+  height: 600px;
+  width: 700px;
+  position: relative;
+  text-align:center;
+
+}
+#productImageView{
+  height: 300px;
+  width: 350px;
+  position: relative;
+  text-align:center;
+}
+
+#product_image_edit{
+  position: absolute;
+  margin: 0 auto;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+
+}
+
+#art_image_edit{
+  position: absolute;
+  height: 40%;
+  left: 0px;
+  top: 0px;
+}

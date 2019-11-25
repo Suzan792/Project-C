@@ -3,8 +3,8 @@
 {% block title %} Contact {% endblock %}
 
 {% block body %}
-  <div class="row">
-  <div class="row col-lg-8 col-md-12 col-sm-12">
+  <div class="row m-0">
+  <div class="row col-lg-8 col-md-12 col-sm-12 ">
     <div class="col-lg-12 col-md-12 col-sm-12   mt-5" >
       <!--Card-->
       <div class="card card-cascade ">
@@ -45,21 +45,32 @@
       </div>
     </div>
     </div>
-    <div class="row col-lg-4 col-md-12 col-sm-12">
-    {% for product in product_list %}
+    <div class="row col-lg-4 col-md-12 col-sm-12 ">
+    {% for design in designs %}
     <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
       <div id="productCart"class="card ">
-        <a href="{% url 'productDetail_page' product.id object.id %}"><img class="card-img-top" src="{{product.product_photo.url}}" alt=""></a>
+        <div id="productImageView" class=" mt-5 " >
+          <img id="product_image_edit" src="{{design.product.product_photo.url}}"alt="art image is not loading error">
+          <img id="art_image_view_small_{{design.id}}" style="  position: absolute;height: 40%;left: 0px; top: 0px;" class="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
+          <script>
+            var schale = 0.5
+            var coordinate_top = parseInt({{design.coordinate_top}})*schale
+            var coordinate_left = parseInt({{design.coordinate_left}})*schale
+            var height = {{design.height}}*schale
+            /*sets the active design coordinate when the page loads for the first time*/
+            $( "#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height});
+          </script>
+        </div>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="{% url 'productDetail_page' product.id object.id %}">{{product.product_name}}</a>
+            <a href="{% url 'productDetail_page' design.product.id object.id %}">{{design.product.product_name}}</a>
           </h4>
-          <h5>${{product.price}}</h5>
+          <h5>${{design.product.price}}</h5>
            <div id="collapsible_text"class="collapse-content">
           <!-- Text -->
-          <p class="card-text collapse" id="collapseContent_{{product.id}}">{{product.description}}</p>
+          <p class="card-text collapse" id="collapseContent_{{design.product.id}}">{{design.product.description}}</p>
           <!-- Button -->
-          <a class="btn text-info p-0  collapsed" data-toggle="collapse" href="#collapseContent_{{product.id}}" aria-expanded="false" aria-controls="collapseContent">Show description</a>
+          <a class="btn text-info p-0  collapsed" data-toggle="collapse" href="#collapseContent_{{design.product.id}}" aria-expanded="false" aria-controls="collapseContent">Show description</a>
           </div>
         </div>
         <div class="card-footer">
@@ -74,10 +85,7 @@
 {% endblock %}
 
 {% block javascript %}
-
 <script>
-
-
 function like_button(){
   $.ajax({
     type: 'POST',

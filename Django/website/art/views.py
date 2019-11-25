@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView, DetailView, View , DeleteView,UpdateView
 from art.models import Artwork
-from products.models import Product
+from products.models import Product, Design
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -66,8 +66,8 @@ class deleteArtView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
 
 class ArtDetailView(View):
     def get(self, request, *args, **kwargs):
-        product_list = Product.objects.all()
         art = Artwork.objects.get(pk=self.kwargs.get('pk'))
+        designs = Design.objects.filter(art=art)
         liked = False
         if request.user.is_authenticated:
             user = request.user.userprofile
@@ -75,7 +75,7 @@ class ArtDetailView(View):
                 liked = True
         context = {
         'object': art,
-        'product_list':product_list
+        'designs':designs
         }
         return render(request, 'art/artwork_detail.html', context)
     def post(self, request, *args, **kwargs):

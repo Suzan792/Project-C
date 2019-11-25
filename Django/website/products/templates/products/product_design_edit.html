@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+
+{% block title %} Product {% endblock %}
+
+{% block body %}
+  <div class="flashMessage alert alert-success" role="alert">
+      your design is saved successfully
+  </div>
+  <div id="imageEditSpace" class=" mt-5 border border-dark rounded" >
+    <img id="product_image_edit" src="{{designs.0.product.product_photo.url}}"alt="art image is not loading error">
+    <img id="art_image_edit" src="{{designs.0.art.artwork_photo.url}}"alt="art image is not loading error">
+  </div>
+  <div class="col-12 mt-2 p-0">
+  {% for design in designs %}
+    <img  id="product_{{design.product.id}}" class="imgbuttom border border-dark rounded" onclick="productChoiceButton('{{design.product_id}}','{{design.product.product_photo.url}}', {{design.coordinate_top}}, {{design.coordinate_left}})" src="{{design.product.product_photo.url}}"alt="product image is not loading error" height="80" width="80" >
+  {% endfor %}
+  </div>
+  <div class="col-12 p-0 mt-3">
+    <label for="value">Value (0-360): </label>
+    <input type="number" id="value" name="tentacles" min="0" max="360" value="0">
+    </div>
+  <div class="col-12 p-0 mt-3">
+  <button class="btn btn-info" onclick="changeSize()">Change size</button>
+  <button class="btn btn-success" onclick="saveCoordinate()">Save Design</button>
+
+  </div>
+
+{% endblock body%}
+
+
+{% block javascript %}
+<script>
+$('.flashMessage').hide();
+var activeProduct = "{{designs.0.product_id}}"
+var value
+/*makes the active product button green when the page loads for the first time*/
+$("#product_".concat(activeProduct)).removeClass("border-dark").addClass("border-success");
+
+/*sets the active design coordinate when the page loads for the first time*/
+$( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left: {{designs.0.coordinate_left}}, height: '{{designs.0.height}}'});
+function changeSize(){
+
+  value = $("#value").val()+'%';
+  $( "#art_image_edit" ).css({ height: value});
+}
+function productChoiceButton(id,imageUrl){
+
+  activeProduct = id
+  var productId = id
+  var artId = {{art.id}}
+  var top = 0
+  var left = 0
+  var height = 0
+  $.ajax({
+    type: 'GET',
+    url: "{% url 'editProduct_page' art.id %}",
+    data: {
+      'artId':artId,
+      'productId':productId,
+      'csrfmiddlewaretoken': '{{ csrf_token }}',
+    },
+    dataType: 'json',
+    success: function(data){
+      var data = data
+      top = parseInt(data['top'])
+      left = parseInt(data['left'])
+      height = data['height']
+      $("#art_image_edit").css({ top: top, left: left, height: height} );
+      $(".imgbuttom").removeClass("border-success").addClass("border-dark")
+      $("#product_".concat(activeProduct)).removeClass("border-dark").addClass("border-success");
+      document.getElementById("product_image_edit").src = imageUrl;
+    }
+  });
+
+};
+
+
+
+$( function() {
+  $( "#art_image_edit" ).draggable();
+} );
+
+
+function saveCoordinate(){
+
+  var top = $( "#art_image_edit" ).css("top")
+  var left = $( "#art_image_edit" ).css("left")
+  var height = $( "#art_image_edit" ).css("height")
+  console.log(height)
+  var productId = activeProduct
+  var artId = {{art.id}}
+  var post_url ="{% url 'editProduct_page' art.id %}"
+  $.ajax({
+    type: 'POST',
+    url: post_url,
+    data: {
+      'csrfmiddlewaretoken': '{{ csrf_token }}',
+      'artId':artId,
+      'productId':productId,
+      'left': left,
+      'top':top,
+      'height':height,
+    },
+    success: alert,
+    dataType: 'json'
+  });
+  function alert(data) {
+    var data = data
+    $('.flashMessage').slideDown(1000).delay(2000).slideUp();
+
+  };
+}
+
+
+
+
+</script>
+
+{% endblock %}

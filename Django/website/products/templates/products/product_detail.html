@@ -6,16 +6,18 @@
 {% block body %}
 <div class="col-lg-8 col-md-8 col-sm-12 mt-5">
   <div class="card">
-    <a ><img  class="card-img-top "  src="{{product.product_photo.url}}" alt=""></a>
-    <a ><img  class="card-img-top draggable" id="draggable" style=" height: 70%; width: 30%;"  src="{{art.artwork_photo.url}}" alt=""></a>
+    <div id="imageEditSpace" class=" mt-5 rounded" >
+      <img id="product_image_edit" src="{{design.product.product_photo.url}}"alt="art image is not loading error">
+      <img id="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
+    </div>
     <div class="card-body">
       <h4 class="card-title">
-        <a href="#">{{product.product_name}}</a>
+        <a href="#">{{design.product.product_name}}</a>
       </h4>
-      <h5>${{product.price}}</h5>
+      <h5>${{design.product.price}}</h5>
        <div id="collapsible_text"class="collapse-content">
       <!-- Text -->
-      <p class="card-text" id="collapseContent_{{product.id}}">{{product.description}}</p>
+      <p class="card-text" id="collapseContent_{{product.id}}">{{design.product.description}}</p>
       <!-- Button -->
       </div>
     </div>
@@ -27,7 +29,8 @@
 {% endblock body%}
 {% block javascript %}
 <script>
- $('.draggable').draggable()
+/*sets the active design coordinate when the page loads for the first time*/
+$( "#art_image_edit" ).css({ top: {{design.coordinate_top}}, left: {{design.coordinate_left}}, height: '{{design.height}}'});
 
 </script>
 {% endblock %}

@@ -33,3 +33,10 @@ class Wish(models.Model):
 
     def __str__(self):
         return 'Wish: ' + self.ID + ' Wish date: ' + self.wish_date
+
+class Design(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    art = models.ForeignKey(art.Artwork,on_delete=models.CASCADE)
+    coordinate_left = models.CharField(max_length=30)
+    coordinate_top = models.CharField(max_length=30)
+    height = models.IntegerField()
