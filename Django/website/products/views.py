@@ -5,6 +5,12 @@ from art.models import Artwork
 from django.utils import timezone
 import json
 from django.http import JsonResponse
+from django.conf import settings
+from decimal import Decimal
+from paypal.standard.forms import PayPalPaymentsForm
+from django.urls import reverse
+from .models import Order
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 class ProductDetailView(View):
@@ -54,3 +60,33 @@ class ProductDesignEditView(View):
         design.save()
         status = 'success'
         return JsonResponse({'status':status})
+
+class PaymentView(View):
+    def payment(self, request):
+        # order_id = request.session.get('order_id')
+        # order = get_object_or_404(Order, id=order_id)
+        product_id = request.session.get('product_id')
+        order = get_object_or_404(Product, id=product_id)
+        host = request.get_host()
+    
+        paypal_dict = {
+            'business': settings.PAYPAL_RECEIVER_EMAIL,
+            'amount': '%.2f' % order.total_cost().quantize(Decimal('.01')),
+            'item_name': 'Order {}'.format(order.id),
+            'invoice': str(order.id),
+            'currency_code': 'EUR',
+            'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+            'return_url': 'http://{}{}'.format(host, reverse('payment_done')),
+            'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
+        }
+    
+        form = PayPalPaymentsForm(initial=paypal_dict)
+        return render(request, 'products/templates/payment/payment.html', {'order': order, 'form': form})
+
+    @csrf_exempt
+    def payment_done(self, request):
+        return render(request, 'products/templates/payment/payment_done.html')
+
+    @csrf_exempt
+    def payment_canceled(self, request):
+        return render(request, 'products/templates/payment/payment_cancelled.html')
