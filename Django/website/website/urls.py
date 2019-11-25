@@ -48,6 +48,7 @@ urlpatterns = [
     path('art/<int:pk>/delete', deleteArtView.as_view(), name='artDelete_view'),
     path('art/<int:pk>/update/', ArtworkUpdateView.as_view(), name='artUpdate_view'),
     # path('art/', art_views, name='art'),
+    path('paypal/', include('paypal.standard.ipn.urls'))
 ]
 
 if settings.DEBUG:

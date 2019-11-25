@@ -42,8 +42,7 @@ INSTALLED_APPS = [
     'search',
     'products',
     'crispy_forms',
-
-
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +150,6 @@ EMAIL_HOST_PASSWORD = 'Artdrop12345'
 EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+PAYPAL_RECEIVER_EMAIL = 'artdrop.project@gmail.com'
+PAYPAL_TEST = True
