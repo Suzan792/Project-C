@@ -33,9 +33,15 @@ class ProductDesignEditView(View):
             top = design.coordinate_top
             left =design.coordinate_left
             height = design.height
+            width = design.width
+            frame_top = design.frame_coordinate_top
+            frame_left =design.frame_coordinate_left
+            frame_height = design.frame_height
+            frame_width = design.frame_width
+            rotation = design.rotation
             status = 'success'
-            print(status)
-            return JsonResponse({'status':status,'top':top,'left':left,'height':height})
+            return JsonResponse({'status':status,'top':top,'left':left,'height':height, 'width':width, 'rotation':rotation, 'frame_top': frame_top,
+            'frame_left': frame_left, 'frame_height': frame_height, 'frame_width': frame_width})
         else:
             designs = Design.objects.filter(art=art).order_by('product')
             context = {
@@ -45,7 +51,6 @@ class ProductDesignEditView(View):
             }
             return render(request, 'products/product_design_edit.html', context)
     def post(self, request, *args, **kwargs):
-        print("hssi")
         if request.is_ajax():
             art_id = request.POST.get('artId')
             product_id = request.POST.get('productId')
@@ -55,10 +60,12 @@ class ProductDesignEditView(View):
             design.coordinate_top = request.POST.get('top')[:-2]
             design.coordinate_left = request.POST.get('left')[:-2]
             design.height = request.POST.get('height')[:-2]
-            print(request.POST.get('left'))
-            print(request.POST.get('top'))
-            print(request.POST.get('height'))
-            print("hi")
+            design.width = request.POST.get('width')[:-2]
+            design.rotation = str(request.POST.get('rotation'))
+            design.frame_coordinate_top = request.POST.get('frame_top')[:-2]
+            design.frame_coordinate_left = request.POST.get('frame_left')[:-2]
+            design.frame_width = request.POST.get('frame_width')[:-2]
+            design.frame_height = request.POST.get('frame_height')[:-2]
             design.save()
             status = 'success'
             return JsonResponse({'status':status})

@@ -4,7 +4,7 @@
 
 {% block body %}
   <div class="row m-0">
-  <div class="row col-lg-8 col-md-12 col-sm-12 ">
+  <div class="row col-lg-8 col-md-12 col-sm-12 m-0">
     <div class="col-lg-12 col-md-12 col-sm-12   mt-5" >
       <!--Card-->
       <div class="card card-cascade ">
@@ -45,20 +45,28 @@
       </div>
     </div>
     </div>
-    <div class="row col-lg-4 col-md-12 col-sm-12 ">
+    <div class="row col-lg-4 col-md-12 col-sm-12 m-0">
     {% for design in designs %}
     <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
       <div id="productCart"class="card ">
         <div id="productImageView" class=" mt-5 " >
           <img id="product_image_edit" src="{{design.product.product_photo.url}}"alt="art image is not loading error">
-          <img id="art_image_view_small_{{design.id}}" style="  position: absolute;height: 40%;left: 0px; top: 0px;" class="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
+          <div id="crop_frame_{{design.id}}" style="position: absolute; border-radius: 2px; overflow: hidden; height: 40%;">
+            <img id="art_image_view_small_{{design.id}}" style="height: 100%; position: absolute;  margin: -0px 0px 0px 0px;" class="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
+          </div>
           <script>
-            var schale = 0.5
+            var schale = 0.4
             var coordinate_top = parseInt({{design.coordinate_top}})*schale
             var coordinate_left = parseInt({{design.coordinate_left}})*schale
             var height = {{design.height}}*schale
+            var frame_coordinate_top = parseInt({{design.frame_coordinate_top}})*schale
+            var frame_coordinate_left = parseInt({{design.frame_coordinate_left}})*schale
+            var frame_height = {{design.frame_height}}*schale
+            var frame_width = {{design.frame_width}}*schale
+            console.log({{design.height}}*schale)
             /*sets the active design coordinate when the page loads for the first time*/
-            $( "#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height});
+            $("#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{design.rotation}}'});
+            $("#crop_frame_{{design.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width});
           </script>
         </div>
         <div class="card-body">
@@ -66,7 +74,7 @@
             <a href="{% url 'productDetail_page' design.product.id object.id %}">{{design.product.product_name}}</a>
           </h4>
           <h5>${{design.product.price}}</h5>
-           <div id="collapsible_text"class="collapse-content">
+          <div id="collapsible_text"class="collapse-content">
           <!-- Text -->
           <p class="card-text collapse" id="collapseContent_{{design.product.id}}">{{design.product.description}}</p>
           <!-- Button -->

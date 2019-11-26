@@ -45,14 +45,15 @@ body{
 
 #imageEditSpace{
   height: 600px;
-  width: 700px;
+  width: 600px;
   position: relative;
   text-align:center;
+  overflow: hidden;
 
 }
 #productImageView{
-  height: 300px;
-  width: 350px;
+  height: 240px;
+  width: 240px;
   position: relative;
   text-align:center;
 }
@@ -63,12 +64,17 @@ body{
   height: 100%;
   left: 0px;
   top: 0px;
+}
 
+.crop_frame{
+  position: absolute;
+  height: 40%;
+  border: 5px solid rgba(250, 0, 0, .2);
+  overflow: hidden;
 }
 
 #art_image_edit{
+  height: 100%;
   position: absolute;
-  height: 40%;
-  left: 0px;
-  top: 0px;
+  margin: -0px 0px 0px 0px;
 }
