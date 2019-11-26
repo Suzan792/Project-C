@@ -36,7 +36,8 @@ $( "#art_image_edit" ).css({ top: {{design.coordinate_top}}, left:{{design.coord
    height: '{{design.height}}', transform: '{{design.rotation}}'});
 
 $( ".crop_frame" ).css({ top: {{design.frame_coordinate_top}}, left:{{design.frame_coordinate_left}},
-   height: '{{design.frame_height}}', width: '{{design.frame_width}}', border: '0px', 'border-radius': '4px',
+   height: '{{design.frame_height}}', width: '{{design.frame_width}}', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
+   'border-radius': {{design.frame_border_radius}}
   });
 </script>
 {% endblock %}

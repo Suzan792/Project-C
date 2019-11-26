@@ -18,22 +18,31 @@
 <div class="col-12 mt-2 p-0">
   {% for design in designs %}
   <img  id="product_{{design.product.id}}" class="imgbuttom border border-dark rounded"
-  onclick="productChoiceButton('{{design.product_id}}','{{design.product.product_photo.url}}',
-  {{design.coordinate_top}}, {{design.coordinate_left}})" src="{{design.product.product_photo.url}}"
+  onclick="
+  productChoiceButton('{{design.product_id}}',
+  '{{design.product.product_photo.url}}')" src="{{design.product.product_photo.url}}"
   alt="product image is not loading error" height="80" width="80" >
   {% endfor %}
 </div>
 <div class="col-12 p-0 mt-3">
-  <label for="height">height in px: </label>
+  <label for="height">art size in px: </label>
   <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.height}}">
 </div>
 <div class="col-12 p-0 mt-3">
-  <label for="width">Width in px: </label>
-  <input type="number" id="width" name="tentacles" min="0" max="1000" value="{{designs.0.height}}">
+  <label for="frame_height">Frame height in px: </label>
+  <input type="number" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.frame_height}}">
+</div>
+<div class="col-12 p-0 mt-3">
+  <label for="frame_width">Frame width in px: </label>
+  <input type="number" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.frame_width}}">
+</div>
+<div class="col-12 p-0 mt-3">
+  <label for="frame_border_radius">Frame border radius in px: </label>
+  <input type="number" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.frame_border_radius}}">
 </div>
 <div class="col-12 p-0 mt-3">
   <label for="rotation">Rotation in degree: </label>
-  <input type="number" id="rotation" name="tentacles" min="0" max="360" value="{{designs.0.rotation}}">
+  <input type="number" id="rotation" name="tentacles" min="-360" max="360" value="{{designs.0.rotation}}">
 </div>
 <div class="col-12 p-0 mt-3">
 
@@ -42,9 +51,6 @@
     {{form|crispy}}
     <button class="btn btn-primary mb-2" type="submit" value="add_design">Add product</button>
   </form>
-  <button class="btn btn-info" onclick="changeFrameSize()">Change frame size</button>
-  <button class="btn btn-info" onclick="changeSize()">Change art size</button>
-  <button class="btn btn-info" onclick="changeRotation()">Change rotation</button>
   <button class="btn btn-success " onclick="saveCoordinate()">Save Design</button>
 
 </div>
@@ -66,18 +72,48 @@ $( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left:{{designs.0
    height: '{{designs.0.height}}', transform: '{{designs.0.rotation}}'});
 
 $( ".crop_frame" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}},
-   height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}'
+   height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}', 'border-radius': {{designs.0.frame_border_radius}}
   });
 
 function changeFrameSize(){
-  height = $("#height").val();
-  width = $("#width").val();
+  height = $("#frame_height").val();
+  width = $("#frame_width").val();
   $( ".crop_frame" ).css({ height: height, width: width});
-}
+};
 function changeSize(){
   height = $("#height").val();
   $( "#art_image_edit" ).css({ height: height});
-}
+};
+
+
+$( "#height" ).change(function(){
+  height = $("#height").val();
+  $( "#art_image_edit" ).css({ height: height});
+});
+$( "#frame_height" ).change(function(){
+  height = $("#frame_height").val();
+  $( ".crop_frame" ).css({ height: height});
+});
+
+$( "#frame_width" ).change(function(){
+  width = $("#frame_width").val();
+  $( ".crop_frame" ).css({ width: width});
+});
+
+$("#frame_border_radius").change(function(){
+  value = $("#frame_border_radius").val();
+  $( ".crop_frame" ).css({ 'border-radius': value+'px'});
+  console.log(value)
+});
+
+$( "#rotation" ).change(function(){
+  value = $("#rotation").val();
+  $( "#art_image_edit" ).css({'-webkit-transform': 'rotate(' + value + 'deg)',
+  '-moz-transform': 'rotate(' + value + 'deg)',
+  '-ms-transform': 'rotate(' + value + 'deg)',
+  '-o-transform': 'rotate(' + value + 'deg)',
+  'transform': 'rotate(' + value + 'deg)',});
+});
 
 function changeRotation(){
   value = $("#rotation").val();
@@ -86,7 +122,8 @@ function changeRotation(){
   '-ms-transform': 'rotate(' + value + 'deg)',
   '-o-transform': 'rotate(' + value + 'deg)',
   'transform': 'rotate(' + value + 'deg)',});
-}
+  console.log(value)
+};
 
 {% endif %}
 
@@ -116,10 +153,13 @@ function productChoiceButton(id,imageUrl){
       frame_left = parseInt(data['frame_left'])
       frame_height = data['frame_height']
       frame_width = data['frame_width']
+      frame_border_radius = data['frame_border_radius']
       rotation = data['rotation']
-      console.log(rotation)
       $("#art_image_edit").css({ top: top, left: left, height: height, transform: rotation} );
-      $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width} );
+      $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width, 'border-radius': frame_border_radius} );
+      $("#height").val(height);
+      $("#frame_height").val(frame_height);
+      $("#frame_width").val(frame_width);
       $(".imgbuttom").removeClass("border-success").addClass("border-dark")
       $("#product_".concat(activeProduct)).removeClass("border-dark").addClass("border-success");
       document.getElementById("product_image_edit").src = imageUrl;
@@ -145,6 +185,8 @@ function saveCoordinate(){
   var frame_left = $( ".crop_frame" ).css("left")
   var frame_height = $( ".crop_frame" ).css("height")
   var frame_width = $( ".crop_frame" ).css("width")
+  var frame_border_radius = $( ".crop_frame" ).css("border-top-left-radius")
+  console.log(frame_border_radius+"sdfsd")
   var productId = activeProduct
   var artId = {{art.id}}
   var post_url ="{% url 'editProduct_page' art.id %}"
@@ -163,6 +205,7 @@ function saveCoordinate(){
       'frame_left':frame_left,
       'frame_height':frame_height,
       'frame_width':frame_width,
+      'frame_border_radius':frame_border_radius,
       'rotation':rotation,
     },
     success: alert,

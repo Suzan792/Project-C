@@ -48,10 +48,10 @@
     <div class="row col-lg-4 col-md-12 col-sm-12 m-0">
     {% for design in designs %}
     <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
-      <div id="productCart"class="card ">
+      <div id="productCart"class="card" style="">
         <div id="productImageView" class=" mt-5 " >
           <img id="product_image_edit" src="{{design.product.product_photo.url}}"alt="art image is not loading error">
-          <div id="crop_frame_{{design.id}}" style="position: absolute; border-radius: 2px; overflow: hidden; height: 40%;">
+          <div id="crop_frame_{{design.id}}" style="position: absolute; border-radius: 2px; border: 5px solid rgba(250, 0, 0, .0);overflow: hidden; height: 40%;">
             <img id="art_image_view_small_{{design.id}}" style="height: 100%; position: absolute;  margin: -0px 0px 0px 0px;" class="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
           </div>
           <script>
@@ -63,10 +63,10 @@
             var frame_coordinate_left = parseInt({{design.frame_coordinate_left}})*schale
             var frame_height = {{design.frame_height}}*schale
             var frame_width = {{design.frame_width}}*schale
-            console.log({{design.height}}*schale)
+            var border_radius= {{design.frame_border_radius}}*schale
             /*sets the active design coordinate when the page loads for the first time*/
             $("#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{design.rotation}}'});
-            $("#crop_frame_{{design.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width});
+            $("#crop_frame_{{design.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
           </script>
         </div>
         <div class="card-body">
