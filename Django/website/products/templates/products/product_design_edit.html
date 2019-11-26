@@ -1,29 +1,53 @@
 {% extends "layout.html" %}
-
+{% load crispy_forms_tags %}
 {% block title %} Product {% endblock %}
 
 {% block body %}
-  <div class="flashMessage alert alert-success" role="alert">
-      your design is saved successfully
+<div class="flashMessage alert alert-success" role="alert">
+  your design is saved successfully
+</div>
+{% if designs.count < 1 %}
+<h3 class="mt-5"> There are no product available for this artwork right now</h3>
+{% endif %}
+<div id="imageEditSpace" class=" mt-5 border border-dark rounded" >
+  <img id="product_image_edit" src="{{designs.0.product.product_photo.url}}"alt="image">
+  <div class="crop_frame">
+  <img id="art_image_edit" src="{{designs.0.art.artwork_photo.url}}"alt="image ">
   </div>
-  <div id="imageEditSpace" class=" mt-5 border border-dark rounded" >
-    <img id="product_image_edit" src="{{designs.0.product.product_photo.url}}"alt="art image is not loading error">
-    <img id="art_image_edit" src="{{designs.0.art.artwork_photo.url}}"alt="art image is not loading error">
-  </div>
-  <div class="col-12 mt-2 p-0">
+</div>
+<div class="col-12 mt-2 p-0">
   {% for design in designs %}
-    <img  id="product_{{design.product.id}}" class="imgbuttom border border-dark rounded" onclick="productChoiceButton('{{design.product_id}}','{{design.product.product_photo.url}}', {{design.coordinate_top}}, {{design.coordinate_left}})" src="{{design.product.product_photo.url}}"alt="product image is not loading error" height="80" width="80" >
+  <img  id="product_{{design.product.id}}" class="imgbuttom border border-dark rounded"
+  onclick="productChoiceButton('{{design.product_id}}','{{design.product.product_photo.url}}',
+  {{design.coordinate_top}}, {{design.coordinate_left}})" src="{{design.product.product_photo.url}}"
+  alt="product image is not loading error" height="80" width="80" >
   {% endfor %}
-  </div>
-  <div class="col-12 p-0 mt-3">
-    <label for="value">Value (0-360): </label>
-    <input type="number" id="value" name="tentacles" min="0" max="360" value="0">
-    </div>
-  <div class="col-12 p-0 mt-3">
-  <button class="btn btn-info" onclick="changeSize()">Change size</button>
-  <button class="btn btn-success" onclick="saveCoordinate()">Save Design</button>
+</div>
+<div class="col-12 p-0 mt-3">
+  <label for="height">height in px: </label>
+  <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.height}}">
+</div>
+<div class="col-12 p-0 mt-3">
+  <label for="width">Width in px: </label>
+  <input type="number" id="width" name="tentacles" min="0" max="1000" value="{{designs.0.height}}">
+</div>
+<div class="col-12 p-0 mt-3">
+  <label for="rotation">Rotation in degree: </label>
+  <input type="number" id="rotation" name="tentacles" min="0" max="360" value="{{designs.0.rotation}}">
+</div>
+<div class="col-12 p-0 mt-3">
 
-  </div>
+  <form class="" action="{% url 'editProduct_page' art.pk %}" method="POST">
+    {% csrf_token %}
+    {{form|crispy}}
+    <button class="btn btn-primary mb-2" type="submit" value="add_design">Add product</button>
+  </form>
+  <button class="btn btn-info" onclick="changeFrameSize()">Change frame size</button>
+  <button class="btn btn-info" onclick="changeSize()">Change art size</button>
+  <button class="btn btn-info" onclick="changeRotation()">Change rotation</button>
+  <button class="btn btn-success " onclick="saveCoordinate()">Save Design</button>
+
+</div>
 
 {% endblock body%}
 
@@ -37,14 +61,36 @@ var value
 $("#product_".concat(activeProduct)).removeClass("border-dark").addClass("border-success");
 
 /*sets the active design coordinate when the page loads for the first time*/
-$( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left: {{designs.0.coordinate_left}}, height: '{{designs.0.height}}'});
-function changeSize(){
+{% if designs %}
+$( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left:{{designs.0.coordinate_left}},
+   height: '{{designs.0.height}}', transform: '{{designs.0.rotation}}'});
 
-  value = $("#value").val()+'%';
-  $( "#art_image_edit" ).css({ height: value});
+$( ".crop_frame" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}},
+   height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}'
+  });
+
+function changeFrameSize(){
+  height = $("#height").val();
+  width = $("#width").val();
+  $( ".crop_frame" ).css({ height: height, width: width});
 }
-function productChoiceButton(id,imageUrl){
+function changeSize(){
+  height = $("#height").val();
+  $( "#art_image_edit" ).css({ height: height});
+}
 
+function changeRotation(){
+  value = $("#rotation").val();
+  $( "#art_image_edit" ).css({'-webkit-transform': 'rotate(' + value + 'deg)',
+  '-moz-transform': 'rotate(' + value + 'deg)',
+  '-ms-transform': 'rotate(' + value + 'deg)',
+  '-o-transform': 'rotate(' + value + 'deg)',
+  'transform': 'rotate(' + value + 'deg)',});
+}
+
+{% endif %}
+
+function productChoiceButton(id,imageUrl){
   activeProduct = id
   var productId = id
   var artId = {{art.id}}
@@ -65,28 +111,40 @@ function productChoiceButton(id,imageUrl){
       top = parseInt(data['top'])
       left = parseInt(data['left'])
       height = data['height']
-      $("#art_image_edit").css({ top: top, left: left, height: height} );
+      width = data['width']
+      frame_top = parseInt(data['frame_top'])
+      frame_left = parseInt(data['frame_left'])
+      frame_height = data['frame_height']
+      frame_width = data['frame_width']
+      rotation = data['rotation']
+      console.log(rotation)
+      $("#art_image_edit").css({ top: top, left: left, height: height, transform: rotation} );
+      $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width} );
       $(".imgbuttom").removeClass("border-success").addClass("border-dark")
       $("#product_".concat(activeProduct)).removeClass("border-dark").addClass("border-success");
       document.getElementById("product_image_edit").src = imageUrl;
     }
   });
-
 };
 
-
+$( function() {
+  $( ".crop_frame" ).draggable();
+} );
 
 $( function() {
   $( "#art_image_edit" ).draggable();
 } );
 
-
 function saveCoordinate(){
-
   var top = $( "#art_image_edit" ).css("top")
   var left = $( "#art_image_edit" ).css("left")
   var height = $( "#art_image_edit" ).css("height")
-  console.log(height)
+  var width = $( "#art_image_edit" ).css("width")
+  var rotation = $( "#art_image_edit" ).css("transform")
+  var frame_top = $( ".crop_frame" ).css("top")
+  var frame_left = $( ".crop_frame" ).css("left")
+  var frame_height = $( ".crop_frame" ).css("height")
+  var frame_width = $( ".crop_frame" ).css("width")
   var productId = activeProduct
   var artId = {{art.id}}
   var post_url ="{% url 'editProduct_page' art.id %}"
@@ -100,6 +158,12 @@ function saveCoordinate(){
       'left': left,
       'top':top,
       'height':height,
+      'width':width,
+      'frame_top':frame_top,
+      'frame_left':frame_left,
+      'frame_height':frame_height,
+      'frame_width':frame_width,
+      'rotation':rotation,
     },
     success: alert,
     dataType: 'json'
@@ -107,13 +171,8 @@ function saveCoordinate(){
   function alert(data) {
     var data = data
     $('.flashMessage').slideDown(1000).delay(2000).slideUp();
-
   };
 }
-
-
-
-
 </script>
 
 {% endblock %}

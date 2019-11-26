@@ -8,7 +8,9 @@
   <div class="card">
     <div id="imageEditSpace" class=" mt-5 rounded" >
       <img id="product_image_edit" src="{{design.product.product_photo.url}}"alt="art image is not loading error">
-      <img id="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
+      <div class="crop_frame">
+        <img id="art_image_edit" style=""src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
+      </div>
     </div>
     <div class="card-body">
       <h4 class="card-title">
@@ -30,7 +32,11 @@
 {% block javascript %}
 <script>
 /*sets the active design coordinate when the page loads for the first time*/
-$( "#art_image_edit" ).css({ top: {{design.coordinate_top}}, left: {{design.coordinate_left}}, height: '{{design.height}}'});
+$( "#art_image_edit" ).css({ top: {{design.coordinate_top}}, left:{{design.coordinate_left}},
+   height: '{{design.height}}', transform: '{{design.rotation}}'});
 
+$( ".crop_frame" ).css({ top: {{design.frame_coordinate_top}}, left:{{design.frame_coordinate_left}},
+   height: '{{design.frame_height}}', width: '{{design.frame_width}}', border: '0px', 'border-radius': '4px',
+  });
 </script>
 {% endblock %}
