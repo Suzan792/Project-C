@@ -25,7 +25,6 @@
         <div class="form-group">
           <button class="btn btn-outline-info" type="submit">Update</button>
         </div>
-        <p>To change your password, go to the <a href="{% url 'change_password' %}">change password page</a>.</p>
       </form>
     </div>
     {% if user.userprofile.user_role  == "artist" %}

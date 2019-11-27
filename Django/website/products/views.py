@@ -11,7 +11,7 @@ from django.conf import settings
 from decimal import Decimal
 from paypal.standard.forms import PayPalPaymentsForm
 from django.urls import reverse
-from .models import Order
+from .models import Order, Design
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
@@ -82,32 +82,66 @@ class ProductDesignEditView(View):
             if form.is_valid():
                 form.save(art_pk,product_pk)
             return HttpResponseRedirect(reverse('editProduct_page',args=[art_pk]))
-class PaymentView(View):
-    def payment(self, request):
-        # order_id = request.session.get('order_id')
-        # order = get_object_or_404(Order, id=order_id)
-        product_id = request.session.get('product_id')
-        order = get_object_or_404(Product, id=product_id)
-        host = request.get_host()
-    
-        paypal_dict = {
-            'business': settings.PAYPAL_RECEIVER_EMAIL,
-            'amount': '%.2f' % order.total_cost().quantize(Decimal('.01')),
-            'item_name': 'Order {}'.format(order.id),
-            'invoice': str(order.id),
-            'currency_code': 'EUR',
-            'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
-            'return_url': 'http://{}{}'.format(host, reverse('payment_done')),
-            'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
-        }
-    
-        form = PayPalPaymentsForm(initial=paypal_dict)
-        return render(request, 'products/templates/payment/payment.html', {'order': order, 'form': form})
+            
+# class PaymentView(View):
+# def checkout(request):
+    # if request.method == 'POST':
+    #     form = CheckoutForm(request.POST)
+    #     if form.is_valid():
+    #         cleaned_data = form.cleaned_data
+    #     #...
+    #     #...
+ 
+    #         cart.clear(request)
+ 
+    # request.session['product_id'] = Design.product.id
+    #     # return redirect('process_payment')
+    # return HttpResponseRedirect('payment', request)
+ 
+ 
+    # else:
+    #     form = CheckoutForm()
+    #     return render(request, 'ecommerce_app/checkout.html', locals())
+    # pass
 
-    @csrf_exempt
-    def payment_done(self, request):
-        return render(request, 'products/templates/payment/payment_done.html')
+def payment(request):
+    # order_id = request.session.get('order_id')
+    # order = get_object_or_404(Order, id=order_id)
+    # product_id = request.session.get('product_id')
+    product_id = 2
+    print(product_id)
+    # print(request.GET.get('id'))
+    order = get_object_or_404(Product, id=product_id)
+    host = request.get_host()
 
-    @csrf_exempt
-    def payment_canceled(self, request):
-        return render(request, 'products/templates/payment/payment_cancelled.html')
+    # paypal_dict = {
+    #     'business': settings.PAYPAL_RECEIVER_EMAIL,
+    #     'amount': '%.2f' % order.total_cost().quantize(Decimal('.01')),
+    #     'item_name': 'Order {}'.format(order.id),
+    #     'invoice': str(order.id),
+    #     'currency_code': 'EUR',
+    #     'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+    #     'return_url': 'http://{}{}'.format(host, reverse('payment_done')),
+    #     'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
+    # }
+    paypal_dict = {
+        'business': settings.PAYPAL_RECEIVER_EMAIL,
+        'amount': 2.00,
+        'item_name': 'Order test',
+        'invoice': 'test',
+        'currency_code': 'EUR',
+        'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+        'return_url': 'http://{}{}'.format(host, reverse('payment_done')),
+        'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
+    }
+
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    return render(request, 'payment/payment.html', {'order': order, 'form': form})
+
+@csrf_exempt
+def payment_done(request):
+    return render(request, 'payment/payment_done.html')
+
+@csrf_exempt
+def payment_canceled(request):
+    return render(request, 'payment/payment_cancelled.html')

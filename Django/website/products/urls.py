@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from . import views
 
 urlpatterns = [
-    path('payment/', views.PaymentView.payment, name='payment'),
-    path('payment-done/', views.PaymentView.payment_done, name='payment_done'),
-    path('payment-cancelled/', views.PaymentView.payment_canceled, name='payment_cancelled'),
+    path('payment/', views.payment, name='payment'),
+    path('payment-done/', views.payment_done, name='payment_done'),
+    path('payment-cancelled/', views.payment_canceled, name='payment_cancelled'),
 ]
