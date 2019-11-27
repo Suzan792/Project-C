@@ -26,7 +26,7 @@ SECRET_KEY = '@zr_+a)7k3@jh09egbm(n5!$1o*zw^oupal9i&o**8jv64b$tx'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '2819d13c.ngrok.io',
+    '1748a761.ngrok.io',
     '127.0.0.1',
     'localhost',
     ]
@@ -155,5 +155,6 @@ EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-PAYPAL_RECEIVER_EMAIL = 'artdrop.project@gmail.com'
+# PAYPAL_RECEIVER_EMAIL = 'artdrop.project@gmail.com'
+PAYPAL_RECEIVER_EMAIL = 'sb-uxbir626964@business.example.com'
 PAYPAL_TEST = True

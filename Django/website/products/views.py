@@ -83,27 +83,6 @@ class ProductDesignEditView(View):
                 form.save(art_pk,product_pk)
             return HttpResponseRedirect(reverse('editProduct_page',args=[art_pk]))
             
-# class PaymentView(View):
-# def checkout(request):
-    # if request.method == 'POST':
-    #     form = CheckoutForm(request.POST)
-    #     if form.is_valid():
-    #         cleaned_data = form.cleaned_data
-    #     #...
-    #     #...
- 
-    #         cart.clear(request)
- 
-    # request.session['product_id'] = Design.product.id
-    #     # return redirect('process_payment')
-    # return HttpResponseRedirect('payment', request)
- 
- 
-    # else:
-    #     form = CheckoutForm()
-    #     return render(request, 'ecommerce_app/checkout.html', locals())
-    # pass
-
 def payment(request, product_pk, art_pk):
     product = get_object_or_404(Product, id=product_pk)
     host = request.get_host()
