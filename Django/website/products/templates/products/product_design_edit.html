@@ -66,30 +66,30 @@ var value
 /*makes the active product button green when the page loads for the first time*/
 $("#product_".concat(activeProduct)).removeClass("border-dark").addClass("border-success");
 
-/*sets the active design coordinate when the page loads for the first time*/
+
 {% if designs %}
+/*sets the active design coordinate when the page loads for the first time*/
 $( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left:{{designs.0.coordinate_left}},
    height: '{{designs.0.height}}', transform: '{{designs.0.rotation}}'});
 
+/*sets the active frame coordinate when the page loads for the first time*/
 $( ".crop_frame" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}},
    height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}', 'border-radius': {{designs.0.frame_border_radius}}
   });
 
-function changeFrameSize(){
-  height = $("#frame_height").val();
-  width = $("#frame_width").val();
-  $( ".crop_frame" ).css({ height: height, width: width});
-};
-function changeSize(){
-  height = $("#height").val();
-  $( "#art_image_edit" ).css({ height: height});
-};
 
+$(".crop_frame").mouseover(function(){
+  $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', 'cursor': 'move'})
+});
+$(".crop_frame").mouseout(function(){
+  $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .0)'})
+});
 
 $( "#height" ).change(function(){
   height = $("#height").val();
   $( "#art_image_edit" ).css({ height: height});
 });
+
 $( "#frame_height" ).change(function(){
   height = $("#frame_height").val();
   $( ".crop_frame" ).css({ height: height});
@@ -114,16 +114,6 @@ $( "#rotation" ).change(function(){
   '-o-transform': 'rotate(' + value + 'deg)',
   'transform': 'rotate(' + value + 'deg)',});
 });
-
-function changeRotation(){
-  value = $("#rotation").val();
-  $( "#art_image_edit" ).css({'-webkit-transform': 'rotate(' + value + 'deg)',
-  '-moz-transform': 'rotate(' + value + 'deg)',
-  '-ms-transform': 'rotate(' + value + 'deg)',
-  '-o-transform': 'rotate(' + value + 'deg)',
-  'transform': 'rotate(' + value + 'deg)',});
-  console.log(value)
-};
 
 {% endif %}
 
