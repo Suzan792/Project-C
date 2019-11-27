@@ -104,39 +104,23 @@ class ProductDesignEditView(View):
     #     return render(request, 'ecommerce_app/checkout.html', locals())
     # pass
 
-def payment(request):
-    # order_id = request.session.get('order_id')
-    # order = get_object_or_404(Order, id=order_id)
-    # product_id = request.session.get('product_id')
-    product_id = 2
-    print(product_id)
-    # print(request.GET.get('id'))
-    order = get_object_or_404(Product, id=product_id)
+def payment(request, product_pk, art_pk):
+    product = get_object_or_404(Product, id=product_pk)
     host = request.get_host()
 
-    # paypal_dict = {
-    #     'business': settings.PAYPAL_RECEIVER_EMAIL,
-    #     'amount': '%.2f' % order.total_cost().quantize(Decimal('.01')),
-    #     'item_name': 'Order {}'.format(order.id),
-    #     'invoice': str(order.id),
-    #     'currency_code': 'EUR',
-    #     'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
-    #     'return_url': 'http://{}{}'.format(host, reverse('payment_done')),
-    #     'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
-    # }
-    paypal_dict = {
+    paypal_form = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
-        'amount': 2.00,
-        'item_name': 'Order test',
-        'invoice': 'test',
+        'amount': product.price,
+        'item_name': 'Product {}'.format(product.product_name),
+        'invoice': str(product_pk),
         'currency_code': 'EUR',
         'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
         'return_url': 'http://{}{}'.format(host, reverse('payment_done')),
         'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
     }
 
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, 'payment/payment.html', {'order': order, 'form': form})
+    form = PayPalPaymentsForm(initial=paypal_form)
+    return render(request, 'payment/payment.html', {'order': product, 'form': form})
 
 @csrf_exempt
 def payment_done(request):
