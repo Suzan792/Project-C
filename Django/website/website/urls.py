@@ -50,7 +50,7 @@ urlpatterns = [
     path('art/<int:pk>/update/', ArtworkUpdateView.as_view(), name='artUpdate_view'),
     # path('art/', art_views, name='art'),
     path('paypal/', include('paypal.standard.ipn.urls')),
-    path('payment/', include(products_urls)),
+    path('product/', include(products_urls)),
 ]
 
 if settings.DEBUG:
