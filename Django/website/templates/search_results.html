@@ -82,6 +82,7 @@
       success: LikePost,
       dataType: 'html'
     });
+
     function LikePost(data) {
       var data = $.parseJSON(data)
       if (data['liked']) {
@@ -99,4 +100,3 @@
 
 </script>
 {% endblock %}
-

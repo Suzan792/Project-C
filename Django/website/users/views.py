@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.http import HttpResponse
 
 from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm
 from .functions import send_confirmation_email
@@ -13,24 +14,28 @@ from .tokens import account_activation_token
 
 # Create your views here.
 def register(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'account created for {username}')
+    if request.user.is_authenticated:
+        return HttpResponse("you are already logged in!")
 
-            email = form.cleaned_data.get('email')
-            send_confirmation_email(request, form, user, email)
-            
-            # return redirect('login_page')
-            return render(request,'email/email_sent.html')
-        # return HttpResponse('Please confirm your email address to complete the registration')
     else:
-        form = UserRegistrationForm()
-    return render(request,'users/register.html',{'form':form})
+        if request.method == 'POST':
+            form = UserRegistrationForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
+                username = form.cleaned_data.get('username')
+                messages.success(request, f'account created for {username}')
+
+                email = form.cleaned_data.get('email')
+                send_confirmation_email(request, form, user, email)
+
+                # return redirect('login_page')
+                return render(request,'email/email_sent.html')
+            # return HttpResponse('Please confirm your email address to complete the registration')
+        else:
+            form = UserRegistrationForm()
+        return render(request,'users/register.html',{'form':form})
 
 def activate(request, uidb64, token):
     try:
