@@ -40,7 +40,7 @@ urlpatterns = [
     path('art/<int:pk>/', ArtDetailView.as_view(), name='artDetail_page'),
     path('contact/', views.contact_page, name='contact_page'),
     path('', include('search.urls')),
-    path('product/<int:product_pk>/<int:art_pk>/', ProductDetailView.as_view(), name='productDetail_page'),
+    path('product/<int:design_pk>/', ProductDetailView.as_view(), name='productDetail_page'),
     path('edit/product/<int:art_pk>/', ProductDesignEditView.as_view(), name='editProduct_page'),
     path('contact', views.contact_page, name='contact_page'),
     path('upload', upload_art, name='upload_art'),
