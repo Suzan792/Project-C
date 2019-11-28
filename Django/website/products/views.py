@@ -29,9 +29,7 @@ class ProductDesignEditView(View):
         if request.user.is_authenticated:
             if request.user.userprofile.id == art.artist.id:
                 if request.is_ajax():
-                    product_id = request.GET.get('productId')
-                    product = Product.objects.get(pk=product_id)
-                    design = Design.objects.get(art=art,product=product)
+                    design = Design.objects.get(id= request.GET.get('designId'))
                     top = design.coordinate_top
                     left = design.coordinate_left
                     height = design.height
@@ -61,11 +59,9 @@ class ProductDesignEditView(View):
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            art_id = request.POST.get('artId')
-            product_id = request.POST.get('productId')
-            art = Artwork.objects.get(pk=art_id)
-            product = Product.objects.get(pk=product_id)
-            design = Design.objects.get(art=art,product=product)
+            print("---------------------------------------------------"+request.POST.get('designId'))
+            print(request.POST.get('designId'))
+            design = Design.objects.get(id= request.POST.get('designId'))
             design.coordinate_top = request.POST.get('top')[:-2]
             design.coordinate_left = request.POST.get('left')[:-2]
             design.height = request.POST.get('height')[:-2]

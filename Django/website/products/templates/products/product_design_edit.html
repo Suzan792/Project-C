@@ -17,9 +17,9 @@
 </div>
 <div class="col-12 mt-2 p-0">
   {% for design in designs %}
-  <img  id="product_{{design.product.id}}" class="imgbuttom border border-dark rounded"
+  <img  id="product_{{design.id}}" class="imgbuttom border border-dark rounded"
   onclick="
-  productChoiceButton('{{design.product_id}}',
+  productChoiceButton('{{design.id}}',
   '{{design.product.product_photo.url}}')" src="{{design.product.product_photo.url}}"
   alt="product image is not loading error" height="80" width="80" >
   {% endfor %}
@@ -61,10 +61,10 @@
 {% block javascript %}
 <script>
 $('.flashMessage').hide();
-var activeProduct = "{{designs.0.product_id}}"
+var activeDesignId = "{{designs.0.id}}"
 var value
 /*makes the active product button green when the page loads for the first time*/
-$("#product_".concat(activeProduct)).removeClass("border-dark").addClass("border-success");
+$("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
 
 
 {% if designs %}
@@ -118,18 +118,12 @@ $( "#rotation" ).change(function(){
 {% endif %}
 
 function productChoiceButton(id,imageUrl){
-  activeProduct = id
-  var productId = id
-  var artId = {{art.id}}
-  var top = 0
-  var left = 0
-  var height = 0
+  activeDesignId = id
   $.ajax({
     type: 'GET',
     url: "{% url 'editProduct_page' art.id %}",
     data: {
-      'artId':artId,
-      'productId':productId,
+      'designId':activeDesignId,
       'csrfmiddlewaretoken': '{{ csrf_token }}',
     },
     dataType: 'json',
@@ -151,7 +145,7 @@ function productChoiceButton(id,imageUrl){
       $("#frame_height").val(frame_height);
       $("#frame_width").val(frame_width);
       $(".imgbuttom").removeClass("border-success").addClass("border-dark")
-      $("#product_".concat(activeProduct)).removeClass("border-dark").addClass("border-success");
+      $("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
       document.getElementById("product_image_edit").src = imageUrl;
     }
   });
@@ -176,17 +170,15 @@ function saveCoordinate(){
   var frame_height = $( ".crop_frame" ).css("height")
   var frame_width = $( ".crop_frame" ).css("width")
   var frame_border_radius = $( ".crop_frame" ).css("border-top-left-radius")
-  console.log(frame_border_radius+"sdfsd")
-  var productId = activeProduct
-  var artId = {{art.id}}
+  var designId = activeDesignId
+  console.log(designId)
   var post_url ="{% url 'editProduct_page' art.id %}"
   $.ajax({
     type: 'POST',
     url: post_url,
     data: {
       'csrfmiddlewaretoken': '{{ csrf_token }}',
-      'artId':artId,
-      'productId':productId,
+      'designId':designId,
       'left': left,
       'top':top,
       'height':height,
