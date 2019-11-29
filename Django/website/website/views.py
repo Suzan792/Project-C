@@ -7,14 +7,19 @@ from django.utils import timezone
 import json
 from django.http import JsonResponse
 
+
 def contact_page(request):
     return render(request,'contact.html')
+
+
 class ArtListView(ListView):
     model = Artwork
     template_name = 'index.html'
     context_object_name = 'Artworks'
     ordering = ['-upload_date_time']
     paginate_by = 6
+
+
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             art_pk = request.POST.get('id', None)

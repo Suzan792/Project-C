@@ -28,6 +28,7 @@ from .views import ArtListView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from art.views import upload_art , artistworkListView
 from users import urls as users_urls
+# from carts.views import views as cart_views
 
 urlpatterns = [
     path('',include(users_urls)),
@@ -42,11 +43,13 @@ urlpatterns = [
     path('', include('search.urls')),
     path('product/<int:product_pk>/<int:art_pk>/', ProductDetailView.as_view(), name='productDetail_page'),
     path('edit/product/<int:art_pk>/', ProductDesignEditView.as_view(), name='editProduct_page'),
+    # path('products/(?P<slug>[\w]+)/', cart_views.views.update_cart)
     path('contact', views.contact_page, name='contact_page'),
     path('upload', upload_art, name='upload_art'),
     path('artistwork/',artistworkListView.as_view(),name = 'artistwork'),
     path('art/<int:pk>/delete', deleteArtView.as_view(), name='artDelete_view'),
     path('art/<int:pk>/update/', ArtworkUpdateView.as_view(), name='artUpdate_view'),
+    path('', include('carts.urls')),
     # path('art/', art_views, name='art'),
 ]
 
