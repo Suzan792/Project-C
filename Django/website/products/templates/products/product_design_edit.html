@@ -129,9 +129,9 @@ function productChoiceButton(id,imageUrl){
     dataType: 'json',
     success: function(data){
       var data = data
-      top = parseInt(data['top'])
-      left = parseInt(data['left'])
-      height = data['height']
+      art_top = parseInt(data['top'])
+      art_left = parseInt(data['left'])
+      art_height = data['height']
       width = data['width']
       frame_top = parseInt(data['frame_top'])
       frame_left = parseInt(data['frame_left'])
@@ -139,7 +139,7 @@ function productChoiceButton(id,imageUrl){
       frame_width = data['frame_width']
       frame_border_radius = data['frame_border_radius']
       rotation = data['rotation']
-      $("#art_image_edit").css({ top: top, left: left, height: height, transform: rotation} );
+      $("#art_image_edit").css({ top: art_top, left: art_left, height: art_height, transform: rotation} );
       $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width, 'border-radius': frame_border_radius} );
       $("#height").val(height);
       $("#frame_height").val(frame_height);
@@ -160,8 +160,8 @@ $( function() {
 } );
 
 function saveCoordinate(){
-  var top = $( "#art_image_edit" ).css("top")
-  var left = $( "#art_image_edit" ).css("left")
+  var art_top = $( "#art_image_edit" ).css("top")
+  var art_left = $( "#art_image_edit" ).css("left")
   var height = $( "#art_image_edit" ).css("height")
   var width = $( "#art_image_edit" ).css("width")
   var rotation = $( "#art_image_edit" ).css("transform")
@@ -179,8 +179,8 @@ function saveCoordinate(){
     data: {
       'csrfmiddlewaretoken': '{{ csrf_token }}',
       'designId':designId,
-      'left': left,
-      'top':top,
+      'left': art_left,
+      'top':art_top,
       'height':height,
       'width':width,
       'frame_top':frame_top,
