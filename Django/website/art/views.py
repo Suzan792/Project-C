@@ -59,7 +59,6 @@ class deleteArtView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
     def test_func(self):
         Artwork = self.get_object()
         if self.request.user == Artwork.artist.user:
-            print(self.request.user)
             return True
         return False
 
