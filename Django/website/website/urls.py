@@ -41,7 +41,7 @@ urlpatterns = [
     path('art/<int:pk>/', ArtDetailView.as_view(), name='artDetail_page'),
     path('contact/', views.contact_page, name='contact_page'),
     path('', include('search.urls')),
-    path('product/<int:product_pk>/<int:art_pk>/', ProductDetailView.as_view(), name='productDetail_page'),
+    path('product/<int:design_pk>/', ProductDetailView.as_view(), name='productDetail_page'),
     path('edit/product/<int:art_pk>/', ProductDesignEditView.as_view(), name='editProduct_page'),
     # path('products/(?P<slug>[\w]+)/', cart_views.views.update_cart)
     path('contact', views.contact_page, name='contact_page'),

@@ -17,8 +17,6 @@ class ArtListView(ListView):
     template_name = 'index.html'
     context_object_name = 'Artworks'
     ordering = ['-upload_date_time']
-    paginate_by = 6
-
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:

@@ -17,9 +17,9 @@
 </div>
 <div class="col-12 mt-2 p-0">
   {% for design in designs %}
-  <img  id="product_{{design.product.id}}" class="imgbuttom border border-dark rounded"
+  <img  id="product_{{design.id}}" class="imgbuttom border border-dark rounded"
   onclick="
-  productChoiceButton('{{design.product_id}}',
+  productChoiceButton('{{design.id}}',
   '{{design.product.product_photo.url}}')" src="{{design.product.product_photo.url}}"
   alt="product image is not loading error" height="80" width="80" >
   {% endfor %}
@@ -61,10 +61,10 @@
 {% block javascript %}
 <script>
 $('.flashMessage').hide();
-var activeProduct = "{{designs.0.product_id}}"
+var activeDesignId = "{{designs.0.id}}"
 var value
 /*makes the active product button green when the page loads for the first time*/
-$("#product_".concat(activeProduct)).removeClass("border-dark").addClass("border-success");
+$("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
 
 
 {% if designs %}
@@ -118,26 +118,20 @@ $( "#rotation" ).change(function(){
 {% endif %}
 
 function productChoiceButton(id,imageUrl){
-  activeProduct = id
-  var productId = id
-  var artId = {{art.id}}
-  var top = 0
-  var left = 0
-  var height = 0
+  activeDesignId = id
   $.ajax({
     type: 'GET',
     url: "{% url 'editProduct_page' art.id %}",
     data: {
-      'artId':artId,
-      'productId':productId,
+      'designId':activeDesignId,
       'csrfmiddlewaretoken': '{{ csrf_token }}',
     },
     dataType: 'json',
     success: function(data){
       var data = data
-      top = parseInt(data['top'])
-      left = parseInt(data['left'])
-      height = data['height']
+      art_top = parseInt(data['top'])
+      art_left = parseInt(data['left'])
+      art_height = data['height']
       width = data['width']
       frame_top = parseInt(data['frame_top'])
       frame_left = parseInt(data['frame_left'])
@@ -145,13 +139,13 @@ function productChoiceButton(id,imageUrl){
       frame_width = data['frame_width']
       frame_border_radius = data['frame_border_radius']
       rotation = data['rotation']
-      $("#art_image_edit").css({ top: top, left: left, height: height, transform: rotation} );
+      $("#art_image_edit").css({ top: art_top, left: art_left, height: art_height, transform: rotation} );
       $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width, 'border-radius': frame_border_radius} );
       $("#height").val(height);
       $("#frame_height").val(frame_height);
       $("#frame_width").val(frame_width);
       $(".imgbuttom").removeClass("border-success").addClass("border-dark")
-      $("#product_".concat(activeProduct)).removeClass("border-dark").addClass("border-success");
+      $("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
       document.getElementById("product_image_edit").src = imageUrl;
     }
   });
@@ -166,8 +160,8 @@ $( function() {
 } );
 
 function saveCoordinate(){
-  var top = $( "#art_image_edit" ).css("top")
-  var left = $( "#art_image_edit" ).css("left")
+  var art_top = $( "#art_image_edit" ).css("top")
+  var art_left = $( "#art_image_edit" ).css("left")
   var height = $( "#art_image_edit" ).css("height")
   var width = $( "#art_image_edit" ).css("width")
   var rotation = $( "#art_image_edit" ).css("transform")
@@ -176,19 +170,17 @@ function saveCoordinate(){
   var frame_height = $( ".crop_frame" ).css("height")
   var frame_width = $( ".crop_frame" ).css("width")
   var frame_border_radius = $( ".crop_frame" ).css("border-top-left-radius")
-  console.log(frame_border_radius+"sdfsd")
-  var productId = activeProduct
-  var artId = {{art.id}}
+  var designId = activeDesignId
+  console.log(designId)
   var post_url ="{% url 'editProduct_page' art.id %}"
   $.ajax({
     type: 'POST',
     url: post_url,
     data: {
       'csrfmiddlewaretoken': '{{ csrf_token }}',
-      'artId':artId,
-      'productId':productId,
-      'left': left,
-      'top':top,
+      'designId':designId,
+      'left': art_left,
+      'top':art_top,
       'height':height,
       'width':width,
       'frame_top':frame_top,

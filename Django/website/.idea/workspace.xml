@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b73fed75-b6b6-45c6-b8df-5c629da03272" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/media/art_pics/05612535493f3e501b15b5fba3bc128b_wXPbk7k.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/art_pics/111111111_bUONdbE.jfif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/art_pics/87738_1521839994_UqgkKMc.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/art_pics/Copy_of_Homepage_bwLaXKu.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/art_pics/blue-einstein-dan-groover_ZxLCIMM.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/art/migrations/0029_auto_20191129_1213.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/art/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/art/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/art/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/art/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/art/templates/artistwork.html" beforeDir="false" afterPath="$PROJECT_DIR$/art/templates/artistwork.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/art/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/art/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/templates/users/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/users/templates/users/profile.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
