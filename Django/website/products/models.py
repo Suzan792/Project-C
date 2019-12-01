@@ -45,6 +45,7 @@ class Design(models.Model):
     frame_width = models.IntegerField(default= 300)
     frame_coordinate_left = models.DecimalField(default=10, max_digits=10, decimal_places=3)
     frame_coordinate_top = models.DecimalField(default=10, max_digits=10, decimal_places=3)
-    rotation = models.CharField(max_length=100,default='matrix(0, 1, -1, 0, 0, 0)')
+    frame_border_radius = models.IntegerField(default= 0)
+    rotation = models.CharField(max_length=100,default='matrix(1, 0, 0, 1, 0, 0)')
     def __str__(self):
         return 'art: ' + self.art.artwork_name + '   |   Product: ' + self.product.product_name
