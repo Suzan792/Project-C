@@ -152,10 +152,8 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'artdrop.project@gmail.com'
 EMAIL_HOST_PASSWORD = 'Artdrop12345'
 EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# PAYPAL_RECEIVER_EMAIL = 'artdrop.project@gmail.com'
 PAYPAL_RECEIVER_EMAIL = 'sb-uxbir626964@business.example.com'
 PAYPAL_TEST = True
-# PAYPAL_BUY_BUTTON_IMAGE = 'media.paypal_pay_button'
+PAYPAL_BUY_BUTTON_IMAGE = '../../../../../media/paypal_pay_button.png/'
