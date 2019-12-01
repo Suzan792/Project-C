@@ -1,5 +1,12 @@
-from django.shortcuts import render, HttpResponseRedirect
+from paypal.standard.forms import PayPalPaymentsForm
+
+from django.conf import settings
+from django.shortcuts import get_object_or_404, render, redirect, HttpResponseRedirect
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import Cart
+from products.models import Product
 # from django.core.urlresolvers import reverse
 
 # from product.models import Product
@@ -32,3 +39,28 @@ def view(request):
 #     else:
 #         cart.products.remove(product)
 #     return HttpResponseRedirect(reverse("cart"))
+def payment(request, product_pk, art_pk):
+    product = get_object_or_404(Product, id=product_pk)
+    host = request.get_host()
+
+    paypal_form = {
+        'business': settings.PAYPAL_RECEIVER_EMAIL,
+        'amount': product.price,
+        'item_name': 'Product {}'.format(product.product_name),
+        'invoice': str(product_pk),
+        'currency_code': 'EUR',
+        'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+        'return_url': 'http://{}{}'.format(host, reverse('payment_done')),
+        'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
+    }
+
+    form = PayPalPaymentsForm(initial=paypal_form)
+    return render(request, 'payment/payment.html', {'order': product, 'form': form})
+
+@csrf_exempt
+def payment_done(request):
+    return render(request, 'payment/payment_done.html')
+
+@csrf_exempt
+def payment_canceled(request):
+    return render(request, 'payment/payment_cancelled.html')

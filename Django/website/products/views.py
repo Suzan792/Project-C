@@ -1,19 +1,11 @@
-from django.shortcuts import get_object_or_404, render, redirect, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import View
-from products.models import Product, Design
+from products.models import Design
 from art.models import Artwork
 from django.utils import timezone
-import json
 from django.urls import reverse
 from . import forms
 from django.http import JsonResponse, HttpResponse
-from django.conf import settings
-from decimal import Decimal
-from paypal.standard.forms import PayPalPaymentsForm
-from django.urls import reverse
-from .models import Order, Design
-from django.views.decorators.csrf import csrf_exempt
-
 
 # Create your views here.
 class ProductDetailView(View):
@@ -85,28 +77,3 @@ class ProductDesignEditView(View):
                 form.save(art_pk,product_pk)
             return HttpResponseRedirect(reverse('editProduct_page',args=[art_pk]))
             
-def payment(request, product_pk, art_pk):
-    product = get_object_or_404(Product, id=product_pk)
-    host = request.get_host()
-
-    paypal_form = {
-        'business': settings.PAYPAL_RECEIVER_EMAIL,
-        'amount': product.price,
-        'item_name': 'Product {}'.format(product.product_name),
-        'invoice': str(product_pk),
-        'currency_code': 'EUR',
-        'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
-        'return_url': 'http://{}{}'.format(host, reverse('payment_done')),
-        'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
-    }
-
-    form = PayPalPaymentsForm(initial=paypal_form)
-    return render(request, 'payment/payment.html', {'order': product, 'form': form})
-
-@csrf_exempt
-def payment_done(request):
-    return render(request, 'payment/payment_done.html')
-
-@csrf_exempt
-def payment_canceled(request):
-    return render(request, 'payment/payment_cancelled.html')
