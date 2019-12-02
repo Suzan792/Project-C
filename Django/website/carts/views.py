@@ -1,3 +1,4 @@
+from datetime import datetime
 from paypal.standard.forms import PayPalPaymentsForm
 
 from django.conf import settings
@@ -13,7 +14,6 @@ from products.models import Product
 
 def view(request):
     cart = Cart.objects.all()[0]
-    context = {"cart": cart}
     template = "carts/view.html"
 
     new_total = 0.00
@@ -21,6 +21,12 @@ def view(request):
         new_total += float(item.price)
     cart.total = new_total
     cart.save()
+
+    payment_data = payment(request, cart, new_total)
+    order = payment_data[0]
+    form = payment_data[1]
+
+    context = {"cart": cart, 'order': order, 'form': form}
 
     return render(request, template, context)
 
@@ -39,23 +45,23 @@ def view(request):
 #     else:
 #         cart.products.remove(product)
 #     return HttpResponseRedirect(reverse("cart"))
-def payment(request, product_pk, art_pk):
-    product = get_object_or_404(Product, id=product_pk)
+
+def payment(request, cart, total):
     host = request.get_host()
 
     paypal_form = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
-        'amount': product.price,
-        'item_name': 'Product {}'.format(product.product_name),
-        'invoice': str(product_pk),
+        'amount': total,
+        'item_name': 'Order {}'.format(datetime.now),
+        'invoice': str(total),
         'currency_code': 'EUR',
         'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
         'return_url': 'http://{}{}'.format(host, reverse('payment_done')),
         'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
     }
 
-    form = PayPalPaymentsForm(initial=paypal_form)
-    return render(request, 'payment/payment.html', {'order': product, 'form': form})
+    pform = PayPalPaymentsForm(initial=paypal_form)
+    return cart, pform
 
 @csrf_exempt
 def payment_done(request):
