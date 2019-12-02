@@ -2,6 +2,7 @@ from datetime import datetime
 from paypal.standard.forms import PayPalPaymentsForm
 
 from django.conf import settings
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect, HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -52,7 +53,7 @@ def payment(request, cart, total):
     paypal_form = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
         'amount': total,
-        'item_name': 'Order {}'.format(datetime.now),
+        'item_name': 'Order {}'.format(datetime.now()),
         'invoice': str(total),
         'currency_code': 'EUR',
         'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
@@ -65,8 +66,10 @@ def payment(request, cart, total):
 
 @csrf_exempt
 def payment_done(request):
-    return render(request, 'payment/payment_done.html')
+    messages.success(request, f'Payment succesful')
+    return redirect('home_page')
 
 @csrf_exempt
-def payment_canceled(request):
-    return render(request, 'payment/payment_cancelled.html')
+def payment_cancelled(request):
+    messages.warning(request, f'Payment was cancelled')
+    return redirect('cart')
