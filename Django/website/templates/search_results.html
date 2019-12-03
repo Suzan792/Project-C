@@ -5,7 +5,7 @@
 {% block body %}
 
 {% if request.GET.q != "" %}
-<h1 class="display-3 text center">Results for:  '{{ request.GET.q }}'</h1>
+<h1 class="display-5 text center">Results for:  '{{ request.GET.q }}'</h1>
 
 <div class="card-columns">
   {% for art in object_list %}
