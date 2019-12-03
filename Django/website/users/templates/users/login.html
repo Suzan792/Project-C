@@ -5,7 +5,7 @@
 
 {% block body %}
     <form method="POST" class="mt-5">
-      <!-- {% csrf_token %} -->
+      {% csrf_token %}
       <fieldset class="form-group">
           {% if form.errors %}
           {% with form.get_user as user %}
