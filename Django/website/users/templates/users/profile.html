@@ -3,16 +3,7 @@
 {% block title %} Profile {% endblock %}
 
 {% block body %}
-  {% if user.userprofile.user_role  == "artist" %}
-      <div class="mt-5 col-lg-12 col-sm-12 border-top ">
-        <div class="form-group">
-          <h2 class="mt-3 mb-5 text-center">To upload a new artwork please <a href="{% url 'upload_art' %}" class="badge badge-primary">Click here</a></h2>
-          </div>
-        <div class="form-group">
-          <h2 class="mt-3 mb-5 text-center">To see all your artwork <a href="{% url 'artistwork' %}" class="badge badge-success">Click here</a></h2>
-          </div>
-      </div>
-  {% endif %}
+
   <div class="container row">
     <div class="border-bottom col-lg-2 col-md-3 col-sm-3  mt-5 pb-3 ">
       <img class="rounded-circle account-img prifile-pic"  src="{{ user.userprofile.image.url }}">
@@ -23,11 +14,19 @@
       </div>
 
     <div class="mt-5 col-lg-12 col-sm-12">
-      <button type="button" class="btn btn-outline-info" onclick= "location.href='{% url 'change_password' %}'"}>Change password</button>
-      <form method="POST" enctype="multipart/form-data">
+
+      {% if user.userprofile.user_role  == "artist" %}
+              <button class="btn btn-outline-primary" onclick="location.href='{% url 'upload_art' %}'" type="button" name="button">Upload Artwork</button>
+              <button class="btn btn-outline-primary" onclick="location.href='{% url 'artistwork' %}'" type="button" name="button">My Artworks</button>
+      {% endif %}
+      <legend class=" mb-4 mt-5">Update your profile information</legend>
+      <div class="form-group">
+            <button type="button" class="btn btn-outline-info" onclick= "location.href='{% url 'change_password' %}'"}>Change password</button>
+      </form>
+      <form method="POST" class="mt-2" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
-          <legend class=" mb-4 ">Update your profile information</legend>
+
           {{ user_update_form|crispy }}
           {{ profile_info_update_form|crispy }}
           {{ profile_photo_update_form }}

@@ -22,16 +22,9 @@ from django.urls import path, include, re_path
 from . import views
 from .views import ArtListView
 from art import views as art_views
-from art.views import  ArtDetailView, deleteArtView , ArtworkUpdateView, upload_art, artistworkListView
-from products import urls as products_urls
-from products.views import ProductDetailView, ProductDesignEditView
-from users import urls as users_urls
-from users import views as user_views
-from users.forms import UpdatedLoginForm
 from website import settings
 
 urlpatterns = [
-    path('',include(users_urls)),
     path('admin/', admin.site.urls),
     path('', ArtListView.as_view(), name='home_page'),
     path('contact/', views.contact_page, name='contact_page'),
@@ -44,7 +37,6 @@ urlpatterns = [
     path('', include('carts.urls')),
     # path('art/', art_views, name='art'),
     path('paypal/', include('paypal.standard.ipn.urls')),
-    path('product/', include(products_urls)),
 ]
 
 if settings.DEBUG:
