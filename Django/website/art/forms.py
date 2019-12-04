@@ -4,6 +4,6 @@ from . import models
 class uploadArt(forms.ModelForm):
     class Meta:
         model = models.Artwork
-        fields = ['artwork_name','artwork_description','artwork_prise','artwork_photo']
+        fields = ['artwork_name','artwork_description','artwork_price','artwork_photo']
 
 
