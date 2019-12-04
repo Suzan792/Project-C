@@ -2,6 +2,7 @@ from django import template
 from art.models import Artwork
 from django.contrib.auth.models import User
 from users.models import UserProfile
+from products.models import Design
 
 register = template.Library()
 
@@ -12,4 +13,13 @@ def isLiked(art_pk, user_pk):
         res = "text-danger"
     else:
         res = ""
+    return res
+
+@register.simple_tag
+def isEditable(design_pk):
+    design = Design.objects.get(pk=design_pk)
+    if design.user==None:
+        res = "false"
+    else:
+        res = "true"
     return res

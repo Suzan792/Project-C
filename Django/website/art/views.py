@@ -66,7 +66,7 @@ class deleteArtView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
 class ArtDetailView(View):
     def get(self, request, *args, **kwargs):
         art = Artwork.objects.get(pk=self.kwargs.get('pk'))
-        designs = Design.objects.filter(art=art)
+        designs = Design.objects.filter(art=art,user=None)
         liked = False
         if request.user.is_authenticated:
             user = request.user.userprofile
