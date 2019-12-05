@@ -7,12 +7,21 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.http import HttpResponse
+from django.views.generic import DetailView
 
 from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm
 from .functions import send_confirmation_email
 from .tokens import account_activation_token
 
 # Create your views here.
+
+
+class ArtistCard(DetailView):
+    model = User
+    template_name = 'artistCard.html'
+
+
+
 def register(request):
     if request.user.is_authenticated:
         return HttpResponse("you are already logged in!")

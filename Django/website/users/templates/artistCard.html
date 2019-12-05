@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}{{user}} Card{% endblock %}
+
+{% block body %}
+
+
+<div class="card mx-auto mt-3" style="width: 18rem;">
+  <img src="{{ user.userprofile.image.url }}" class="card-img-top" alt="artist">
+  <div class="card-body">
+    <h5 class="card-title text-center">{{user.first_name}} {{user.last_name}}</h5>
+    <p class="card-text text-center">{{user}} is from {{user.userprofile.country}}</p>
+    <p class="card-text text-center">the date of join {{user.date_joined|date:"M d, Y"}}</p>
+    <a href="{% url 'home_page'%}" class="btn btn-primary">Back to home</a>
+  </div>
+
+</div>
+
+
+
+
+{% endblock %}

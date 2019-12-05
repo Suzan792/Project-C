@@ -93,7 +93,7 @@
           <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ artwork.artist.user.userprofile.image.url }}"></a>
         </span>
         <span class="float-left ml-3">
-          <a href="#">{{ artwork.artist.user.username }}</a>
+          <a href="{% url 'artist_card' artwork.artist.user.id %}">{{ artwork.artist.user.username }}</a>
         </span>
         <span class="float-right" >
             <form id = "form-id"  >
