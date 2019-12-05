@@ -1,25 +1,38 @@
 
 {% extends "layout.html" %}
-
+{% load crispy_forms_tags %}
 {% block title %} Product {% endblock %}
 
 {% block body %}
-<div class="col-lg-8 col-md-8 col-sm-12 mt-5">
-  <div class="card">
-    <div id="imageEditSpace" class=" mt-5 rounded" >
-      <img id="product_image_edit" src="{{design.product.product_photo.url}}"alt="art image is not loading error">
+<div class="col-lg-8 col-md-8 col-sm-12 mt-5" style="">
+  <div class="" style="border: solid .5px;">
+    <div class="" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <div id="imageEditSpace" class="rounded" >
+      <img id="product_image_edit" style="" src="{{designs.0.product.product_photo.url}}"alt="art image is not loading error">
       <div class="crop_frame">
-        <img id="art_image_edit" style=""src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
+        <img id="art_image_edit" style=""src="{{designs.0.art.artwork_photo.url}}"alt="art image is not loading error">
       </div>
     </div>
+  </div>
+    <div class="row m-0 pl-4" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    {% for design in designs %}
+      <img  class="mt-2 mr-2 mb-2" src="{{design.product.product_photo.url}}" style=" border: solid 1.5px {% if design.user != None %} green{% else %}gray {% endif %}; background-color: black; width: 100px; height: 100px;  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"></img>
+    {% endfor %}
+    </div>
+    <form class="mt-2 ml-4" action="{% url 'productDetail_page' designs.0.art.pk designs.0.product.pk %}" method="POST">
+      {% csrf_token %}
+      <button class="btn btn-outline-primary mb-2" type="submit" name="add_design" value="add_design"value="add_design">Add product</button>
+      <button class="btn btn-success mb-2" onclick="saveCoordinate()">Save Design</button>
+    </form>
+
     <div class="card-body">
       <h4 class="card-title">
-        <a href="#">{{design.product.product_name}}</a>
+        <a href="#">{{designs.0.product.product_name}}</a>
       </h4>
-      <h5 id = "price">${{design.product.price}}</h5>
+      <h5 id = "price">${{designs.0.product.price}}</h5>
        <div id="collapsible_text"class="collapse-content">
       <!-- Text -->
-      <p class="card-text" id="collapseContent_{{product.id}}">{{design.product.description}}</p>
+      <p class="card-text" id="collapseContent_{{product.id}}">{{designs.0.product.description}}</p>
       <!-- Button -->
       </div>
     </div>
@@ -32,12 +45,12 @@
 {% block javascript %}
 <script>
 /*sets the active design coordinate when the page loads for the first time*/
-$( "#art_image_edit" ).css({ top: {{design.coordinate_top}}, left:{{design.coordinate_left}},
-   height: '{{design.height}}', transform: '{{design.rotation}}'});
+$( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left:{{designs.0.coordinate_left}},
+   height: '{{designs.0.height}}', transform: '{{designs.0.rotation}}'});
 
-$( ".crop_frame" ).css({ top: {{design.frame_coordinate_top}}, left:{{design.frame_coordinate_left}},
-   height: '{{design.frame_height}}', width: '{{design.frame_width}}', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
-   'border-radius': {{design.frame_border_radius}}
+$( ".crop_frame" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}},
+   height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
+   'border-radius': {{designs.0.frame_border_radius}}
   });
 </script>
 {% endblock %}
