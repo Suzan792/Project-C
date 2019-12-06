@@ -21,7 +21,6 @@ class ArtistCard(DetailView):
     template_name = 'artistCard.html'
 
 
-
 def register(request):
     if request.user.is_authenticated:
         return HttpResponse("you are already logged in!")

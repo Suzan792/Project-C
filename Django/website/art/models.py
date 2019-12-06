@@ -36,6 +36,6 @@ class Comment(models.Model):
     upload_date_time = models.DateField(("Date"), default=datetime.date.today)
 
     def __str__(self):
-        return 'Comment for artwork: ' + self.artwork_id + ', ' + self.comment_date + ' ' + self.ID
+        return 'Comment for artwork: ' + self.comment
 
 

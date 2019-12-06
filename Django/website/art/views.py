@@ -2,9 +2,11 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView, DetailView, View , DeleteView,UpdateView
-from art.models import Artwork
+
+from art.forms import CommentForm
+from art.models import Artwork , Comment
 from products.models import Product, Design
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from . import forms
@@ -63,10 +65,43 @@ class deleteArtView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
         return False
 
 
+class CommentDetailView(View):
+    def get(self, request, *args, **kwargs):
+        art = Artwork.objects.get(pk=self.kwargs.get('pk'))
+        designs = Design.objects.filter(art=art,user=None)
+        comments = Comment.objects.filter(artwork=art).order_by('-id')
+        comment_form = CommentForm()
+        context = {
+            'object': art,
+            'designs': designs,
+            'comments': comments,
+            'comment_form': comment_form,
+        }
+        return render(request, 'art/Comment_Detail.html', context)
+    def post(self,request,*args, **kwargs):
+        art = Artwork.objects.get(pk=self.kwargs.get('pk'))
+        user = request.user.userprofile
+        designs = Design.objects.filter(art=art, user=None)
+        comments = Comment.objects.filter(artwork=art).order_by('-id')
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            content = request.POST.get('content')
+            comment = Comment.objects.create(artwork=art, commenter=request.user.userprofile, comment = request.POST.get('comment'))
+            comment.save()
+            return redirect('Comment_Detail', art.id)
+        context = {
+            'object': art,
+            'designs': designs,
+            'comments': comments,
+            'comment_form': comment_form,
+        }
+        return render(request, 'art/Comment_Detail.html', context)
+
 class ArtDetailView(View):
     def get(self, request, *args, **kwargs):
         art = Artwork.objects.get(pk=self.kwargs.get('pk'))
         designs = Design.objects.filter(art=art,user=None)
+        comments = Comment.objects.filter(artwork=art).order_by('-id')
         liked = False
         if request.user.is_authenticated:
             user = request.user.userprofile
@@ -74,9 +109,11 @@ class ArtDetailView(View):
                 liked = True
         context = {
         'object': art,
-        'designs':designs
+        'designs':designs,
+        'comments':comments,
         }
         return render(request, 'art/artwork_detail.html', context)
+
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             art = Artwork.objects.get(pk=self.kwargs.get('pk'))
