@@ -28,6 +28,7 @@
     <div class="card-body">
       <h4 class="card-title">
         <a href="#">{{designs.0.product.product_name}}</a>
+        <button onclick=" location.href='{% url 'update_cart' designs.0.id %}'">Add to Cart</button>
       </h4>
       <h5 id = "price">${{designs.0.product.price}}</h5>
        <div id="collapsible_text"class="collapse-content">

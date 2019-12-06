@@ -8,8 +8,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Cart
-from products.models import Product
-# from django.core.urlresolvers import reverse
+from products.models import Product, Design
+from django.views.generic import View
+from django.urls import reverse
 
 # from product.models import Product
 
@@ -18,8 +19,8 @@ def view(request):
     template = "carts/view.html"
 
     new_total = 0.00
-    for item in cart.products.all():
-        new_total += float(item.price)
+    for a in cart.item.all():
+        new_total += float(a.product.price)
     cart.total = new_total
     cart.save()
 
@@ -32,20 +33,20 @@ def view(request):
     return render(request, template, context)
 
 
-
-# def add_to_cart(request, slug):
-#     cart = Cart.objects.all()[0]
-#     try:
-#         product = Product.objects.get(slug=slug)
-#     except Product.DoesNotExist:
-#         pass
-#     except:
-#         pass
-#     if not product in cart.products.all():
-#         cart.products.add(product)
-#     else:
-#         cart.products.remove(product)
-#     return HttpResponseRedirect(reverse("cart"))
+class FreshCart(View):
+    def get(self, request, *args, **kwargs):
+        cart = Cart.objects.all()[0]
+        try:
+            product = Design.objects.get(id = self.kwargs.get('design_pk'))
+        except Product.DoesNotExist:
+            pass
+        except:
+            pass
+        if not product in cart.item.all():
+            cart.item.add(product)
+        else:
+            cart.item.remove(product)
+        return HttpResponseRedirect(reverse("cart"))
 
 def payment(request, cart, total):
     host = request.get_host()
