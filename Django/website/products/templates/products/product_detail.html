@@ -4,54 +4,246 @@
 {% block title %} Product {% endblock %}
 
 {% block body %}
-<div class="col-lg-8 col-md-8 col-sm-12 mt-5" style="">
-  <div class="" style="border: solid .5px;">
-    <div class="" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+<div class="row" >
+  <div class="col-lg-8 col-md-12 col-sm-12 mt-5">
+
+    <div class="" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border: solid .5px;">
     <div id="imageEditSpace" class="rounded" >
       <img id="product_image_edit" style="" src="{{designs.0.product.product_photo.url}}"alt="art image is not loading error">
       <div class="crop_frame">
         <img id="art_image_edit" style=""src="{{designs.0.art.artwork_photo.url}}"alt="art image is not loading error">
       </div>
-    </div>
   </div>
     <div class="row m-0 pl-4" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
     {% for design in designs %}
-      <img  class="mt-2 mr-2 mb-2" src="{{design.product.product_photo.url}}" style=" border: solid 1.5px {% if design.user != None %} green{% else %}gray {% endif %}; background-color: black; width: 100px; height: 100px;  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"></img>
+      <div >
+      <img class="mt-2 mr-2 mb-2" src="{{design.product.product_photo.url}}" onclick="productChoiceButton('{{design.id}}','{{design.product.product_photo.url}}', {% if design.user != None %}'enable'{% else %}'disable'{% endif %})"
+      style=" border-bottom: solid 4px {% if design.user != None %}#24305e{% else %}#f76c6c{% endif %};
+      background-color: black; width: 100px; height: 100px;  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"></img>
+      </div>
     {% endfor %}
     </div>
-    <form class="mt-2 ml-4" action="{% url 'productDetail_page' designs.0.art.pk designs.0.product.pk %}" method="POST">
+    <button class="btn btn-success mt-3 ml-4" id="save_button"onclick="saveCoordinate()">Save Design</button>
+    <form class=" ml-4 mt-3" action="{% url 'productDetail_page' designs.0.art.pk designs.0.product.pk %}" method="POST">
       {% csrf_token %}
       <button class="btn btn-outline-primary mb-2" type="submit" name="add_design" value="add_design"value="add_design">Add product</button>
-      <button class="btn btn-success mb-2" onclick="saveCoordinate()">Save Design</button>
     </form>
-
     <div class="card-body">
       <h4 class="card-title">
         <a href="#">{{designs.0.product.product_name}}</a>
         <button onclick=" location.href='{% url 'update_cart' designs.0.id %}'">Add to Cart</button>
       </h4>
       <h5 id = "price">${{designs.0.product.price}}</h5>
-       <div id="collapsible_text"class="collapse-content">
+       <div class="pb-5" id="collapsible_text"class="collapse-content">
       <!-- Text -->
       <p class="card-text" id="collapseContent_{{product.id}}">{{designs.0.product.description}}</p>
       <!-- Button -->
       </div>
     </div>
-    <div class="card-footer">
-      <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-    </div>
   </div>
+</div>
+<div class="col-lg-4 col-md-12 col-sm-12 mt-5 m-0 p-0" id="art_image_edit_controller_space">
+<div class="col-12 p-0 mt-3">
+  <label for="height">art size in px: </label>
+  <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.height}}">
+</div>
+<div class="col-12 p-0 mt-3">
+  <label for="frame_height">Frame height in px: </label>
+  <input type="number" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.frame_height}}">
+</div>
+<div class="col-12 p-0 mt-3">
+  <label for="frame_width">Frame width in px: </label>
+  <input type="number" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.frame_width}}">
+</div>
+<div class="col-12 p-0 mt-3">
+  <label for="frame_border_radius">Frame border-radius px:</label>
+  <input type="number" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.frame_border_radius}}">
+</div>
+<div class="flashMessage alert alert-success" role="alert">
+  your design is saved successfully
+</div>
+</div>
 </div>
 {% endblock body%}
 {% block javascript %}
 <script>
+
 /*sets the active design coordinate when the page loads for the first time*/
 $( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left:{{designs.0.coordinate_left}},
-   height: '{{designs.0.height}}', transform: '{{designs.0.rotation}}'});
+  height: '{{designs.0.height}}', transform: '{{designs.0.rotation}}'});
 
-$( ".crop_frame" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}},
-   height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
-   'border-radius': {{designs.0.frame_border_radius}}
+  $( ".crop_frame" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}},
+    height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
+    'border-radius': {{designs.0.frame_border_radius}}
   });
+  $( "#art_image_edit_top_left" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}}
+  });
+
+  $( "#art_image_edit_top_right" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}}
+  });
+  $("#art_image_edit_controller_space").hide()
+  $("#save_button").hide()
+  $('.flashMessage').hide();
+  var activeDesignId;
+  var draggability = 'disable';
+
+
+  $(".crop_frame").mousedown(function() {
+    if(draggability=='enable'){
+    $("#save_button").show()
+  }
+  });
+
+
+  $(".crop_frame").mouseover(function(){
+    if(draggability=='enable'){
+      $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', 'cursor': 'move'})
+    }
+    else{
+      $(".crop_frame").css({'cursor': 'auto'})
+    }
+  });
+  $(".crop_frame").mouseout(function(){
+    if(draggability=='enable'){
+      $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .0)'})
+    }
+  });
+
+  $( "#height" ).change(function(){
+    if(draggability=='enable'){
+      $("#save_button").show()
+      height = $("#height").val();
+      $( "#art_image_edit" ).css({ height: height});
+    }
+  });
+
+  $( "#frame_height" ).change(function(){
+    if(draggability=='enable'){
+      $("#save_button").show()
+      height = $("#frame_height").val();
+      $( ".crop_frame" ).css({ height: height});
+    }
+  });
+
+  $( "#frame_width" ).change(function(){
+    if(draggability=='enable'){
+      $("#save_button").show()
+      width = $("#frame_width").val();
+      $( ".crop_frame" ).css({ width: width});
+    }
+  });
+
+  $("#frame_border_radius").change(function(){
+    if(draggability=='enable'){
+      $("#save_button").show()
+      value = $("#frame_border_radius").val();
+      $( ".crop_frame" ).css({ 'border-radius': value+'px'});
+    }
+  });
+
+  $( "#rotation" ).change(function(){
+    if(draggability=='enable'){
+      value = $("#rotation").val();
+      $( "#art_image_edit" ).css({'-webkit-transform': 'rotate(' + value + 'deg)',
+      '-moz-transform': 'rotate(' + value + 'deg)',
+      '-ms-transform': 'rotate(' + value + 'deg)',
+      '-o-transform': 'rotate(' + value + 'deg)',
+      'transform': 'rotate(' + value + 'deg)',});
+    }
+  });
+
+  function productChoiceButton(id,imageUrl,art_draggability){
+    draggability =art_draggability;
+    if (art_draggability=='enable'){
+      $("#art_image_edit_controller_space").show()
+    }else{
+      $("#art_image_edit_controller_space").hide()
+    }
+    $("#save_button").hide()
+    $( function() {
+      $( ".crop_frame" ).draggable();
+    } );
+    $( function() {
+      $( ".crop_frame" ).draggable(draggability);
+    } );
+    $( function() {
+      $( "#art_image_edit" ).draggable();
+    } );
+    $( function() {
+      $( "#art_image_edit" ).draggable(draggability);
+    } );
+    activeDesignId = id
+    $.ajax({
+      type: 'GET',
+      url: "{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}",
+      data: {
+        'designId':activeDesignId,
+        'csrfmiddlewaretoken': '{{ csrf_token }}',
+      },
+      dataType: 'json',
+      success: function(data){
+        var data = data
+        art_top = parseInt(data['top'])
+        art_left = parseInt(data['left'])
+        art_height = data['height']
+        width = data['width']
+        frame_top = parseInt(data['frame_top'])
+        frame_left = parseInt(data['frame_left'])
+        frame_height = data['frame_height']
+        frame_width = data['frame_width']
+        frame_border_radius = data['frame_border_radius']
+        rotation = data['rotation']
+        $("#art_image_edit").css({ top: art_top, left: art_left, height: art_height, transform: rotation} );
+        $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width, 'border-radius': frame_border_radius} );
+        $("#height").val(art_height);
+        $("#frame_height").val(frame_height);
+        $("#frame_width").val(frame_width);
+        $("#frame_border_radius").val(frame_border_radius);
+        $(".imgbuttom").removeClass("border-success").addClass("border-dark")
+        $("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
+        document.getElementById("product_image_edit").src = imageUrl;
+      }
+    });
+  };
+
+  function saveCoordinate(){
+    $("#save_button").hide()
+    var art_top = $( "#art_image_edit" ).css("top")
+    var art_left = $( "#art_image_edit" ).css("left")
+    var height = $( "#art_image_edit" ).css("height")
+    var width = $( "#art_image_edit" ).css("width")
+    var rotation = $( "#art_image_edit" ).css("transform")
+    var frame_top = $( ".crop_frame" ).css("top")
+    var frame_left = $( ".crop_frame" ).css("left")
+    var frame_height = $( ".crop_frame" ).css("height")
+    var frame_width = $( ".crop_frame" ).css("width")
+    var frame_border_radius = $( ".crop_frame" ).css("border-top-left-radius")
+    var designId = activeDesignId
+    $.ajax({
+      type: 'POST',
+      url: "{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}",
+      data: {
+        'csrfmiddlewaretoken': '{{ csrf_token }}',
+        'designId':designId,
+        'left': art_left,
+        'top':art_top,
+        'height':height,
+        'width':width,
+        'frame_top':frame_top,
+        'frame_left':frame_left,
+        'frame_height':frame_height,
+        'frame_width':frame_width,
+        'frame_border_radius':frame_border_radius,
+        'rotation':rotation,
+      },
+      success: alert,
+      dataType: 'json'
+    });
+    function alert(data) {
+      var data = data
+      $('.flashMessage').slideDown(1000).delay(2000).slideUp();
+    };
+  };
+
 </script>
 {% endblock %}
