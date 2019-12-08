@@ -32,7 +32,7 @@ class Artwork(models.Model):
 class Comment(models.Model):
     commenter = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
     artwork = models.ForeignKey(Artwork, on_delete = models.SET('deleted'))
-    comment = models.CharField(max_length = 600)
+    comment = models.TextField(max_length = 500)
     upload_date_time = models.DateField(("Date"), default=datetime.date.today)
 
     def __str__(self):
