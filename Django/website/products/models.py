@@ -50,4 +50,4 @@ class Design(models.Model):
     frame_border_radius = models.IntegerField(default= 0)
     rotation = models.CharField(max_length=100,default='matrix(1, 0, 0, 1, 0, 0)')
     def __str__(self):
-        return 'art: ' + self.art.artwork_name + '   |   Product: ' + self.product.product_name
+        return self.art.artwork_name + '   |   ' + self.product.product_name

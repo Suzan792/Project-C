@@ -21,7 +21,7 @@ def view(request):
     new_total = 0.00
     for a in cart.item.all():
         new_total += float(a.product.price)
-    cart.total = new_total
+    cart.total = round(new_total, 2)
     cart.save()
 
     payment_data = payment(request, cart, new_total)
