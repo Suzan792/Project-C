@@ -27,13 +27,12 @@ from website import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ArtListView.as_view(), name='home_page'),
-    path('contact/', views.contact_page, name='contact_page'),
+    path('about/', views.about_page, name='about_page'),
     path('', include('search.urls')),
     path('', include('users.urls')),
     path('', include('art.urls')),
     path('', include('products.urls')),
     # path('products/(?P<slug>[\w]+)/', cart_views.views.update_cart)
-    path('contact', views.contact_page, name='contact_page'),
     path('', include('carts.urls')),
     # path('art/', art_views, name='art'),
     path('paypal/', include('paypal.standard.ipn.urls')),

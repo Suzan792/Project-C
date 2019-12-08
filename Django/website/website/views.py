@@ -7,8 +7,9 @@ from django.utils import timezone
 import json
 from django.http import JsonResponse
 
-def contact_page(request):
-    return render(request,'contact.html')
+
+def about_page(request):
+    return render(request,'about.html')
 class ArtListView(ListView):
     model = Artwork
     template_name = 'index.html'
