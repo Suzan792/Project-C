@@ -14,7 +14,7 @@ class UserProfile(models.Model):
     addition = models.CharField(max_length = 60, null = True, blank = True)
     postcode = models.CharField(max_length = 60, null = True, blank = True)
     city = models.CharField(max_length = 60, null = True, blank = True)
-    country = models.CharField(max_length = 60, choices=(('','Country'),('netherland','Netherland'),('usa','USA'),('germany','Germany'),('uk','United Kingdom')),default = 'null')
+    country = models.CharField(max_length = 60, choices=(('','Country'),('netherland','Netherland'),('usa','USA'),('syria','Syria'),('germany','Germany'),('uk','United Kingdom')),default = 'null')
     language = models.CharField(max_length = 60, choices=(('english','English'),('dutch','Dutch')),default = 'English')
     sign_up_date = models.DateField(("Date"), default=datetime.date.today)
 

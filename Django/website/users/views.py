@@ -8,7 +8,7 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.http import HttpResponse
 from django.views.generic import DetailView
-
+from art.models import Artwork
 from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm
 from .functions import send_confirmation_email
 from .tokens import account_activation_token
@@ -19,6 +19,12 @@ from .tokens import account_activation_token
 class ArtistCard(DetailView):
     model = User
     template_name = 'artistCard.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ArtistCard, self).get_context_data(*args, **kwargs)
+        context['User'] = User.objects.all()
+        context['Artwork'] = Artwork.objects.all()
+        return context
 
 
 def register(request):
