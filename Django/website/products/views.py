@@ -41,7 +41,7 @@ class ProductDetailView(View):
         else:
             art = Artwork.objects.get(id = self.kwargs.get('art_pk'))
             product = Product.objects.get(id = self.kwargs.get('product_pk'))
-            designs = Design.objects.filter(art= art, product= product, user__isnull=False)
+            designs = Design.objects.filter(art= art, product= product, user__isnull=True)
             form = forms.CreateProductDesignForm()
             context = {
             'designs':designs,
