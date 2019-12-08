@@ -9,6 +9,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'css/custom.css'%}" >
   <link rel="stylesheet" href=""{% static 'css/query-ui.min.csss'%}>
@@ -35,10 +36,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'contact_page' %}">Contact</a>
+            <a class="nav-link" href="{% url 'about_page' %}">About</a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item">

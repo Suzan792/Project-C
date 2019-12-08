@@ -51,6 +51,7 @@ class ProductDetailView(View):
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
+            print("-------------------------------")
             design = Design.objects.get(id= request.POST.get('designId'))
             design.coordinate_top = request.POST.get('top')[:-2]
             design.coordinate_left = request.POST.get('left')[:-2]
@@ -62,7 +63,9 @@ class ProductDetailView(View):
             design.frame_width = request.POST.get('frame_width')[:-2]
             design.frame_height = request.POST.get('frame_height')[:-2]
             design.frame_border_radius = request.POST.get('frame_border_radius')[:-2]
+            print(request.POST.get('width')[:-2])
             design.save()
+            print("-------------------------------9999999999")
             status = 'success'
             return JsonResponse({'status':status})
         if request.POST.get("add_design"):
