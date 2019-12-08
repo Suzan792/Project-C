@@ -33,7 +33,7 @@
           <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ art.artist.user.userprofile.image.url }}"></a>
         </span>
         <span class="float-left ml-3">
-          <a href="#">{{ art.artist.user.username }}</a>
+          <a href="{% url 'artist_card' art.artist.user.id %}">{{ art.artist.user.username }}</a>
         </span>
         <span class="float-right" >
             <form id = "form-id"  >
@@ -45,7 +45,7 @@
         <p id="like_count_{{artwork.id}}"class= "mr-1">{{art.artwork_likes.count}}</p>
         </span>
         <span class="float-right">
-          <a  class="" data-toggle="tooltip" data-placement="top" title="Add a comment"><i class="far fa-comments mr-3"></i></a>
+          <a  class="" href="{% url 'artDetail_page' art.id %}" data-toggle="tooltip" data-placement="top" title="Add a comment"><i class="far fa-comments mr-3"></i></a>
         </span>
 
       </div>
