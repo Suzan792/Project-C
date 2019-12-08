@@ -92,3 +92,8 @@ body{
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
+
+.card-columns{
+  orphans: 1 !important;
+  widows:1 !important;
+}
