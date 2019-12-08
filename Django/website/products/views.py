@@ -6,23 +6,51 @@ from django.utils import timezone
 from django.urls import reverse
 from . import forms
 from django.http import JsonResponse, HttpResponse
+from django.db.models import Q
 
 # Create your views here.
 class ProductDetailView(View):
     def get(self, request, *args, **kwargs):
-        art = Artwork.objects.get(id = self.kwargs.get('art_pk'))
-        product = Product.objects.get(id = self.kwargs.get('product_pk'))
-        designs = Design.objects.filter(art= art, product= product)
-        form = forms.CreateProductDesignForm()
-        context = {
-        'designs':designs,
-        'form':form,
-        }
-        return render(request, 'products/product_detail.html', context)
+        if request.user.is_authenticated:
+            art = Artwork.objects.get(id = self.kwargs.get('art_pk'))
+            if request.is_ajax():
+                design = Design.objects.get(id= request.GET.get('designId'))
+                top = design.coordinate_top
+                left = design.coordinate_left
+                height = design.height
+                width = design.width
+                frame_top = design.frame_coordinate_top
+                frame_left =design.frame_coordinate_left
+                frame_height = design.frame_height
+                frame_width = design.frame_width
+                rotation = design.rotation
+                frame_border_radius = design.frame_border_radius
+                status = 'success'
+                return JsonResponse({'status':status,'top':top,'left':left,'height':height, 'width':width, 'rotation':rotation, 'frame_top': frame_top,
+                'frame_left': frame_left, 'frame_height': frame_height, 'frame_width': frame_width, 'frame_border_radius':frame_border_radius})
+            else:
+                product = Product.objects.get(id = self.kwargs.get('product_pk'))
+                user = request.user.userprofile
+                designs = Design.objects.filter(Q(art=art), Q(product=product), Q(user=user) | Q(user=None)).order_by('-user')
+                form = forms.CreateProductDesignForm()
+                context = {
+                'designs':designs,
+                'form':form,
+                }
+                return render(request, 'products/product_detail.html', context)
+        else:
+            art = Artwork.objects.get(id = self.kwargs.get('art_pk'))
+            product = Product.objects.get(id = self.kwargs.get('product_pk'))
+            designs = Design.objects.filter(art= art, product= product, user__isnull=False)
+            form = forms.CreateProductDesignForm()
+            context = {
+            'designs':designs,
+            'form':form,
+            }
+            return render(request, 'products/product_detail.html', context)
+
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            print("---------------------------------------------------"+request.POST.get('designId'))
-            print(request.POST.get('designId'))
             design = Design.objects.get(id= request.POST.get('designId'))
             design.coordinate_top = request.POST.get('top')[:-2]
             design.coordinate_left = request.POST.get('left')[:-2]

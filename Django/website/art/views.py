@@ -65,43 +65,12 @@ class deleteArtView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
         return False
 
 
-class CommentDetailView(View):
-    def get(self, request, *args, **kwargs):
-        art = Artwork.objects.get(pk=self.kwargs.get('pk'))
-        designs = Design.objects.filter(art=art,user=None)
-        comments = Comment.objects.filter(artwork=art).order_by('-id')
-        comment_form = CommentForm()
-        context = {
-            'object': art,
-            'designs': designs,
-            'comments': comments,
-            'comment_form': comment_form,
-        }
-        return render(request, 'art/Comment_Detail.html', context)
-    def post(self,request,*args, **kwargs):
-        art = Artwork.objects.get(pk=self.kwargs.get('pk'))
-        user = request.user.userprofile
-        designs = Design.objects.filter(art=art, user=None)
-        comments = Comment.objects.filter(artwork=art).order_by('-id')
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            content = request.POST.get('content')
-            comment = Comment.objects.create(artwork=art, commenter=request.user.userprofile, comment = request.POST.get('comment'))
-            comment.save()
-            return redirect('Comment_Detail', art.id)
-        context = {
-            'object': art,
-            'designs': designs,
-            'comments': comments,
-            'comment_form': comment_form,
-        }
-        return render(request, 'art/Comment_Detail.html', context)
-
 class ArtDetailView(View):
     def get(self, request, *args, **kwargs):
         art = Artwork.objects.get(pk=self.kwargs.get('pk'))
         designs = Design.objects.filter(art=art,user=None)
         comments = Comment.objects.filter(artwork=art).order_by('-id')
+        comment_form = CommentForm()
         liked = False
         if request.user.is_authenticated:
             user = request.user.userprofile
@@ -111,10 +80,28 @@ class ArtDetailView(View):
         'object': art,
         'designs':designs,
         'comments':comments,
+        'comment_form': comment_form,
         }
         return render(request, 'art/artwork_detail.html', context)
 
     def post(self, request, *args, **kwargs):
+        if request.method == 'POST' and 'commentForm' in request.POST :
+            art = Artwork.objects.get(pk=self.kwargs.get('pk'))
+            designs = Design.objects.filter(art=art, user=None)
+            comments = Comment.objects.filter(artwork=art).order_by('-id')
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                content = request.POST.get('content')
+                comment = Comment.objects.create(artwork=art, commenter=request.user.userprofile, comment=request.POST.get('comment'))
+                comment.save()
+                return redirect('artDetail_page', art.id)
+            context = {
+                'object': art,
+                'designs': designs,
+                'comments': comments,
+                'comment_form': comment_form,
+            }
+            return render(request, 'art/artwork_detail.html', context)
         if request.user.is_authenticated:
             art = Artwork.objects.get(pk=self.kwargs.get('pk'))
             user = request.user.userprofile
