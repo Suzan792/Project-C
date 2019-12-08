@@ -20,7 +20,7 @@
                 </tfoot>
                 {% for item in cart.item.all %}
             
-                    <tr><td>{{ item }}</td><td>{{ item.price }}</td></tr>
+                <tr><td><a href="#" >{{ item }}</a></td><td>{{ item.product.price }}</td><td><a href="#" >Delete</a></td></tr>
                 
                 {% endfor %}
             </table>      
