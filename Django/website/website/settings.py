@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'users',
     'search',
     'products',
+    'order',
     'crispy_forms',
     'paypal.standard.ipn',
 ]

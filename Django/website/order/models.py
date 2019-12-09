@@ -5,21 +5,17 @@ from products.models import Design
 import datetime
 
 # Create your models here.
-
-class OrderHistory(models.Model):
-    ORDER_STATUS_CHOICES = [
-        ('AR', 'Arrived'),
-        ('IM', 'In the making'),
-        ('SE', 'Sent'),
-    ]
-
-    item = models.OneToManyField(OrderDesign, null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    order_date = models.DateField(("Date"), default=datetime.date.today)
-    status = models.CharField(choices=ORDER_STATUS_CHOICES, default='IM')
+class OrderProduct(models.Model):
+    product_photo = models.ImageField(default='default_product.jpg', upload_to='order_product_pics')
 
     def __str__(self):
-        return "Order history id: %s" % self.id
+        return "Order product id: %s" % self.id
+
+class OrderArtwork(models.Model):
+    artwork_photo = models.ImageField(default='default_art.png', upload_to='order_art_pics')
+
+    def __str__(self):
+        return "Order artwork id: %s" % self.id
 
 class OrderDesign(models.Model):
     # item = models.OneToManyField(Design, null=True, blank=True)
@@ -40,11 +36,19 @@ class OrderDesign(models.Model):
     rotation = models.CharField(max_length=100,default='matrix(1, 0, 0, 1, 0, 0)')
 
     def __str__(self):
+        return "Order design id: %s" % self.id
+
+class OrderHistory(models.Model):
+    ORDER_STATUS_CHOICES = [
+        ('AR', 'Arrived'),
+        ('IM', 'In the making'),
+        ('SE', 'Sent'),
+    ]
+
+    design = models.ForeignKey(OrderDesign, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    order_date = models.DateField(("Date"), default=datetime.date.today)
+    status = models.CharField(choices=ORDER_STATUS_CHOICES, default='IM', max_length=2)
+
+    def __str__(self):
         return "Order history id: %s" % self.id
-
-class OrderProduct(models.Model):
-    product_photo = models.ImageField(default='default_product.jpg',upload_to='product_pics')
-
-class OrderArtwork(models.Model):
-    artwork_photo = models.ImageField(default='default_art.png',upload_to='art_pics')
-
