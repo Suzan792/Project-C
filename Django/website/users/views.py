@@ -9,7 +9,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.http import HttpResponse
 from django.views.generic import DetailView
 from art.models import Artwork
-from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm
+from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm ,isArtist
 from .functions import send_confirmation_email
 from .tokens import account_activation_token
 
@@ -89,3 +89,18 @@ def profile(request):
         'profile_info_update_form': profile_info_update_form
     }
     return render(request, 'users/profile.html', context)
+
+@login_required
+def isartist(request):
+    if request.method == 'POST':
+        form = isArtist(request.POST,request.FILES)
+        if form.is_valid():
+            # save to db
+            instance = form.save(commit=False)
+            instance.applicant = request.user.userprofile
+            instance.save()
+            messages.success(request, f'Your request  is received')
+            return redirect('home_page')
+    else:
+        form = isArtist()
+    return render(request, 'isartist.html', {'form': form})

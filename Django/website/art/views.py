@@ -85,13 +85,12 @@ class ArtDetailView(View):
         return render(request, 'art/artwork_detail.html', context)
 
     def post(self, request, *args, **kwargs):
-        if request.method == 'POST' and 'commentForm' in request.POST :
+        if request.method == 'POST' and 'commentForm' in request.POST:
             art = Artwork.objects.get(pk=self.kwargs.get('pk'))
             designs = Design.objects.filter(art=art, user=None)
             comments = Comment.objects.filter(artwork=art).order_by('-id')
             comment_form = CommentForm(request.POST)
             if comment_form.is_valid():
-                content = request.POST.get('content')
                 comment = Comment.objects.create(artwork=art, commenter=request.user.userprofile, comment=request.POST.get('comment'))
                 comment.save()
                 return redirect('artDetail_page', art.id)

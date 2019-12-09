@@ -29,3 +29,19 @@ class UserProfile(models.Model):
             new_size = (300,300)
             img.thumbnail(new_size)
             img.save(self.image.path)
+
+
+class isArtist(models.Model):
+    applicant = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
+    applicant_description = models.TextField(max_length=600)
+    artwork_example_image = models.ImageField(upload_to='profile_pics')
+    artwork_example_title = models.CharField(max_length = 60)
+    artwork_example_description = models.TextField(max_length = 600)
+    application_date = models.DateField(("Date"), default=datetime.date.today)
+
+    def __str__(self):
+        return 'Applicant: ' + self.user.username
+
+
+
+

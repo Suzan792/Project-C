@@ -3,11 +3,13 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from users import views as user_views
 from .forms import UpdatedLoginForm
-from .views import ArtistCard
+from .views import ArtistCard , isartist
 from . import views
 
 urlpatterns = [
     path('register/', user_views.register, name='register_page'),
+    path('register/artist', isartist, name='register_artist_page'),
+
     path('profile/', user_views.profile, name='profile_page'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html', authentication_form=UpdatedLoginForm), name='login_page'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout_page'),
