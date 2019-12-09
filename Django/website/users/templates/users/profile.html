@@ -4,38 +4,47 @@
 
 {% block body %}
 
-  <div class="container row">
-    <div class="border-bottom col-lg-2 col-md-3 col-sm-3  mt-5 pb-3 ">
-      <img class="rounded-circle account-img prifile-pic"  src="{{ user.userprofile.image.url }}">
-      </div>
-      <div class=" border-bottom col-lg-10 col-md-9 col-sm-9 mt-sm-5 ">
-        <h2 class="account-heading">{{ user.username }}</h2>
-        <p class="text-secondary">{{ user.email }}</p>
-      </div>
-
-    <div class="mt-5 col-lg-12 col-sm-12">
-
-      {% if user.userprofile.user_role  == "artist" %}
-              <button class="btn btn-outline-primary" onclick="location.href='{% url 'upload_art' %}'" type="button" name="button">Upload Artwork</button>
-              <button class="btn btn-outline-primary" onclick="location.href='{% url 'artistwork' %}'" type="button" name="button">My Artworks</button>
-      {% endif %}
-      <legend class=" mb-4 mt-5">Update your profile information</legend>
-      <div class="form-group">
-            <button type="button" class="btn btn-outline-info" onclick= "location.href='{% url 'change_password' %}'"}>Change password</button>
-      </form>
-      <form method="POST" class="mt-2" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset class="form-group">
-
-          {{ user_update_form|crispy }}
-          {{ profile_info_update_form|crispy }}
-          {{ profile_photo_update_form }}
-        </fieldset>
-        <div class="form-group">
-          <button class="btn btn-outline-info" type="submit">Update</button>
-        </div>
-      </form>
-    </div>
-
+<div class="container row">
+  <div class="border-bottom col-lg-2 col-md-3 col-sm-3  mt-5 pb-3 ">
+    <img class="rounded-circle account-img prifile-pic"  src="{{ user.userprofile.image.url }}">
   </div>
+  <div class=" border-bottom col-lg-5 col-md-9 col-sm-9 mt-sm-5 ">
+  <!-- <div class="border_bottom col-sm-5"> -->
+    <h2 class="account-heading">{{ user.username }}</h2>
+    <p class="text-secondary">{{ user.email }}</p>
+  </div>
+  <div class=" border-bottom col-lg-5 col-md-9 col-sm-9 mt-sm-5 ">
+    <h5>Check your orders:</h5>
+    <button class="btn btn-outline-primary" onclick="location.href='{% url 'order_page' %}'" type="button" name="button">My Orders</button>
+  </div>
+</div>
+
+<div class="mt-5 col-lg-12 col-sm-12">
+
+  {% if user.userprofile.user_role  == "artist" %}
+    <button class="btn btn-outline-primary" onclick="location.href='{% url 'upload_art' %}'" type="button" name="button">Upload Artwork</button>
+    <button class="btn btn-outline-primary" onclick="location.href='{% url 'artistwork' %}'" type="button" name="button">My Artworks</button>
+  {% endif %}
+
+  <legend class=" mb-4 mt-5">Update your profile information</legend>
+
+  <div class="form-group">
+    <button type="button" class="btn btn-outline-info" onclick= "location.href='{% url 'change_password' %}'"}>Change password</button>
+    <form method="POST" class="mt-2" enctype="multipart/form-data">
+      
+      {% csrf_token %}
+
+      <fieldset class="form-group">
+        {{ user_update_form|crispy }}
+        {{ profile_info_update_form|crispy }}
+        {{ profile_photo_update_form }}
+      </fieldset>
+
+      <div class="form-group">
+        <button class="btn btn-outline-info" type="submit">Update</button>
+      </div>
+    </form>
+  </div>
+
+</div>
 {% endblock body %}

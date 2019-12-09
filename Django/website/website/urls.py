@@ -32,6 +32,7 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('art.urls')),
     path('', include('products.urls')),
+    path('', include('order.urls')),
     # path('products/(?P<slug>[\w]+)/', cart_views.views.update_cart)
     path('', include('carts.urls')),
     # path('art/', art_views, name='art'),
