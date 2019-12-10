@@ -60,12 +60,29 @@ body{
   text-align:center;
 }
 
+#productImageOrderView{
+  height: 90px;
+  width: 90px;
+  position: relative;
+  text-align:center;
+  /* padding: 0px */
+}
+
 #product_image_edit{
   position: absolute;
   margin: 0 auto;
   height: 100%;
   left: 0px;
   top: 0px;
+}
+
+#product_image_order{
+  position: absolute;
+  margin: 0 auto;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  /* border-style: solid; */
 }
 
 .crop_frame{

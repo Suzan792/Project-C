@@ -43,6 +43,7 @@ class OrderHistory(models.Model):
         ('AR', 'Arrived'),
         ('IM', 'In the making'),
         ('SE', 'Sent'),
+        ('NP', 'Not paid'),
     ]
 
     design = models.ForeignKey(OrderDesign, on_delete=models.CASCADE)
