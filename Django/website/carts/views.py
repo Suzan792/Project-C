@@ -54,8 +54,9 @@ def payment(request, cart, total):
     paypal_form = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
         'amount': total,
-        'item_name': 'Order {}'.format(datetime.now()),
-        'invoice': str(total),
+        # 'item_name': 'Order {}'.format(datetime.now()),
+        'item_name': 'Order 1234',
+        'invoice': str(cart.id),
         'currency_code': 'EUR',
         'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
         'return_url': 'http://{}{}'.format(host, reverse('payment_done')),

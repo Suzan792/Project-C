@@ -36,7 +36,7 @@ urlpatterns = [
     # path('products/(?P<slug>[\w]+)/', cart_views.views.update_cart)
     path('', include('carts.urls')),
     # path('art/', art_views, name='art'),
-    path('paypal/', include('paypal.standard.ipn.urls')),
+    # path('paypal/', include('paypal.standard.ipn.urls')),
 ]
 
 if settings.DEBUG:
