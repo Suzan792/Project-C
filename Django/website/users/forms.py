@@ -67,7 +67,7 @@ class ProfileInfoForm(forms.ModelForm):
         fields = ['street_name','house_nr','addition','house_nr','postcode','city','country','language']
 
 
-class isArtist(forms.ModelForm):
+class artistApplication(forms.ModelForm):
     class Meta:
         model = isArtist
         fields = ['applicant_description','artwork_example_title','artwork_example_description','artwork_example_image']

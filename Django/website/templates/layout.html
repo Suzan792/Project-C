@@ -51,7 +51,7 @@
             <div class="dropdown-menu">
               <a class="dropdown-item" href="{% url 'register_page' %}">User</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Artist</a>
+              <a class="dropdown-item" href="{% url 'register_artist_info' %}">Artist</a>
 
             </div>
 
@@ -139,7 +139,7 @@
               <a href="#!">Why sell?</a>
             </li>
             <li>
-              <a href="#!">Create an Artist account</a>
+              <a href="{% url 'register_artist_info' %}">Create an Artist account</a>
             </li>
             <li>
               <a href="#!">Terms of service</a>
