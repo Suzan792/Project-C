@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %} {{ object.applicant.user.username }} application {% endblock %}
+{% block body %}
+<div class="container mt-5">
+    <div class="card mx-auto" style="width: 18rem;">
+      <img src="{{ object.artwork_example_image.url }}" class="card-img-top" alt="artwork_example_image">
+      <div class="card-body">
+        <h5 class="card-title font-weight-bold">{{ object.artwork_example_title }}</h5>
+        <p class="card-text">{{ object.artwork_example_description }}</p>
+      </div>
+      <div class="card-body">
+        <h5 class="font-weight-bold">{{ object.applicant.user.username }} description</h5>
+        <p class="card-text">{{ object.applicant_description }}</p>
+      </div>
+      <div class="card-body">
+        <a href="{% url 'approve_artist_application' object.id %}" class="btn btn-outline-primary">Approve</a>
+        <a href="{% url 'reject_artist_application' object.id %}" class="btn btn-outline-danger">reject</a>
+      </div>
+    </div>
+</div>
+{% endblock body %}

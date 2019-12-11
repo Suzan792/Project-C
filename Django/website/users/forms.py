@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 # from django.core.exceptions import ValidationError
-from .models import UserProfile
+from .models import UserProfile, isArtist
 
 
 class UpdatedLoginForm(AuthenticationForm):
@@ -65,3 +65,9 @@ class ProfileInfoForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['street_name','house_nr','addition','house_nr','postcode','city','country','language']
+
+
+class artistApplication(forms.ModelForm):
+    class Meta:
+        model = isArtist
+        fields = ['applicant_description','artwork_example_title','artwork_example_description','artwork_example_image']
