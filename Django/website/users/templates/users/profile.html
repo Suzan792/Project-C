@@ -16,8 +16,10 @@
     <div class="mt-5 col-lg-12 col-sm-12">
 
       {% if user.userprofile.user_role  == "artist" %}
+      <div>
               <button class="btn btn-outline-primary" onclick="location.href='{% url 'upload_art' %}'" type="button" name="button">Upload Artwork</button>
               <button class="btn btn-outline-primary" onclick="location.href='{% url 'artistwork' %}'" type="button" name="button">My Artworks</button>
+      </div>
       {% endif %}
       <legend class=" mb-4 mt-5">Update your profile information</legend>
       <div class="form-group">
@@ -37,5 +39,6 @@
       </form>
     </div>
 
+  </div>
   </div>
 {% endblock body %}
