@@ -14,13 +14,17 @@
       </div>
 
     <div class="mt-5 col-lg-12 col-sm-12">
-
-      {% if user.userprofile.user_role  == "artist" %}
       <div>
+      {% if user.userprofile.user_role  == "artist" %}
               <button class="btn btn-outline-primary" onclick="location.href='{% url 'upload_art' %}'" type="button" name="button">Upload Artwork</button>
               <button class="btn btn-outline-primary" onclick="location.href='{% url 'artistwork' %}'" type="button" name="button">My Artworks</button>
-      </div>
+        {% if request.user.is_staff %}
+              <button class="btn btn-outline-primary" onclick="location.href='{% url 'administrator' %}'" type="button" name="button">Administrator</button>
+        {% endif %}
+      {% else %}
+              <button class="btn btn-outline-primary" onclick="location.href='{% url 'register_artist_info' %}'" type="button" name="button">Create an artist account</button>
       {% endif %}
+      </div>
       <legend class=" mb-4 mt-5">Update your profile information</legend>
       <div class="form-group">
             <button type="button" class="btn btn-outline-info" onclick= "location.href='{% url 'change_password' %}'"}>Change password</button>

@@ -15,7 +15,7 @@
 </ul>
 <div class="mt-4 align-middle">
   {% if user.is_authenticated %}
-  <button class="btn btn-outline-success" onclick="location.href='{% url 'register_artist_page' %}'" type="button" name="button">Upload Artwork</button>
+  <button class="btn btn-outline-success" onclick="location.href='{% url 'register_artist_page' %}'" type="button" name="button">Upload Example Artwork</button>
   {% else %}
   <button class="btn btn-outline-primary" onclick="location.href='{% url 'login_page' %}'" type="button" name="button">Login</button>
   <button class="btn btn-outline-primary" onclick="location.href='{% url 'register_page' %}'" type="button" name="button">Register</button>

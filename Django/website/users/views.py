@@ -1,16 +1,14 @@
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.mail import send_mail
-from django.middleware import http
 from django.utils.decorators import method_decorator
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.utils.http import urlsafe_base64_decode
+from django.http import HttpResponse
 from django.views.generic import DetailView, DeleteView
 from art.models import Artwork
 from website import settings
@@ -19,7 +17,6 @@ from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm,
 from .functions import send_confirmation_email
 from .tokens import account_activation_token
 from django.views.generic import ListView
-from django.core.mail import EmailMessage
 # Create your views here.
 
 
@@ -54,9 +51,7 @@ def register(request):
                 email = form.cleaned_data.get('email')
                 send_confirmation_email(request, form, user, email)
 
-                # return redirect('login_page')
                 return render(request,'email/email_sent.html')
-            # return HttpResponse('Please confirm your email address to complete the registration')
         else:
             form = UserRegistrationForm()
         return render(request,'users/register.html',{'form':form})
@@ -158,7 +153,8 @@ class approveArtistApplication(DeleteView):
 
     def delete(self, request, *args, **kwargs):
         subject = 'your application has been approved'
-        message = 'happy to tell that your request has been approved. your artist account has been activated. we are looking up to see your first artwork'
+        message = 'Happy to tell that your request has been approved. your artist account has been activated. we are ' \
+                  'looking up to see your first artwork '
         email_from = settings.EMAIL_HOST_USER
         self.object = self.get_object()
         recipient_list = [self.object.applicant.user.email]

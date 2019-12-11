@@ -39,6 +39,7 @@ class isArtist(models.Model):
     artwork_example_description = models.TextField(max_length = 600)
     application_date = models.DateField(("Date"), default=datetime.date.today)
 
+    # delete the image from the DB if object is deleted
     def delete(self, *args, **kwargs):
         # You have to prepare what you need before delete the model
         storage, path = self.artwork_example_image.storage, self.artwork_example_image.path
