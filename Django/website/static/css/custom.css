@@ -10,7 +10,7 @@
 }
 body{
   height: 100vh;
-  body {overflow-x: hidden;}
+  overflow-x: hidden
 
 }
 .button{
@@ -97,6 +97,7 @@ body{
   position: absolute;
   margin: -0px 0px 0px 0px;
 }
+
 .flashMessage{
   position: fixed;
   text-align: center;

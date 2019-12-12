@@ -66,7 +66,7 @@
 </div>
 
 <!--/.Carousel Wrapper-->
-<h1 class="display-3 text-center ">Our current favorites</h1>
+<h1 class="display-9 text-center ">Our current favorites</h1>
 <div class="card-columns">
   {% for artwork in Artworks %}
 
@@ -98,7 +98,12 @@
         <span class="float-right" >
             <form id = "form-id"  >
                 {% csrf_token %}
-                <a class="like_button button"type="submit" onclick="{% if user.is_authenticated %}like_button({{artwork.id}}){% endif %}" onload="heart_sign_color()" > <i id="heart_sign_color_{{artwork.id}}"class="fas fa-heart {%isLiked artwork.id user.id%}" ></i></a>
+                <a class="like_button button"type="submit"
+                onclick="{% if user.is_authenticated %}
+                like_button({{artwork.id}},
+                '{% url 'home_page' %}',
+                '{{ csrf_token }}')
+                {% endif %}" > <i id="heart_sign_color_{{artwork.id}}"class="fas fa-heart {%isLiked artwork.id user.id%}" ></i></a>
             </form>
         </span>
         <span class="float-right" >
@@ -147,39 +152,4 @@
 </nav>
 <!--/Page navigation-->
 <!-- /.container -->
-{% endblock %}
-
-{% block javascript %}
-
-
-<script>
-
-  function like_button(id){
-    var post_url ="{% url 'home_page' %}"
-    $.ajax({
-      type: 'POST',
-      url: post_url,
-      data: {
-        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-        'id':id,
-      },
-      success: LikePost,
-      dataType: 'html'
-    });
-    function LikePost(data) {
-      var data = $.parseJSON(data)
-      if (data['liked']) {
-        $('#heart_sign_color_'+data['art_pk']).addClass('text-danger')
-        $('#like_count_'+data['art_pk']).text(data['like_count'])
-      }
-      else
-      {
-        $('#heart_sign_color_'+data['art_pk']).removeClass('text-danger')
-        $('#like_count_'+data['art_pk']).text(data['like_count'])
-      }
-    };
-  };
-
-
-</script>
 {% endblock %}

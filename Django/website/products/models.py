@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 import users.models as users
 import art.models as art
 import products.models as products
@@ -37,6 +37,7 @@ class Wish(models.Model):
 
 class Design(models.Model):
     product = models.ForeignKey(products.Product,on_delete=models.CASCADE)
+    created_on = models.DateTimeField(default=timezone.now)
     art = models.ForeignKey(art.Artwork,on_delete=models.CASCADE)
     user = models.ForeignKey(users.UserProfile,on_delete=models.CASCADE,default=None,blank=True, null=True)
     coordinate_left = models.DecimalField(default=10, max_digits=10, decimal_places=3)
