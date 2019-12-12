@@ -110,5 +110,6 @@ class ArtDetailView(View):
             else:
                 art.artwork_likes.add(user)
                 liked = True
+            art_pk = self.kwargs.get('pk')
             like_count = art.artwork_likes.count()
-            return JsonResponse({'liked':liked,'like_count':like_count})
+            return JsonResponse({'liked':liked,'like_count':like_count,'art_pk':art_pk})
