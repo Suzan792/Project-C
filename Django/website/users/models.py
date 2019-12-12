@@ -29,3 +29,28 @@ class UserProfile(models.Model):
             new_size = (300,300)
             img.thumbnail(new_size)
             img.save(self.image.path)
+
+
+class isArtist(models.Model):
+    applicant = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
+    applicant_description = models.TextField(max_length=600)
+    artwork_example_image = models.ImageField(upload_to='artwork_example')
+    artwork_example_title = models.CharField(max_length = 60)
+    artwork_example_description = models.TextField(max_length = 600)
+    application_date = models.DateField(("Date"), default=datetime.date.today)
+
+    # delete the image from the DB if object is deleted
+    def delete(self, *args, **kwargs):
+        # You have to prepare what you need before delete the model
+        storage, path = self.artwork_example_image.storage, self.artwork_example_image.path
+        # Delete the model before the file
+        super(isArtist, self).delete(*args, **kwargs)
+        # Delete the file after the model
+        storage.delete(path)
+
+    def __str__(self):
+        return 'Applicant: ' + self.applicant.user.username
+
+
+
+

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %} administrator {% endblock %}
+{% block body %}
+    <h1 class="mt-5">All artist applications</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Applicant description</th>
+          <th scope="col">upload date </th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for application in object_list %}
+            <tr>
+              <th scope="row">{{ application.applicant.user.username }}</th>
+              <td>{{application.applicant_description}}</td>
+              <td>{{application.application_date|capfirst}}</td>
+              <td><a href="{% url 'detail_artist_application' application.id %}" class="btn btn-primary">Details</a></td>
+            </tr>
+            <tr>
+
+    {% empty %}
+        <h2 class="mt-4">There is No application at this time.</h2>
+    {% endfor %}
+      </tbody>
+    </table>
+{% endblock body %}

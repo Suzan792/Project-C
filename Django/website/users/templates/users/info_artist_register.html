@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %} artist register {% endblock %}
+
+{% block body %}
+<h3 class="mt-5 mb-3">To join us as artist </h3>
+<p>You have to sign up as normal user then we will ask you to upload an example of your artwork</p>
+<p>One of our specialists will evaluate your artworks and activate your artist account</p>
+<p>Notice that your artwork should meets our conditions</p>
+<ul class="list-group">
+  <li class="list-group-item">The artwork is original</li>
+  <li class="list-group-item">You are the owner of it</li>
+  <li class="list-group-item">At least 1200 pixels x 1500 pixels</li>
+  <li class="list-group-item">Less than 50MB</li>
+  <li class="list-group-item">A JPEG file</li>
+</ul>
+<div class="mt-4 align-middle">
+  {% if user.is_authenticated %}
+  <button class="btn btn-outline-success" onclick="location.href='{% url 'register_artist_page' %}'" type="button" name="button">Upload Example Artwork</button>
+  {% else %}
+  <button class="btn btn-outline-primary" onclick="location.href='{% url 'login_page' %}'" type="button" name="button">Login</button>
+  <button class="btn btn-outline-primary" onclick="location.href='{% url 'register_page' %}'" type="button" name="button">Register</button>
+  {% endif %}
+</div>
+{% endblock body %}

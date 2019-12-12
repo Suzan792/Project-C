@@ -1,18 +1,22 @@
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.admin.views.decorators import staff_member_required
+from django.core.mail import send_mail
+from django.utils.decorators import method_decorator
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_decode
 from django.http import HttpResponse
-from django.views.generic import DetailView
+from django.views.generic import DetailView, DeleteView
 from art.models import Artwork
-from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm
+from website import settings
+from .models import isArtist,UserProfile
+from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm , artistApplication
 from .functions import send_confirmation_email
 from .tokens import account_activation_token
-
+from django.views.generic import ListView
 # Create your views here.
 
 
@@ -27,10 +31,13 @@ class ArtistCard(DetailView):
         return context
 
 
+def artist_register_info(request):
+    return render(request,'users/info_artist_register.html')
+
+
 def register(request):
     if request.user.is_authenticated:
         return HttpResponse("you are already logged in!")
-
     else:
         if request.method == 'POST':
             form = UserRegistrationForm(request.POST)
@@ -44,9 +51,7 @@ def register(request):
                 email = form.cleaned_data.get('email')
                 send_confirmation_email(request, form, user, email)
 
-                # return redirect('login_page')
                 return render(request,'email/email_sent.html')
-            # return HttpResponse('Please confirm your email address to complete the registration')
         else:
             form = UserRegistrationForm()
         return render(request,'users/register.html',{'form':form})
@@ -89,3 +94,82 @@ def profile(request):
         'profile_info_update_form': profile_info_update_form
     }
     return render(request, 'users/profile.html', context)
+
+
+@login_required
+def isartist(request):
+    if isArtist.objects.filter(applicant=request.user.userprofile).exists():
+        return HttpResponse("you are already sent a application!")
+    else:
+        if request.method == 'POST':
+            form = artistApplication(request.POST,request.FILES)
+            if form.is_valid():
+                # save to db
+                instance = form.save(commit=False)
+                instance.applicant = request.user.userprofile
+                instance.save()
+                messages.success(request, f'Your application is received, you will receive an answer very quick  ')
+                return redirect('home_page')
+        else:
+            form = artistApplication()
+        return render(request, 'isartist.html', {'form': form})
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class artistAllApplications(ListView):
+    model = isArtist
+    template_name = 'admin/allApplications.html'
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class artistDetailApplications(DetailView):
+    model = isArtist
+    template_name = 'admin/detailApplications.html'
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class rejectArtistApplication(DeleteView):
+    model = isArtist
+    template_name = 'admin/deleteApplications.html'
+    success_url = '/administrator'
+
+    def delete(self, request, *args, **kwargs):
+        subject = 'your application has been rejected'
+        message = 'sorry to tell that your request does not meet our requirement so it has been rejected.'
+        email_from = settings.EMAIL_HOST_USER
+        self.object = self.get_object()
+        recipient_list = [self.object.applicant.user.email]
+        success_url = self.get_success_url()
+        self.object.delete()
+        send_mail(subject, message, email_from, recipient_list)
+        return redirect('/administrator')
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class approveArtistApplication(DeleteView):
+    model = isArtist
+    template_name = 'admin/approveApplications.html'
+    success_url = '/administrator'
+
+    def delete(self, request, *args, **kwargs):
+        subject = 'your application has been approved'
+        message = 'Happy to tell that your request has been approved. your artist account has been activated. we are ' \
+                  'looking up to see your first artwork '
+        email_from = settings.EMAIL_HOST_USER
+        self.object = self.get_object()
+        recipient_list = [self.object.applicant.user.email]
+        UserProfile.objects.filter(user = self.object.applicant.user).update(user_role='artist')
+        success_url = self.get_success_url()
+        self.object.delete()
+        send_mail(subject, message, email_from, recipient_list)
+        return redirect('/administrator')
+
+
+
+
+
+
+
+
+
+

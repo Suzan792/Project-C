@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% block title %} register as artist {% endblock %}
+
+{% block body %}
+{% if user.userprofile.user_role  == "artist" %}
+<div class="mt-5 col-lg-12 col-sm-12">
+    <h2 class="mt-5 mb-5 text-center"> You are already artist  </h2>
+</div>
+{% else %}
+<div class="mt-5 col-lg-12 col-sm-12">
+    <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+        <fieldset class="form-group">
+              <legend class=" mb-5">Give us a full description about your self and an example of your artworks </legend>
+            {{form|crispy}}
+
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">upload</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+{% endblock body %}

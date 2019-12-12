@@ -17,6 +17,7 @@ class Artwork(models.Model):
     artwork_photo = models.ImageField(default='default_art.png',upload_to='art_pics')
     upload_date_time = models.DateField(("Date"), default=datetime.date.today)
 
+    # delete the image from the DB if object is deleted
     def delete(self, *args, **kwargs):
         # You have to prepare what you need before delete the model
         storage, path = self.artwork_photo.storage, self.artwork_photo.path
