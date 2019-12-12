@@ -14,6 +14,7 @@ def return_orders(request):
     try:
         orders = get_list_or_404(OrderHistory, user=request.user)
     except:
-        print('no orders')
-    print(len(orders))
-    return render(request, template, { 'orders' : orders })
+        print('No orders')
+
+    amount_of_orders = len(orders)
+    return render(request, template, { 'orders' : orders, 'amount_of_orders' : amount_of_orders })
