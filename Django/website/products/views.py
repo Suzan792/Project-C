@@ -52,21 +52,24 @@ class ProductDetailView(View):
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            design = Design.objects.get(id= request.POST.get('designId'))
-            design.coordinate_top = request.POST.get('top')[:-2]
-            design.coordinate_left = request.POST.get('left')[:-2]
-            design.height = request.POST.get('height')[:-2]
-            design.width = request.POST.get('width')[:-2]
-            design.rotation = str(request.POST.get('rotation'))
-            design.frame_coordinate_top = request.POST.get('frame_top')[:-2]
-            design.frame_coordinate_left = request.POST.get('frame_left')[:-2]
-            design.frame_width = request.POST.get('frame_width')[:-2]
-            design.frame_height = request.POST.get('frame_height')[:-2]
-            design.frame_border_radius = request.POST.get('frame_border_radius')[:-2]
-            print(request.POST.get('width')[:-2])
-            design.save()
-            status = 'success'
-            return JsonResponse({'status':status})
+            if request.POST.get('action')== "delete":
+                Design.objects.get(id= request.POST['pk']).delete()
+                return JsonResponse({'status':"success"})
+            else:
+                design = Design.objects.get(id= request.POST.get('designId'))
+                design.coordinate_top = request.POST.get('top')[:-2]
+                design.coordinate_left = request.POST.get('left')[:-2]
+                design.height = request.POST.get('height')[:-2]
+                design.width = request.POST.get('width')[:-2]
+                design.rotation = str(request.POST.get('rotation'))
+                design.frame_coordinate_top = request.POST.get('frame_top')[:-2]
+                design.frame_coordinate_left = request.POST.get('frame_left')[:-2]
+                design.frame_width = request.POST.get('frame_width')[:-2]
+                design.frame_height = request.POST.get('frame_height')[:-2]
+                design.frame_border_radius = request.POST.get('frame_border_radius')[:-2]
+                print(request.POST.get('width')[:-2])
+                design.save()
+                return JsonResponse({'status':'success'})
         if request.POST.get("add_design"):
             art_pk = self.kwargs.get('art_pk')
             product_pk =  self.kwargs.get('product_pk')

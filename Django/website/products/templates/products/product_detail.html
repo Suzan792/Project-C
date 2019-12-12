@@ -16,70 +16,96 @@
       </div>
       <div class="row m-0 pl-4" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
         {% for design in designs %}
-        <div style=" position: relative;">
-          <img id="productChoiceButton_{{design.id}}"class="mt-4 mr-2 mb-2 productChoiceButton" src="{{design.product.product_photo.url}}"
-          onclick="productChoiceButton(
-          '{{design.id}}',
-          '{{design.product.product_photo.url}}',
-          {% if design.user != None %}'enable'{% else %}'disable'{% endif %},
-          '{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}',
-          '{{ csrf_token }}',
-          '#productChoiceButton_{{design.id}}')"
-          style=" border: solid 4px white;
-          background-color: black; width: 100px; height: 100px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"></img>
+        <div class="card mb-3"
+        onclick="productChoiceButton(
+        '{{design.id}}',
+        '{{design.product.product_photo.url}}',
+        {% if design.user != None %}'enable'{% else %}'disable'{% endif %},
+        '{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}',
+        '{{ csrf_token }}',
+        '#productChoiceButton_{{design.id}}')">
+        <div style=" position: relative; width: 90px; height: 94px;">
+          <img id="productChoiceButton_{{design.id}}"class="productChoiceButton" src="{{design.product.product_photo.url}}"
+          style=" height: 100%;  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); position: absolute; top:0px;left:0px;"></img>
           {% if design.user != None %}
-          <a class="pt-1 ml-3" style="position: absolute; top:5px;left:72px; " data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle" style="width: 18px;" src="{{ user.userprofile.image.url }}"></a>
+          <a class="" style="position: absolute; top:-15px;left:66px; " data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle" style="width: 18px;" src="{{ user.userprofile.image.url }}"></a>
+          <a class="" onclick="deleteProductDesign('{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}','{{ csrf_token }}', {{design.id}})" style=" cursor: pointer; position: absolute; top:78px;left:68px; " data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle" style="width: 18px;" src="../../../media/icons/delete.jpg"></a>
           {%endif%}
+          <div id="crop_frame_{{design.id}}"  style="position: absolute;overflow: hidden; height: 15%; border: 0.75px solid rgba(250, 0, 0, .0);">
+            <img id="art_image_view_small_{{design.id}}"
+            style="height: 100%; position: absolute;  margin: -0px 0px 0px 0px;"
+            class="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
+          </div>
+          <script>
+          var schale = 0.15
+          var coordinate_top = parseInt({{design.coordinate_top}})*schale
+          var coordinate_left = parseInt({{design.coordinate_left}})*schale
+          var height = {{design.height}}*schale
+          var frame_coordinate_top = parseInt({{design.frame_coordinate_top}})*schale
+          var frame_coordinate_left = parseInt({{design.frame_coordinate_left}})*schale
+          var frame_height = {{design.frame_height}}*schale
+          var frame_width = {{design.frame_width}}*schale
+          var border_radius= {{design.frame_border_radius}}*schale
+          /*sets the active design coordinate when the page loads for the first time*/
+          $("#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{design.rotation}}'});
+          $("#crop_frame_{{design.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
+          </script>
         </div>
-        {% endfor %}
       </div>
-      <button class="btn btn-success mt-3 ml-4" id="save_button"onclick="saveCoordinate('{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}','{{ csrf_token }}')">Save Design</button>
-      <form class=" ml-4 mt-3" action="{% url 'productDetail_page' designs.0.art.pk designs.0.product.pk %}" method="POST">
+      {% endfor %}
+    </div>
+    <div class=" mt-3 ml-4">
+      <button class="btn btn-success" id="save_button"onclick="saveCoordinate('{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}','{{ csrf_token }}')">Save Design</button>
+      <form  action="{% url 'productDetail_page' designs.0.art.pk designs.0.product.pk %}" method="POST">
         {% csrf_token %}
         <button class="btn btn-outline-primary mb-2" type="submit" name="add_design" value="add_design"value="add_design">Make a custom design</button>
       </form>
-      <div class="card-body">
-        <h4 class="card-title">
-          <a href="#">{{designs.0.product.product_name}}</a>
-          <button onclick=" location.href='{% url 'update_cart' designs.0.id %}'">Add to Cart</button>
-        </h4>
-        <h5 id = "price">${{designs.0.product.price|add:designs.0.art.artwork_price}}</h5>
-        <div class="pb-5" id="collapsible_text"class="collapse-content">
-          <!-- Text -->
-          <p class="card-text" id="collapseContent_{{product.id}}">{{designs.0.product.description}}</p>
-          <!-- Button -->
-        </div>
+    </div>
+    <div class="card-body">
+      <h4 class="card-title">
+        <a href="#">{{designs.0.product.product_name}}</a>
+        <button onclick=" location.href='{% url 'update_cart' designs.0.id %}'">Add to Cart</button>
+      </h4>
+      <h5 id = "price">${{designs.0.product.price|add:designs.0.art.artwork_price}}</h5>
+      <div class="pb-5" id="collapsible_text"class="collapse-content">
+        <!-- Text -->
+        <p class="card-text" id="collapseContent_{{product.id}}">{{designs.0.product.description}}</p>
+        <!-- Button -->
       </div>
     </div>
   </div>
-  <div class="col-lg-4 col-md-12 col-sm-12 mt-5 m-0 p-0" id="art_image_edit_controller_space">
-    <div class="col-12 p-0 mt-3">
-      <label for="height">art size in px: </label>
-      <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.height}}">
-    </div>
-    <div class="col-12 p-0 mt-3">
-      <label for="frame_height">Frame height in px: </label>
-      <input type="number" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.frame_height}}">
-    </div>
-    <div class="col-12 p-0 mt-3">
-      <label for="frame_width">Frame width in px: </label>
-      <input type="number" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.frame_width}}">
-    </div>
-    <div class="col-12 p-0 mt-3">
-      <label for="frame_border_radius">Frame border-radius px:</label>
-      <input type="number" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.frame_border_radius}}">
-    </div>
+</div>
+<div class="col-lg-4 col-md-12 col-sm-12 mt-5 m-0 p-0" id="art_image_edit_controller_space">
+  <div class="col-12 p-0 mt-3">
+    <label for="height">art size in px: </label>
+    <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.height}}">
   </div>
-  <div class="flashMessage alert alert-success" role="alert">
-    <p class="flashMessage"></p>
+  <div class="col-12 p-0 mt-3">
+    <label for="frame_height">Frame height in px: </label>
+    <input type="number" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.frame_height}}">
   </div>
+  <div class="col-12 p-0 mt-3">
+    <label for="frame_width">Frame width in px: </label>
+    <input type="number" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.frame_width}}">
+  </div>
+  <div class="col-12 p-0 mt-3">
+    <label for="frame_border_radius">Frame border-radius px:</label>
+    <input type="number" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.frame_border_radius}}">
+  </div>
+</div>
+<div class="flashMessage alert alert-success" role="alert">
+  <p class="flashMessage"></p>
+</div>
+</div>
+<div id="dialog-confirm" title="Delete this product design?">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>These design will be permanently deleted and cannot be recovered. Are you sure?</p>
 </div>
 {% endblock body%}
 {% block javascript %}
 <script>
-  if({{designs.count}} != 0){
-    /*sets the active design coordinate when the page loads for the first time*/
-    $( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left:{{designs.0.coordinate_left}},
+if({{designs.count}} != 0){
+  /*sets the active design coordinate when the page loads for the first time*/
+  $( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left:{{designs.0.coordinate_left}},
     height: '{{designs.0.height}}', transform: '{{designs.0.rotation}}'});
     $( ".crop_frame" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}},
       height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
@@ -89,10 +115,12 @@
     });
     $( "#art_image_edit_top_right" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}}
     });
+    $('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
     $('#productChoiceButton_'+{{designs.0.id}}).css({ 'border-bottom': 'solid 4px #f76c6c'})
     designEditButtons()
   }
   $("#art_image_edit_controller_space").hide()
+  $("#dialog-confirm").css("display","none");
   $("#save_button").hide()
   $('.flashMessage').hide();
   </script>

@@ -80,6 +80,7 @@ body{
   position: absolute;
   margin: -0px 0px 0px 0px;
 }
+
 .flashMessage{
   position: fixed;
   text-align: center;

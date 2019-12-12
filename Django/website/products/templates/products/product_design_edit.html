@@ -17,16 +17,40 @@
       </div>
       <div class="row m-0 pl-4" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
         {% for design in designs %}
-        <div style=" position: relative;">
-          <img id="productChoiceButton_{{design.id}}"class="mt-4 mr-2 mb-2 productChoiceButton" src="{{design.product.product_photo.url}}"
-          onclick="productChoiceButton('{{design.id}}',
-          '{{design.product.product_photo.url}}',
-          'enable',
-          '{% url 'editProduct_page' art.id %}',
-          '{{ csrf_token }}',
-          '#productChoiceButton_{{design.id}}')"
-          style=" border: solid 4px white;
-          background-color: black; width: 100px; height: 100px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"></img>
+        <div class="card mb-3"
+        onclick="productChoiceButton(
+        '{{design.id}}',
+        '{{design.product.product_photo.url}}',
+        'enable',
+        '{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}',
+        '{{ csrf_token }}',
+        '#productChoiceButton_{{design.id}}')">
+        <div style=" position: relative; width: 90px; height: 94px;">
+          <img id="productChoiceButton_{{design.id}}"class="productChoiceButton" src="{{design.product.product_photo.url}}"
+          style=" height: 100%;  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); position: absolute; top:0px;left:0px;"></img>
+          {% if design.user != None %}
+          <a class="" style="position: absolute; top:-15px;left:66px; " data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle" style="width: 18px;" src="{{ user.userprofile.image.url }}"></a>
+          {%endif%}
+          <div id="crop_frame_{{design.id}}"  style="position: absolute;overflow: hidden; height: 15%; border: 0.75px solid rgba(250, 0, 0, .0);">
+            <img id="art_image_view_small_{{design.id}}"
+            style="height: 100%; position: absolute;  margin: -0px 0px 0px 0px;"
+            class="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
+          </div>
+          <script>
+            var schale = 0.15
+            var coordinate_top = parseInt({{design.coordinate_top}})*schale
+            var coordinate_left = parseInt({{design.coordinate_left}})*schale
+            var height = {{design.height}}*schale
+            var frame_coordinate_top = parseInt({{design.frame_coordinate_top}})*schale
+            var frame_coordinate_left = parseInt({{design.frame_coordinate_left}})*schale
+            var frame_height = {{design.frame_height}}*schale
+            var frame_width = {{design.frame_width}}*schale
+            var border_radius= {{design.frame_border_radius}}*schale
+            /*sets the active design coordinate when the page loads for the first time*/
+            $("#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{design.rotation}}'});
+            $("#crop_frame_{{design.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
+          </script>
+        </div>
         </div>
         {% endfor %}
       </div >

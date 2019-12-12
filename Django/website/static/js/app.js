@@ -123,7 +123,9 @@ function saveCoordinate(url,csrfToken){
   function alert(data) {
     var data = data
     $("#save_button").hide()
+
     flashMessage("Your design is saved successfully")
+    window.location.reload();
   };
 };
 
@@ -211,6 +213,7 @@ function flashMessage(message){
 }
 
 function deleteProductDesign(url,csrfToken){
+  console.log(url)
   $( "#dialog-confirm" ).dialog({
     resizable: false,
     height: "auto",
@@ -219,6 +222,25 @@ function deleteProductDesign(url,csrfToken){
     buttons: {
       "Yes I am sure": function() {
             $.post(url, {csrfmiddlewaretoken: csrfToken, action: "delete", pk: activeDesignId}, function(){
+              window.location.reload();
+            })
+      },
+      Cancel: function() {
+        $( this ).dialog( "close" );
+      }
+    }
+  });
+}
+function deleteProductDesign(url,csrfToken, id){
+  console.log(url)
+  $( "#dialog-confirm" ).dialog({
+    resizable: false,
+    height: "auto",
+    width: 400,
+    modal: true,
+    buttons: {
+      "Yes I am sure": function() {
+            $.post(url, {csrfmiddlewaretoken: csrfToken, action: "delete", pk: id}, function(){
               window.location.reload();
             })
       },
