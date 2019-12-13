@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% load custom_templatetags_art %}
 {% block title %} Art Drop {% endblock %}
-
 {% block body %}
 <!-- Page Content -->
 <!--Carousel Wrapper-->
@@ -151,5 +150,27 @@
   </ul>
 </nav>
 <!--/Page navigation-->
+<!-- /.container -->
+<!-- Page Content -->
+<div class="container">
+
+  <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">RECENTLY JOINED ARTISTS </h1>
+
+  <hr class="mt-2 mb-5">
+
+  <div class="row text-center text-lg-left">
+{%for item in newest%}
+    <div class="col-lg-3 col-md-4 col-6">
+      <p class="text-center font-weight-bold">{{item.user|capfirst}}</p>
+      <a href="{% url 'artist_card' item.user.id %}" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail account-img prifile-pic rounded mx-auto d-block" src="{{item.user.userprofile.image.url}}" alt="userimage">
+          </a>
+    </div>
+{% endfor %}
+  </div>
+
+</div>
+<hr class="mt-2 mb-5">
+
 <!-- /.container -->
 {% endblock %}

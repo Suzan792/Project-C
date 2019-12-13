@@ -51,10 +51,10 @@
         {% csrf_token %}
         {{ comment_form|crispy }}
         {% if request.user.is_authenticated %}
-        <input type="submit" name="commentForm" class="btn btn-outline-primary">
+        <input type="submit" value="comment" name="commentForm" class="btn btn-outline-primary">
         {% else %}
         <p>you have to login to submit a comment</p>
-        <input type="submit" name="commentForm" class="btn btn-outline-primary" disabled>
+        <input type="submit" value="comment" name="commentForm" class="btn btn-outline-primary" disabled>
         <input type="button" onclick="location.href={% url 'login_page' %}" value="Login " class="btn btn-outline-primary">
         {% endif %}
       </form>

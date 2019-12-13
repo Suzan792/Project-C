@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.mail import send_mail
@@ -158,7 +159,7 @@ class approveArtistApplication(DeleteView):
         email_from = settings.EMAIL_HOST_USER
         self.object = self.get_object()
         recipient_list = [self.object.applicant.user.email]
-        UserProfile.objects.filter(user = self.object.applicant.user).update(user_role='artist')
+        UserProfile.objects.filter(user = self.object.applicant.user).update(user_role='artist',activated_artist_date=datetime.now())
         success_url = self.get_success_url()
         self.object.delete()
         send_mail(subject, message, email_from, recipient_list)
