@@ -10,9 +10,9 @@
           {% if form.errors %}
           {% with form.get_user as user %}
             {% if user %}
-              {# the user is inactive #} 
+              {# the user is inactive #}
             {% else %}
-              {# no user matching username/password #} 
+              {# no user matching username/password #}
             {% endif %}
           {% endwith %}
         {% endif %}
@@ -30,3 +30,8 @@
       </small>
     </div>
 {% endblock body %}
+{% block javascript %}
+<script>
+$("#login_page").parent().addClass("active")
+</script>
+{% endblock %}

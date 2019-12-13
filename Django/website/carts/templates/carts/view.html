@@ -19,11 +19,11 @@
                     </tr>
                 </tfoot>
                 {% for item in cart.item.all %}
-            
+
                 <tr><td><a href="{% url 'productDetail_page' item.art.id item.product.id %}" >{{ item }}</a></td><td>{{ item.product.price }}</td><td><a href="{% url 'update_cart' item.id %}" >Delete</a></td></tr>
-                
+
                 {% endfor %}
-            </table>      
+            </table>
             <div class="col-md-4 offset-md-4">
                 {{ form.render }}
             </div>
@@ -32,3 +32,9 @@
 </div>
 
 {% endblock body %}
+
+{% block javascript %}
+<script>
+$("#card_page").parent().addClass("active")
+</script>
+{% endblock %}
