@@ -28,8 +28,8 @@
           <img id="productChoiceButton_{{design.id}}"class="productChoiceButton" src="{{design.product.product_photo.url}}"
           style=" height: 100%;  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); position: absolute; top:0px;left:0px;"></img>
           {% if design.user != None %}
-          <a class="" style="position: absolute; top:-15px;left:66px; " data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle" style="width: 18px;" src="{{ user.userprofile.image.url }}"></a>
-          <a class="" onclick="deleteProductDesign('{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}','{{ csrf_token }}', {{design.id}})" style=" cursor: pointer; position: absolute; top:78px;left:68px; " data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle" style="width: 18px;" src="../../../media/icons/delete.jpg"></a>
+          <a class="" style="position: absolute; top:-15px;left:66px; " data-toggle="tooltip" data-placement="top" ><img class="rounded-circle" style="width: 18px;" src="{{ user.userprofile.image.url }}"></a>
+          <a class="" onclick="deleteProductDesign('{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}','{{ csrf_token }}', {{design.id}})" style=" cursor: pointer; position: absolute; top:78px;left:68px; " data-toggle="tooltip" data-placement="top"><img class="rounded-circle" style="width: 18px;" src="../../../media/icons/delete.jpg"></a>
           {%endif%}
           <div id="crop_frame_{{design.id}}"  style="position: absolute;overflow: hidden; height: 15%; border: 0.75px solid rgba(250, 0, 0, .0);">
             <img id="art_image_view_small_{{design.id}}"
@@ -66,7 +66,7 @@
         <a href="#">{{designs.0.product.product_name}}</a>
         <button onclick=" location.href='{% url 'update_cart' designs.0.id %}'">Add to Cart</button>
       </h4>
-      <h5 id = "price">${{designs.0.product.price|add:designs.0.art.artwork_price}}</h5>
+      <h5 id = "price">€{{designs.0.product.price|add:designs.0.art.artwork_price}}</h5>
       <div class="pb-5" id="collapsible_text"class="collapse-content">
         <!-- Text -->
         <p class="card-text" id="collapseContent_{{product.id}}">{{designs.0.product.description}}</p>
