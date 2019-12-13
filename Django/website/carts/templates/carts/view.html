@@ -20,7 +20,7 @@
                 </tfoot>
                 {% for item in cart.item.all %}
             
-                <tr><td><a href="#" >{{ item }}</a></td><td>{{ item.product.price }}</td><td><a href="#" >Delete</a></td></tr>
+                <tr><td><a href="{% url 'productDetail_page' item.art.id item.product.id %}" >{{ item }}</a></td><td>{{ item.product.price }}</td><td><a href="{% url 'update_cart' item.id %}" >Delete</a></td></tr>
                 
                 {% endfor %}
             </table>      
