@@ -14,8 +14,8 @@
             <th>Item</th>
             <th>Item name</th>
             <th>Price</th>
-            <th>Status</th>
             <th>Order date</th>
+            <th>Status</th>
         </thead>
         {% for order in orders %}
             <tr>
@@ -44,8 +44,8 @@
                 </td>
                 <td>{{ order }}</td>
                 <td>€{{ order.design.paid_price }}</td>
-                <td>{{ order.get_status_display }}</td>
                 <td>{{ order.order_date }}</td>
+                <td>{{ order.get_status_display }}</td>
             </tr>
         {% endfor %}
     </table>
