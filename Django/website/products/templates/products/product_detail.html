@@ -9,7 +9,7 @@
 
     <div class="" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border: solid .5px;">
       <div id="imageEditSpace" class="rounded" >
-        <img id="product_image_edit" style="" src="{{designs.0.product.product_photo.url}}"alt="art image is not loading error">
+        <img id="product_image_edit" style="padding: 2px;" src="{{designs.0.product.product_photo.url}}"alt="art image is not loading error">
         <div class="crop_frame">
           <img id="art_image_edit" style=""src="{{designs.0.art.artwork_photo.url}}"alt="art image is not loading error">
         </div>
@@ -37,18 +37,18 @@
             class="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
           </div>
           <script>
-          var schale = 0.15
-          var coordinate_top = parseInt({{design.coordinate_top}})*schale
-          var coordinate_left = parseInt({{design.coordinate_left}})*schale
-          var height = {{design.height}}*schale
-          var frame_coordinate_top = parseInt({{design.frame_coordinate_top}})*schale
-          var frame_coordinate_left = parseInt({{design.frame_coordinate_left}})*schale
-          var frame_height = {{design.frame_height}}*schale
-          var frame_width = {{design.frame_width}}*schale
-          var border_radius= {{design.frame_border_radius}}*schale
-          /*sets the active design coordinate when the page loads for the first time*/
-          $("#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{design.rotation}}'});
-          $("#crop_frame_{{design.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
+            var schale = 0.15
+            var coordinate_top = parseInt({{design.coordinate_top}})*schale
+            var coordinate_left = parseInt({{design.coordinate_left}})*schale
+            var height = {{design.height}}*schale
+            var frame_coordinate_top = parseInt({{design.frame_coordinate_top}})*schale
+            var frame_coordinate_left = parseInt({{design.frame_coordinate_left}})*schale
+            var frame_height = {{design.frame_height}}*schale
+            var frame_width = {{design.frame_width}}*schale
+            var border_radius= {{design.frame_border_radius}}*schale
+            /*sets the active design coordinate when the page loads for the first time*/
+            $("#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{design.rotation}}'});
+            $("#crop_frame_{{design.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
           </script>
         </div>
       </div>
@@ -103,25 +103,25 @@
 {% endblock body%}
 {% block javascript %}
 <script>
-if({{designs.count}} != 0){
-  /*sets the active design coordinate when the page loads for the first time*/
-  $( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left:{{designs.0.coordinate_left}},
+  if({{designs.count}} != 0){
+    /*sets the active design coordinate when the page loads for the first time*/
+    $( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left:{{designs.0.coordinate_left}},
     height: '{{designs.0.height}}', transform: '{{designs.0.rotation}}'});
     $( ".crop_frame" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}},
-      height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
-      'border-radius': {{designs.0.frame_border_radius}}
-    });
-    $( "#art_image_edit_top_left" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}}
-    });
-    $( "#art_image_edit_top_right" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}}
-    });
-    $('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
-    $('#productChoiceButton_'+{{designs.0.id}}).css({ 'border-bottom': 'solid 4px #f76c6c'})
-    designEditButtons()
-  }
-  $("#art_image_edit_controller_space").hide()
-  $("#dialog-confirm").css("display","none");
-  $("#save_button").hide()
-  $('.flashMessage').hide();
-  </script>
-  {% endblock %}
+    height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
+    'border-radius': {{designs.0.frame_border_radius}}
+  });
+  $( "#art_image_edit_top_left" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}}
+});
+$( "#art_image_edit_top_right" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}}
+});
+$('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
+$('#productChoiceButton_'+{{designs.0.id}}).css({ 'border-bottom': 'solid 4px #f76c6c'})
+designEditButtons()
+}
+$("#art_image_edit_controller_space").hide()
+$("#dialog-confirm").css("display","none");
+$("#save_button").hide()
+$('.flashMessage').hide();
+</script>
+{% endblock %}
