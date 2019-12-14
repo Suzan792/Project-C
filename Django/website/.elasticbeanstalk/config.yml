@@ -1,13 +1,13 @@
 branch-defaults:
   default:
-    environment: project-c-dev
+    environment: django-tutorial-dev
     group_suffix: null
 global:
-  application_name: project-c
+  application_name: django-tutorial
   branch: null
   default_ec2_keyname: aws-eb
-  default_platform: Python 3.6
-  default_region: eu-north-1
+  default_platform: python-3.6
+  default_region: us-west-2
   include_git_submodules: true
   instance_profile: null
   platform_name: null
