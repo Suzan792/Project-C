@@ -1,9 +1,9 @@
 from django.db import models
-import products.models as product
+from products.models import Design
 
 
 class Cart(models.Model):
-    item = models.ManyToManyField(product.Design, null=True, blank=True)
+    item = models.ManyToManyField(Design, null=True, blank=True)
     total = models.DecimalField(max_digits=100, decimal_places=2, default=0.00)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
