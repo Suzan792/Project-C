@@ -1,11 +1,10 @@
 branch-defaults:
   default:
     environment: project-c-dev
-    group_suffix: null
 global:
   application_name: project-c
   branch: null
-  default_ec2_keyname: aws-eb
+  default_ec2_keyname: null
   default_platform: Python 3.6
   default_region: eu-north-1
   include_git_submodules: true
