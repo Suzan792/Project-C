@@ -49,6 +49,7 @@ class OrderHistory(models.Model):
     design = models.ForeignKey(OrderDesign, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_date = models.DateField(("Date"), default=datetime.date.today)
+    order_datetime = models.DateTimeField(("DateTime"), default=datetime.datetime.now)
     status = models.CharField(choices=ORDER_STATUS_CHOICES, default='IM', max_length=2)
 
     def __str__(self):

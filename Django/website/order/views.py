@@ -12,7 +12,7 @@ def return_orders(request):
 
     orders = []
     try:
-        orders = get_list_or_404(OrderHistory.objects.order_by('-order_date'), user=request.user)
+        orders = get_list_or_404(OrderHistory.objects.order_by('-id'), user=request.user)
     except:
         print('No orders')
 
