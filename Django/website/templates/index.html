@@ -1,12 +1,11 @@
 {% extends "layout.html" %}
 {% load custom_templatetags_art %}
 {% block title %} Art Drop {% endblock %}
-
 {% block body %}
 <!-- Page Content -->
 <!--Carousel Wrapper-->
 <body>
-<div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
+<div id="carousel-example-2" class="carousel slide carousel-fade mt-5" data-ride="carousel">
   <!--Indicators-->
   <ol class="carousel-indicators">
     <li data-target="#carousel-example-2" data-slide-to="0" class="active"></li>
@@ -16,41 +15,18 @@
   <!--/.Indicators-->
   <!--Slides-->
   <div class="carousel-inner" role="listbox">
-    <div class="carousel-item active">
+    {% for advertisementSlide in advertisementSlides %}
+    <div class="carousel-item {% if  forloop.counter == 1 %} active{% endif %}">
       <div class="view">
-        <img class="d-block w-100 " src="https://i.ibb.co/T86jC3J/2-880x385.jpg"
-        alt="First slide">
+        <img class="d-block w-100 " src='{{ advertisementSlide.image.url }}'alt="First slide"></img>
         <div class="mask rgba-black-light"></div>
       </div>
       <div class="carousel-caption">
-        <h3 class="h3-responsive">Light mask</h3>
-        <p>Discover the creative universe of our artists.</p>
+        <h3 class="h3-responsive">{{advertisementSlide.title}}</h3>
+        <p>{{advertisementSlide.description}}</p>
       </div>
     </div>
-    <div class="carousel-item">
-      <!--Mask color-->
-      <div class="view">
-        <img class="d-block w-100" src="https://i.ibb.co/Pz3dyt0/1-880x385.jpg"
-        alt="Second slide">
-        <div class="mask rgba-black-strong"></div>
-      </div>
-      <div class="carousel-caption">
-        <h3 class="h3-responsive">Strong mask</h3>
-        <p>We have selected talented artists from all over the world, for you.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <!--Mask color-->
-      <div class="view">
-        <img class="d-block w-100" src="https://i.ibb.co/DpsRj7c/3-880x385.jpg"
-        alt="Third slide">
-        <div class="mask rgba-black-slight"></div>
-      </div>
-      <div class="carousel-caption">
-        <h3 class="h3-responsive">Slight mask</h3>
-        <p>Third text</p>
-      </div>
-    </div>
+    {% endfor %}
   </div>
   <!--/.Slides-->
   <!--Controls-->
@@ -75,7 +51,7 @@
     <!--Card image-->
     <div class="view view-cascade overlay">
       <img class="card-img-top" src="{{ artwork.artwork_photo.url }}"
-      alt="artwork">
+      alt="artwork"> </img>
       <a>
         <div class="mask rgba-white-slight"></div>
       </a>
@@ -90,7 +66,7 @@
       <!--Card footer-->
       <div class="card-footer mb-2">
         <span class="float-left">
-          <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ artwork.artist.user.userprofile.image.url }}"></a>
+          <a class="" data-toggle="tooltip" data-placement="top" ><img class="rounded-circle article-img"  src="{{ artwork.artist.user.userprofile.image.url }}"></a>
         </span>
         <span class="float-left ml-3">
           <a href="{% url 'artist_card' artwork.artist.user.id %}">{{ artwork.artist.user.username }}</a>
@@ -152,4 +128,32 @@
 </nav>
 <!--/Page navigation-->
 <!-- /.container -->
+<!-- Page Content -->
+<div class="container">
+
+  <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">RECENTLY JOINED ARTISTS </h1>
+
+  <hr class="mt-2 mb-5">
+
+  <div class="row text-center text-lg-left">
+{%for item in newest%}
+    <div class="col-lg-3 col-md-4 col-6">
+      <p class="text-center font-weight-bold">{{item.user|capfirst}}</p>
+      <a href="{% url 'artist_card' item.user.id %}" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail account-img prifile-pic rounded mx-auto d-block" src="{{item.user.userprofile.image.url}}" alt="userimage">
+          </a>
+    </div>
+{% endfor %}
+  </div>
+
+</div>
+<hr class="mt-2 mb-5">
+
+<!-- /.container -->
+{% endblock %}
+
+{% block javascript %}
+<script>
+$("#home_page").parent().addClass("active")
+</script>
 {% endblock %}

@@ -37,25 +37,25 @@
             class="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
           </div>
           <script>
-            var schale = 0.15
-            var coordinate_top = parseInt({{design.coordinate_top}})*schale
-            var coordinate_left = parseInt({{design.coordinate_left}})*schale
-            var height = {{design.height}}*schale
-            var frame_coordinate_top = parseInt({{design.frame_coordinate_top}})*schale
-            var frame_coordinate_left = parseInt({{design.frame_coordinate_left}})*schale
-            var frame_height = {{design.frame_height}}*schale
-            var frame_width = {{design.frame_width}}*schale
-            var border_radius= {{design.frame_border_radius}}*schale
-            /*sets the active design coordinate when the page loads for the first time*/
-            $("#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{design.rotation}}'});
-            $("#crop_frame_{{design.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
+          var schale = 0.15
+          var coordinate_top = parseInt({{design.coordinate_top}})*schale
+          var coordinate_left = parseInt({{design.coordinate_left}})*schale
+          var height = {{design.height}}*schale
+          var frame_coordinate_top = parseInt({{design.frame_coordinate_top}})*schale
+          var frame_coordinate_left = parseInt({{design.frame_coordinate_left}})*schale
+          var frame_height = {{design.frame_height}}*schale
+          var frame_width = {{design.frame_width}}*schale
+          var border_radius= {{design.frame_border_radius}}*schale
+          /*sets the active design coordinate when the page loads for the first time*/
+          $("#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{design.rotation}}'});
+          $("#crop_frame_{{design.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
           </script>
         </div>
       </div>
       {% endfor %}
     </div>
     <div class=" mt-3 ml-4">
-      <button class="btn btn-success" id="save_button"onclick="saveCoordinate('{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}','{{ csrf_token }}')">Save Design</button>
+      <button class="btn btn-success mb-2" id="save_button"onclick="saveCoordinate('{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}','{{ csrf_token }}')">Save Design</button>
       <form  action="{% url 'productDetail_page' designs.0.art.pk designs.0.product.pk %}" method="POST">
         {% csrf_token %}
         <button class="btn btn-outline-primary mb-2" type="submit" name="add_design" value="add_design"value="add_design">Make a custom design</button>
@@ -103,25 +103,213 @@
 {% endblock body%}
 {% block javascript %}
 <script>
-  if({{designs.count}} != 0){
-    /*sets the active design coordinate when the page loads for the first time*/
-    $( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left:{{designs.0.coordinate_left}},
+if({{designs.count}} != 0){
+  /*sets the active design coordinate when the page loads for the first time*/
+  $( "#art_image_edit" ).css({ top: {{designs.0.coordinate_top}}, left:{{designs.0.coordinate_left}},
     height: '{{designs.0.height}}', transform: '{{designs.0.rotation}}'});
     $( ".crop_frame" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}},
-    height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
-    'border-radius': {{designs.0.frame_border_radius}}
-  });
-  $( "#art_image_edit_top_left" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}}
-});
-$( "#art_image_edit_top_right" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}}
-});
-$('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
-$('#productChoiceButton_'+{{designs.0.id}}).css({ 'border-bottom': 'solid 4px #f76c6c'})
-designEditButtons()
-}
-$("#art_image_edit_controller_space").hide()
-$("#dialog-confirm").css("display","none");
-$("#save_button").hide()
-$('.flashMessage').hide();
+      height: '{{designs.0.frame_height}}', width: '{{designs.0.frame_width}}', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
+      'border-radius': {{designs.0.frame_border_radius}}
+    });
+    $( "#art_image_edit_top_left" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}}
+    });
+    $( "#art_image_edit_top_right" ).css({ top: {{designs.0.frame_coordinate_top}}, left:{{designs.0.frame_coordinate_left}}
+    });
+    $('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
+    $('#productChoiceButton_'+{{designs.0.id}}).css({ 'border-bottom': 'solid 4px #f76c6c'})
+    designEditButtons()
+  }
+  $("#art_image_edit_controller_space").hide()
+  $("#dialog-confirm").css("display","none");
+  $("#save_button").hide()
+  $('.flashMessage').hide();
+
+
+
+  var activeDesignId;
+  var draggability = 'disable';
+
+  function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName){
+    draggability =art_draggability;
+    if (art_draggability=='enable'){
+      $("#art_image_edit_controller_space").show()
+    }else{
+      $("#art_image_edit_controller_space").hide()
+    }
+    $("#save_button").hide()
+    $( function() {
+      $( ".crop_frame" ).draggable().draggable(draggability);
+    } );
+
+    $( function() {
+      $( "#art_image_edit" ).draggable().draggable(draggability);
+    } );
+
+    activeDesignId = id
+    $.ajax({
+      type: 'GET',
+      url: url,
+      data: {
+        'designId':id,
+        'csrfmiddlewaretoken': csrfToken,
+      },
+      dataType: 'json',
+      success: function(data){
+        var data = data
+        $('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
+        $('#productChoiceButton_'+data['id']).css({ 'border-bottom': 'solid 4px #f76c6c'})
+        art_top = parseInt(data['top'])
+        art_left = parseInt(data['left'])
+        art_height = data['height']
+        width = data['width']
+        frame_top = parseInt(data['frame_top'])
+        frame_left = parseInt(data['frame_left'])
+        frame_height = data['frame_height']
+        frame_width = data['frame_width']
+        frame_border_radius = data['frame_border_radius']
+        rotation = data['rotation']
+        $("#art_image_edit").css({ top: art_top, left: art_left, height: art_height, transform: rotation} );
+        $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width, 'border-radius': frame_border_radius} );
+        $("#height").val(art_height);
+        $("#frame_height").val(frame_height);
+        $("#frame_width").val(frame_width);
+        $("#frame_border_radius").val(frame_border_radius);
+        $(".imgbuttom").removeClass("border-success").addClass("border-dark")
+        $("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
+        document.getElementById("product_image_edit").src = imageUrl;
+      }
+    });
+  };
+
+  function saveCoordinate(url,csrfToken){
+
+    var art_top = $( "#art_image_edit" ).css("top")
+    var art_left = $( "#art_image_edit" ).css("left")
+    var height = $( "#art_image_edit" ).css("height")
+    var width = $( "#art_image_edit" ).css("width")
+    var rotation = $( "#art_image_edit" ).css("transform")
+    var frame_top = $( ".crop_frame" ).css("top")
+    var frame_left = $( ".crop_frame" ).css("left")
+    var frame_height = $( ".crop_frame" ).css("height")
+    var frame_width = $( ".crop_frame" ).css("width")
+    var frame_border_radius = $( ".crop_frame" ).css("border-top-left-radius")
+    var designId = activeDesignId
+    $.ajax({
+      type: 'POST',
+      url: url,
+      data: {
+        'csrfmiddlewaretoken': csrfToken,
+        'designId':designId,
+        'left': art_left,
+        'top':art_top,
+        'height':height,
+        'width':width,
+        'frame_top':frame_top,
+        'frame_left':frame_left,
+        'frame_height':frame_height,
+        'frame_width':frame_width,
+        'frame_border_radius':frame_border_radius,
+        'rotation':rotation,
+      },
+      success: alert,
+      dataType: 'json'
+    });
+    function alert(data) {
+      var data = data
+      $("#save_button").hide()
+      flashMessage("Your design is saved successfully")
+      var schale = 0.15
+      var coordinate_top = parseInt(art_top)*schale
+      var coordinate_left = parseInt(art_left)*schale
+      var height = parseInt(height)*schale
+      var frame_coordinate_top = parseInt(frame_top)*schale
+      var frame_coordinate_left = parseInt(frame_left)*schale
+      var frame_height = parseInt(frame_height)*schale
+      var frame_width = parseInt(frame_width)*schale
+      var border_radius= parseInt(frame_border_radius)*schale
+      $("#art_image_view_small_"+activeDesignId).css({ top: coordinate_top, left: coordinate_left, height: height});
+      $("#crop_frame_"+activeDesignId).css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
+    };
+  };
+
+  function designEditButtons(){
+    $(".crop_frame").mousedown(function() {
+      if(draggability=='enable'){
+        $("#save_button").show()
+        $("#art_image_edit_controller_space").show()
+      }
+    });
+
+    $( function() {
+      $( ".crop_frame" ).draggable();
+    } );
+    $( function() {
+      $( ".crop_frame" ).draggable(draggability);
+    } );
+    $( function() {
+      $( "#art_image_edit" ).draggable();
+    } );
+    $( function() {
+      $( "#art_image_edit" ).draggable(draggability);
+    } );
+
+    if (draggability=='enable'){
+      $("#art_image_edit_controller_space").show()
+    }else{
+      $("#art_image_edit_controller_space").hide()
+    }
+
+    $(".crop_frame").mouseover(function(){
+      if(draggability=='enable'){
+        $(".crop_frame").mouseover(function(){
+          if(draggability=='enable'){
+            $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', 'cursor': 'move'})
+          }
+          else{
+            $(".crop_frame").css({'cursor': 'auto'})
+          }
+        });
+        $(".crop_frame").mouseout(function(){
+          $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .0)'})
+        });
+
+        $( "#height" ).change(function(){
+          $("#save_button").show()
+          height = $("#height").val();
+          $( "#art_image_edit" ).css({ height: height});
+        });
+
+        $( "#frame_height" ).change(function(){
+          $("#save_button").show()
+          height = $("#frame_height").val();
+          $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)'})
+          $( ".crop_frame" ).css({ height: height});
+        });
+
+        $( "#frame_width" ).change(function(){
+          $("#save_button").show()
+          width = $("#frame_width").val();
+          $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)'})
+          $( ".crop_frame" ).css({ width: width});
+        });
+
+        $("#frame_border_radius").change(function(){
+          $("#save_button").show()
+          value = $("#frame_border_radius").val();
+          $( ".crop_frame" ).css({ 'border-radius': value+'px'});
+        });
+        $( "#rotation" ).change(function(){
+          $("#save_button").show()
+          value = $("#rotation").val();
+          $( "#art_image_edit" ).css({'-webkit-transform': 'rotate(' + value + 'deg)',
+          '-moz-transform': 'rotate(' + value + 'deg)',
+          '-ms-transform': 'rotate(' + value + 'deg)',
+          '-o-transform': 'rotate(' + value + 'deg)',
+          'transform': 'rotate(' + value + 'deg)',});
+        });
+      }
+    });
+  }
+
 </script>
 {% endblock %}

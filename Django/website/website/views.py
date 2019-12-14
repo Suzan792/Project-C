@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, View
 from art.models import Artwork
+from users.models import User, UserProfile
+from advertisementSlide.models import AdvertisementSlide
 from products.models import Product
 from django.utils import timezone
 import json
@@ -16,6 +18,13 @@ class ArtListView(ListView):
     context_object_name = 'Artworks'
     ordering = ['-upload_date_time']
     paginate_by = 12
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ArtListView, self).get_context_data(**kwargs)
+        context['newest'] = UserProfile.objects.filter(user_role = 'artist').order_by('activated_artist_date').reverse()[:4]
+        context['advertisementSlides'] = AdvertisementSlide.objects.all()
+        return context
+
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             art_pk = request.POST.get('id', None)

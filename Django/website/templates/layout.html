@@ -30,41 +30,44 @@
       </form>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto nav-pills">
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'home_page' %}">Home
-              <span class="sr-only">(current)</span>
+          <li class="nav-item">
+            <a class="nav-link" id="home_page" href="{% url 'home_page' %}">Home
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'about_page' %}">About</a>
+            <a class="nav-link" id="about_page" href="{% url 'about_page' %}">About</a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout_page' %}">Logout</a>
+            <a class="nav-link" id="logout_page" href="{% url 'logout_page' %}">Logout</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'profile_page' %}">Profile</a>
+            <a class="nav-link" id="profile_page" href="{% url 'profile_page' %}">Profile</a>
           </li>
           {% else %}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">SignUp</a>
+            <a id="register_pages" class="nav-link dropdown-toggle" id="signup_page" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">SignUp</a>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="{% url 'register_page' %}">User</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{% url 'register_artist_info' %}">Artist</a>
-
             </div>
 
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="{% url 'login_page' %}">Login</a>
+            <a class="nav-link" id="login_page"href="{% url 'login_page' %}">Login</a>
           </li>
           {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+            <a class="nav-link" id="card_page" href="{% url 'cart' %}">Cart</a>
           </li>
-            {% if user.is_authenticated %}
-            <a class="pt-1 ml-3" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ user.userprofile.image.url }}"></a>
+          {% if user.is_authenticated %}
+          <li class="nav-item mt-1 ml-2">
+            <a  href="{% url 'profile_page' %}" data-toggle="tooltip" data-placement="top"><img class="rounded-circle article-img"  src="{{ user.userprofile.image.url }}"></a>
+          </li>
+          <li class="nav-item mt-1 ml-2">
+            <h1 class="h6 mt-1" style="color: white;">Hi {{user.username}}</h1>
+          </li>
           {% endif %}
         </ul>
       </div>
