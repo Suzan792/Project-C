@@ -8,23 +8,23 @@
 {% if not user.is_authenticated %}
 <p>Please log in to view this page!</p>
 {% elif amount_of_orders > 0 %}
+
 {% for orderlist in orders %}
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse{{orderlist.0.order_datetime}}" aria-expanded="false" aria-controls="collapse{{orderlist.0.order_datetime}}">
     EXPAND 
-  </button>
+</button>
 
 <div class="collapse" id="collapse{{orderlist.0.order_datetime}}">
-  <div class="card card-body">
-<!-- <div class="col-sm 8 col-sm-offset-2 p-0"> -->
-    <table class="table">
-        <thead>
-            <th>Item</th>
-            <th>Item name</th>
-            <th>Price</th>
-            <th>Order date</th>
-            <th>Status</th>
-        </thead>
-        
+    <div class="card card-body">
+        <table class="table">
+            <thead>
+                <th>Item</th>
+                <th>Item name</th>
+                <th>Price</th>
+                <th>Order date</th>
+                <th>Status</th>
+            </thead>
+            
             {% for order in orderlist %}
             <tr>
                 <td>
@@ -56,11 +56,10 @@
                 <td>{{ order.get_status_display }}</td>
             </tr>
             {% endfor %}
-    </table>
-    </div> </div> 
-<!-- </div>         -->
+        </table>
+    </div> 
+</div> 
 {% endfor %}
-
 {% else %}
 <p>You have not ordered anything yet!</p>
 {% endif %}
