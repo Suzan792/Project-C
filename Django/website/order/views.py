@@ -6,15 +6,29 @@ from .models import OrderHistory
 # Create your views here.
 
 def return_orders(request):
-    template = 'orders/my_orders.html'
-    # context
-    print(request.user)
-
     orders = []
+    order_list = []
+    order_items = []
+
     try:
-        orders = get_list_or_404(OrderHistory.objects.order_by('-id'), user=request.user)
+        order_items = get_list_or_404(OrderHistory.objects.order_by('-id'), user=request.user)
+        old_item = None
+        for item in order_items[::-1]:
+            if old_item == None:
+                old_item = item
+            
+            if old_item.order_datetime != item.order_datetime:
+                orders.append(order_list)
+                order_list = []
+             
+            order_list.append(item)
+          
+            old_item = item
+        orders.append(order_list)
     except:
         print('No orders')
 
-    amount_of_orders = len(orders)
-    return render(request, template, { 'orders' : orders, 'amount_of_orders' : amount_of_orders })
+    template = 'orders/my_orders.html'
+    context = { 'orders' : orders, 'amount_of_orders' : len(order_items) }
+
+    return render(request, template, context)
