@@ -11,3 +11,7 @@ class Cart(models.Model):
 
     def __str__(self):
         return "Cart id: %s" % self.id
+
+
+
+
