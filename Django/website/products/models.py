@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 import users.models as users
 import art.models as art
-import products.models as products
 import datetime
 
 # Create your models here.
@@ -19,7 +18,7 @@ class Product(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
-    product = models.ForeignKey(products.Product, on_delete = models.SET('deleted'))
+    product = models.ForeignKey(Product, on_delete = models.SET('deleted'))
     artwork = models.ForeignKey(art.Artwork, on_delete = models.SET('deleted'))
     order_date = models.DateField(("Date"), default=datetime.date.today)
 
@@ -28,7 +27,7 @@ class Order(models.Model):
 
 class Wish(models.Model):
     user = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
-    product = models.ForeignKey(products.Product, on_delete = models.SET('deleted'))
+    product = models.ForeignKey(Product, on_delete = models.SET('deleted'))
     artwork = models.ForeignKey(art.Artwork, on_delete = models.SET('deleted'))
     wish_date = models.DateField(("Date"), default=datetime.date.today)
 
@@ -36,7 +35,7 @@ class Wish(models.Model):
         return 'Wish: ' + self.ID + ' Wish date: ' + self.wish_date
 
 class Design(models.Model):
-    product = models.ForeignKey(products.Product,on_delete=models.CASCADE)
+    product = models.ForeignKey( Product,on_delete=models.CASCADE)
     created_on = models.DateTimeField(default=timezone.now)
     art = models.ForeignKey(art.Artwork,on_delete=models.CASCADE)
     user = models.ForeignKey(users.UserProfile,on_delete=models.CASCADE,default=None,blank=True, null=True)

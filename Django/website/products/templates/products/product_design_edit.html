@@ -197,16 +197,16 @@ function saveCoordinate(url,csrfToken){
     $("#save_button").hide()
     flashMessage("Your design is saved successfully")
     var schale = 0.15
-    var coordinate_top = parseInt(art_top)*schale
-    var coordinate_left = parseInt(art_left)*schale
-    var height = parseInt(height)*schale
-    var frame_coordinate_top = parseInt(frame_top)*schale
-    var frame_coordinate_left = parseInt(frame_left)*schale
-    var frame_height = parseInt(frame_height)*schale
-    var frame_width = parseInt(frame_width)*schale
-    var border_radius= parseInt(frame_border_radius)*schale
-    $("#art_image_view_small_"+activeDesignId).css({ top: coordinate_top, left: coordinate_left, height: height});
-    $("#crop_frame_"+activeDesignId).css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
+    var small_art_coordinate_top = parseInt(art_top)*schale
+    var small_art_coordinate_left = parseInt(art_left)*schale
+    var small_art_height = parseInt(height)*schale
+    var small_frame_coordinate_top = parseInt(frame_top)*schale
+    var small_frame_coordinate_left = parseInt(frame_left)*schale
+    var small_frame_height = parseInt(frame_height)*schale
+    var small_frame_width = parseInt(frame_width)*schale
+    var small_frame_frame_border_radius = parseInt(frame_border_radius)*schale
+    $("#art_image_view_small_"+activeDesignId).css({ top: small_art_coordinate_top, left: small_art_coordinate_left, height: small_art_height});
+    $("#crop_frame_"+activeDesignId).css({ top: small_frame_coordinate_top, left: small_frame_coordinate_left, height: small_frame_height, width:small_frame_width, 'border-radius': small_frame_frame_border_radius});
   };
 };
 
