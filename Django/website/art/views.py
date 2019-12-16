@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, View, DeleteView, UpdateView
 from art.forms import CommentForm
 from art.models import Artwork, Comment
