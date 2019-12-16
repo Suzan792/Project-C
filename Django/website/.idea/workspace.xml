@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b73fed75-b6b6-45c6-b8df-5c629da03272" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/media/profile_pics/3-880x385.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users/migrations/0019_userprofile_actived_artist_date.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users/migrations/0020_auto_20191213_2009.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users/migrations/0021_auto_20191213_2126.py" afterDir="false" />
+    <list default="true" id="b73fed75-b6b6-45c6-b8df-5c629da03272" name="Default Changelist" comment="RECENTLY JOINED ARTISTS added to homepage / comment button renamed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/art/templates/art/artwork_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/art/templates/art/artwork_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/art/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/art/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -88,7 +82,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575823880077</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="DEBUG = True">
+      <created>1576492615410</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1576492615410</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -109,7 +110,8 @@
     <MESSAGE value="Delete Artwork" />
     <MESSAGE value="Artist Card" />
     <MESSAGE value="Artist Card shows Artist artworks + links added to search_page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Artist Card shows Artist artworks + links added to search_page" />
+    <MESSAGE value="DEBUG = True" />
+    <option name="LAST_COMMIT_MESSAGE" value="DEBUG = True" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
