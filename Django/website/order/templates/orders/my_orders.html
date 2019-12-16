@@ -8,58 +8,62 @@
 {% if not user.is_authenticated %}
 <p>Please log in to view this page!</p>
 {% elif amount_of_orders > 0 %}
-
 {% for orderlist in orders %}
-<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse{{orderlist.0.order_datetime}}" aria-expanded="false" aria-controls="collapse{{orderlist.0.order_datetime}}">
-    EXPAND 
-</button>
+<div class="container p-0">
+    <div class="col">
+        <div class="tabs">
+            <div class="tab">
+                <input type="checkbox" id="chck{{orderlist.0.order_datetime}}">
+                <label class="tab-label" for="chck{{orderlist.0.order_datetime}}">Order {{orderlist.0.order_datetime}}</label>
+                <div class="tab-content">
+                    <table class="table">
+                        <thead>
+                            <th>Item</th>
+                            <th>Item name</th>
+                            <th>Price</th>
+                            <th>Order date</th>
+                            <th>Status</th>
+                        </thead>
 
-<div class="collapse" id="collapse{{orderlist.0.order_datetime}}">
-    <div class="card card-body">
-        <table class="table">
-            <thead>
-                <th>Item</th>
-                <th>Item name</th>
-                <th>Price</th>
-                <th>Order date</th>
-                <th>Status</th>
-            </thead>
-            
-            {% for order in orderlist %}
-            <tr>
-                <td>
-                    <div id="productImageOrderView" class=" sm-5 p-0 " >
-                        <img id="product_image_order" src="{{order.design.product.product_photo.url}}"alt="product image is not loading error">
-                        <div id="crop_frame_{{order.id}}" style="position: absolute; border-radius: 2px; border: 5px solid rgba(250, 0, 0, .0);overflow: hidden; height: 40%;">
-                            <img id="art_image_view_small_{{order.id}}" style="height: 100%; position: absolute;  margin: -0px 0px 0px 0px;" class="art_image_edit" src="{{order.design.art.artwork_photo.url}}"alt="art image is not loading error">
-                        </div>
-                
-                        <script>
-                            var schale = 0.15
-                            var coordinate_top = parseInt({{order.design.coordinate_top}})*schale
-                            var coordinate_left = parseInt({{order.design.coordinate_left}})*schale
-                            var height = {{order.design.height}}*schale
-                            var frame_coordinate_top = parseInt({{order.design.frame_coordinate_top}})*schale
-                            var frame_coordinate_left = parseInt({{order.design.frame_coordinate_left}})*schale
-                            var frame_height = {{order.design.frame_height}}*schale
-                            var frame_width = {{order.design.frame_width}}*schale
-                            var border_radius= {{order.design.frame_border_radius}}*schale
-                            /*sets the active design coordinate when the page loads for the first time*/
-                            $("#art_image_view_small_{{order.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{order.design.rotation}}'});
-                            $("#crop_frame_{{order.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
-                        </script>
-                    </div>
-                </td>
-                <td>{{ order }}</td>
-                <td>€{{ order.design.paid_price }}</td>
-                <td>{{ order.order_date }}</td>
-                <td>{{ order.get_status_display }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div> 
-</div> 
+                        {% for order in orderlist %}
+                        <tr>
+                            <td>
+                                <div id="productImageOrderView" class=" sm-5 p-0 " >
+                                    <img id="product_image_order" src="{{order.design.product.product_photo.url}}"alt="product image is not loading error">
+                                    <div id="crop_frame_{{order.id}}" style="position: absolute; border-radius: 2px; border: 5px solid rgba(250, 0, 0, .0);overflow: hidden; height: 40%;">
+                                        <img id="art_image_view_small_{{order.id}}" style="height: 100%; position: absolute;  margin: -0px 0px 0px 0px;" class="art_image_edit" src="{{order.design.art.artwork_photo.url}}"alt="art image is not loading error">
+                                    </div>
+                            
+                                    <script>
+                                        var schale = 0.15
+                                        var coordinate_top = parseInt({{order.design.coordinate_top}})*schale
+                                        var coordinate_left = parseInt({{order.design.coordinate_left}})*schale
+                                        var height = {{order.design.height}}*schale
+                                        var frame_coordinate_top = parseInt({{order.design.frame_coordinate_top}})*schale
+                                        var frame_coordinate_left = parseInt({{order.design.frame_coordinate_left}})*schale
+                                        var frame_height = {{order.design.frame_height}}*schale
+                                        var frame_width = {{order.design.frame_width}}*schale
+                                        var border_radius= {{order.design.frame_border_radius}}*schale
+                                        /*sets the active design coordinate when the page loads for the first time*/
+                                        $("#art_image_view_small_{{order.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{order.design.rotation}}'});
+                                        $("#crop_frame_{{order.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
+                                    </script>
+                                </div>
+                            </td>
+                            <td>{{ order }}</td>
+                            <td>€{{ order.design.paid_price }}</td>
+                            <td>{{ order.order_date }}</td>
+                            <td>{{ order.get_status_display }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
 {% endfor %}
+</table>
 {% else %}
 <p>You have not ordered anything yet!</p>
 {% endif %}
