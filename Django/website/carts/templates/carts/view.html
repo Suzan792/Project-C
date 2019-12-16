@@ -9,18 +9,52 @@
         <div class="col-sm 8 col-sm-offset-2">
             <table class="table">
                 <thead>
+                    <th></th>
                     <th>Item</th>
+                    <th>Quantity</th>
+                    <th></th>
                     <th>Price</th>
                 </thead>
                 <tfoot>
                     <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td>Total: {{ cart.total }}</td>
                     </tr>
                 </tfoot>
                 {% for item in cart.item.all %}
 
-                <tr><td><a href="{% url 'productDetail_page' item.art.id item.product.id %}" >{{ item }}</a></td><td>{{ item.product.price }}</td><td><a href="{% url 'update_cart' item.id %}" >Delete</a></td></tr>
+                <tr>
+                    <td>
+                        <div id="productImageOrderView" class=" sm-5 p-0 " >
+                            <img id="product_image_order" src="{{item.design.product.product_photo.url}}"alt="product image is not loading error">
+                            <div id="crop_frame_{{item.id}}" style="position: absolute; border-radius: 2px; border: 5px solid rgba(250, 0, 0, .0);overflow: hidden; height: 40%;">
+                                <img id="art_image_view_small_{{item.id}}" style="height: 100%; position: absolute;  margin: -0px 0px 0px 0px;" class="art_image_edit" src="{{item.design.art.artwork_photo.url}}"alt="art image is not loading error">
+                            </div>
+
+                            <script>
+                                var schale = 0.15
+                                var coordinate_top = parseInt({{item.design.coordinate_top}})*schale
+                                var coordinate_left = parseInt({{item.design.coordinate_left}})*schale
+                                var height = {{item.design.height}}*schale
+                                var frame_coordinate_top = parseInt({{item.design.frame_coordinate_top}})*schale
+                                var frame_coordinate_left = parseInt({{item.design.frame_coordinate_left}})*schale
+                                var frame_height = {{item.design.frame_height}}*schale
+                                var frame_width = {{item.design.frame_width}}*schale
+                                var border_radius= {{item.design.frame_border_radius}}*schale
+                                /*sets the active design coordinate when the page loads for the first time*/
+                                $("#art_image_view_small_{{item.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{item.design.rotation}}'});
+                                $("#crop_frame_{{item.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
+                            </script>
+                        </div>
+                    </td>
+                    <td><a href="{% url 'productDetail_page' item.art.id item.product.id %}" >{{ item }}</a></td>
+                    <td></td>
+                    <td><a href="{% url 'update_cart' item.id %}" >Delete</a></td>
+                    <td>{{ item.product.price }}</td>
+                </tr>
 
                 {% endfor %}
             </table>
