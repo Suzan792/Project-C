@@ -64,7 +64,7 @@
     <div class="card-body">
       <h4 class="card-title">
         <a href="#">{{designs.0.product.product_name}}</a>
-        <button onclick=" location.href='{% url 'update_cart' designs.0.id %}'">Add to Cart</button>
+        <button id="addToCart" onclick="addToCart()">Add to Cart</button>
       </h4>
       <h5 id = "price">€{{designs.0.product.price|add:designs.0.art.artwork_price}}</h5>
       <div class="pb-5" id="collapsible_text"class="collapse-content">
@@ -125,12 +125,19 @@ if({{designs.count}} != 0){
   $('.flashMessage').hide();
 
 
-
-  var activeDesignId;
+  var activeDesignId = {{designs.0.id}};
   var draggability = 'disable';
 
+  function addToCart(){
+    $.get('/cart/'+activeDesignId+'/',function( data ) {
+      window.location.href = "/cart/";
+    })
+  }
+
   function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName){
+
     draggability =art_draggability;
+
     if (art_draggability=='enable'){
       $("#art_image_edit_controller_space").show()
     }else{
