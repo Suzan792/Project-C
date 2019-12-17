@@ -8,13 +8,13 @@
 {% if not user.is_authenticated %}
 <p>Please log in to view this page!</p>
 {% elif amount_of_orders > 0 %}
-{% for orderlist in orders %}
 <div class="container p-0">
     <div class="col">
         <div class="tabs">
+            {% for orderlist in orders %}
             <div class="tab">
-                <input classname="accordion_input" type="checkbox" id="chck{{orderlist.0.order_datetime}}">
-                <label class="tab-label" for="chck{{orderlist.0.order_datetime}}">Order {{orderlist.0.order_datetime}}</label>
+                <input class="accordion_input" type="checkbox" id="chck{{orderlist.0.order_datetime}}">
+                <label class="tab-label mb-0" for="chck{{orderlist.0.order_datetime}}">Order {{orderlist.0.order_datetime}}</label>
                 <div class="tab-content">
                     <table class="table">
                         <thead>
@@ -59,10 +59,10 @@
                     </table>
                 </div> 
             </div>
+            {% endfor %}
         </div>
     </div>
 </div>
-{% endfor %}
 </table>
 {% else %}
 <p>You have not ordered anything yet!</p>

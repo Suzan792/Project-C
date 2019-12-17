@@ -10,8 +10,7 @@
 }
 body{
   height: 100vh;
-  overflow-x: hidden
-
+  overflow-x: hidden;
 }
 .button{
   cursor: pointer;
@@ -124,7 +123,7 @@ h2 {
   margin: 0 0 0.5em;
   font-weight: normal;
 }
-accordion_input {
+.accordion_input {
   position: absolute;
   opacity: 0;
   z-index: -1;
@@ -186,13 +185,13 @@ accordion_input {
 .tab-close:hover {
   background: #1a252f;
 }
-accordion_input:checked + .tab-label {
+.accordion_input:checked + .tab-label {
   background: #1a252f;
 }
-accordion_input:checked + .tab-label::after {
+.accordion_input:checked + .tab-label::after {
   transform: rotate(90deg);
 }
-accordion_input:checked ~ .tab-content {
+.accordion_input:checked ~ .tab-content {
   max-height: 100vh;
   padding: 1em;
 }
