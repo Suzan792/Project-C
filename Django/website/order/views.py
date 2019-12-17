@@ -13,7 +13,9 @@ def return_orders(request):
     try:
         order_items = get_list_or_404(OrderHistory.objects.order_by('-id'), user=request.user)
         old_item = None
-        for item in order_items[::-1]:
+        # for item in order_items[::-1]:
+        for item in order_items:
+
             if old_item == None:
                 old_item = item
             
