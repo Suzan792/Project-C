@@ -75,7 +75,7 @@
         <button id="addToCart" class="btn btn-success" onclick="addToCart()">Add to Cart</button>
         {% endif %}
       </h4>
-      <h5 id = "price">${{product.price|add:art.artwork_price}}</h5>
+      <h5 id = "price">€{{product.price|add:art.artwork_price}}</h5>
       <div class="pb-5" id="collapsible_text"class="collapse-content">
         <!-- Text -->
         <p class="card-text" id="collapseContent_{{product.id}}">{{product.description}}</p>
