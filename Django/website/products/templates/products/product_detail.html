@@ -102,9 +102,6 @@
     <input type="number" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.frame_border_radius}}">
   </div>
 </div>
-<div class="flashMessage alert alert-success" role="alert">
-  <p class="flashMessage"></p>
-</div>
 </div>
 <div id="dialog-confirm" title="Delete this product design?">
   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>These design will be permanently deleted and cannot be recovered. Are you sure?</p>
@@ -136,7 +133,6 @@ designEditButtons()
 $("#art_image_edit_controller_space").hide()
 $("#dialog-confirm").css("display","none");
 $("#save_button").hide()
-$('.flashMessage').hide();
 
 activeDesignId = parseInt('{{designs.0.id}}');
 if('{{designs.0.user}}' != 'None'){

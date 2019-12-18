@@ -97,6 +97,9 @@
           <script type="application/javascript" src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
 
           {% block body %} {% endblock %}
+          <div class="flashMessage alert alert-success" role="alert">
+            <p class="flashMessage"></p>
+          </div>
           {% block javascript %}{% endblock %}
         </div>
       </div>

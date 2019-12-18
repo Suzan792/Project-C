@@ -12,6 +12,7 @@ from django.db.models import Q
 class ProductDetailView(View):
     def get(self, request, *args, **kwargs):
         art = Artwork.objects.get(id = self.kwargs.get('art_pk'))
+        product = Product.objects.get(id = self.kwargs.get('product_pk'))
         if request.is_ajax():
             design = Design.objects.get(id= request.GET.get('designId'))
             id = request.GET.get('designId')
@@ -29,7 +30,6 @@ class ProductDetailView(View):
             return JsonResponse({'status':status,'top':top,'left':left,'height':height, 'width':width, 'rotation':rotation, 'frame_top': frame_top,
             'frame_left': frame_left, 'frame_height': frame_height, 'frame_width': frame_width, 'frame_border_radius':frame_border_radius,'id':id})
         elif request.user.is_authenticated:
-            product = Product.objects.get(id = self.kwargs.get('product_pk'))
             user = request.user.userprofile
             designs = Design.objects.filter(Q(art=art), Q(product=product), Q(user=user) | Q(user=None)).order_by('-user')
             form = forms.CreateProductDesignForm()
@@ -46,7 +46,9 @@ class ProductDetailView(View):
             designs = Design.objects.filter(art= art, product= product, user__isnull=True)
             form = forms.CreateProductDesignForm()
             context = {
+            'art':art,
             'designs':designs,
+            'product':product,
             'form':form,
             }
             return render(request, 'products/product_detail.html', context)

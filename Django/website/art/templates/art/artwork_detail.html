@@ -34,7 +34,7 @@
                 {% csrf_token %}
                 <a class="like_button button"type="submit" onclick="like_button({{object.id}},
                 '{% url 'artDetail_page' object.pk %}',
-                '{{ csrf_token }}')"> <i id="heart_sign_color_{{object.id}}"class="fas fa-heart {%isLiked object.id user.id%}" ></i></a>
+                '{{ csrf_token }}','{{user.is_authenticated}}')"> <i id="heart_sign_color_{{object.id}}"class="fas fa-heart {%isLiked object.id user.id%}" ></i></a>
               </form>
             </span>
             <span class="float-right" >

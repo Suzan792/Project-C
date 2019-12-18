@@ -75,11 +75,11 @@
             <form id = "form-id"  >
                 {% csrf_token %}
                 <a class="like_button button"type="submit"
-                onclick="{% if user.is_authenticated %}
+                onclick="
                 like_button({{artwork.id}},
                 '{% url 'home_page' %}',
-                '{{ csrf_token }}')
-                {% endif %}" > <i id="heart_sign_color_{{artwork.id}}"class="fas fa-heart {%isLiked artwork.id user.id%}" ></i></a>
+                '{{ csrf_token }}',
+                '{{user.is_authenticated}}')" > <i id="heart_sign_color_{{artwork.id}}"class="fas fa-heart {%isLiked artwork.id user.id%}" ></i></a>
             </form>
         </span>
         <span class="float-right" >
@@ -147,9 +147,6 @@
   </div>
 
 </div>
-<hr class="mt-2 mb-5">
-
-<!-- /.container -->
 {% endblock %}
 
 {% block javascript %}

@@ -98,3 +98,6 @@ body{
   orphans: 1 !important;
   widows:1 !important;
 }
+.flashMessage{
+  visibility: hidden;
+}
