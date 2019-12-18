@@ -19,8 +19,8 @@ def add_orders(request, order, order_date, order_datetime):
         artwork_photo=artwork.artwork_photo,
     )
     order_design_instance = OrderDesign.objects.create(
-        paid_price='',
-        quantity='',
+        paid_price=order_artwork_instance.artwork_price + order_product_instance.price,
+        quantity=1,
         product=order_product_instance,
         art=order_artwork_instance,
         coordinate_left=design.coordinate_left,
@@ -36,11 +36,15 @@ def add_orders(request, order, order_date, order_datetime):
     )
     order_history_instance = OrderHistory.objects.create(
         design=order_design_instance,
-        user='',
+        user=request.user,
         order_date=order_date,
         order_datetime=order_datetime,
-        status='IM',     
+        status='NP',     
     )
+
+    print('Orders have been added')
+    
+    return order_history_instance
 
     # template = 'orders/my_orders.html'
 
