@@ -34,7 +34,9 @@ class ProductDetailView(View):
             designs = Design.objects.filter(Q(art=art), Q(product=product), Q(user=user) | Q(user=None)).order_by('-user')
             form = forms.CreateProductDesignForm()
             context = {
+            'art':art,
             'designs':designs,
+            'product':product,
             'form':form,
             }
             return render(request, 'products/product_detail.html', context)
