@@ -68,15 +68,15 @@
 <div class="col-lg-4 col-md-12 col-sm-12 mt-5 m-0 p-0" id="art_image_edit_controller_space">
   <div class="col-12 p-0 mt-3">
     <label for="height">art size in px: </label>
-    <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.height}}">
+    <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.height | stringformat:'d'}}">
   </div>
   <div class="col-12 p-0 mt-3">
     <label for="frame_height">Frame height in px: </label>
-    <input type="number" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.frame_height}}">
+    <input type="number" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.frame_height | stringformat:'d'}}">
   </div>
   <div class="col-12 p-0 mt-3">
     <label for="frame_width">Frame width in px: </label>
-    <input type="number" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.frame_width}}">
+    <input type="number" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.frame_width | stringformat:'d'}}">
   </div>
   <div class="col-12 p-0 mt-3">
     <label for="frame_border_radius">Frame border-radius px:</label>
@@ -149,9 +149,9 @@ function productChoiceButton(id,imageUrl,url,csrfToken,pageName){
       rotation = data['rotation']
       $("#art_image_edit").css({ top: art_top, left: art_left, height: art_height, transform: rotation} );
       $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width, 'border-radius': frame_border_radius} );
-      $("#height").val(art_height);
-      $("#frame_height").val(frame_height);
-      $("#frame_width").val(frame_width);
+      $("#height").val(Math.rond(art_height));
+      $("#frame_height").val(Math.rond(frame_height));
+      $("#frame_width").val(Math.rond(frame_width));
       $("#frame_border_radius").val(frame_border_radius);
       $(".imgbuttom").removeClass("border-success").addClass("border-dark")
       $("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");

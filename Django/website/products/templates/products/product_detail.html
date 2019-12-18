@@ -14,7 +14,7 @@
           <img id="art_image_edit" style=""src="{{designs.0.art.artwork_photo.url}}"alt="art image is not loading error">
         </div>
       </div>
-      <div class="row m-0 pl-4" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="row m-0 pl-4 pt-3" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
         {% for design in designs %}
         <div class="card mb-3"
         onclick="productChoiceButton(
@@ -56,15 +56,17 @@
     </div>
     <div class=" mt-3 ml-4">
       <button class="btn btn-success mb-2" id="save_button"onclick="saveCoordinate('{% url 'productDetail_page' designs.0.art.id designs.0.product.id %}','{{ csrf_token }}')">Save Design</button>
+      {% if user.is_authenticated %}
       <form  action="{% url 'productDetail_page' designs.0.art.pk designs.0.product.pk %}" method="POST">
         {% csrf_token %}
         <button class="btn btn-outline-primary mb-2" type="submit" name="add_design" value="add_design"value="add_design">Make a custom design</button>
       </form>
+      {% endif %}
     </div>
     <div class="card-body">
       <h4 class="card-title">
         <a href="#">{{designs.0.product.product_name}}</a>
-        <button id="addToCart" onclick="addToCart()">Add to Cart</button>
+        <button id="addToCart" class="btn btn-success" onclick="addToCart()">Add to Cart</button>
       </h4>
       <h5 id = "price">${{designs.0.product.price|add:designs.0.art.artwork_price}}</h5>
       <div class="pb-5" id="collapsible_text"class="collapse-content">
@@ -78,15 +80,15 @@
 <div class="col-lg-4 col-md-12 col-sm-12 mt-5 m-0 p-0" id="art_image_edit_controller_space">
   <div class="col-12 p-0 mt-3">
     <label for="height">art size in px: </label>
-    <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.height}}">
+    <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.height | stringformat:'d'}}">
   </div>
   <div class="col-12 p-0 mt-3">
     <label for="frame_height">Frame height in px: </label>
-    <input type="number" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.frame_height}}">
+    <input type="number" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.frame_height | stringformat:'d'}}">
   </div>
   <div class="col-12 p-0 mt-3">
     <label for="frame_width">Frame width in px: </label>
-    <input type="number" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.frame_width}}">
+    <input type="number" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.frame_width | stringformat:'d'}}">
   </div>
   <div class="col-12 p-0 mt-3">
     <label for="frame_border_radius">Frame border-radius px:</label>
@@ -177,9 +179,9 @@ if({{designs.count}} != 0){
         rotation = data['rotation']
         $("#art_image_edit").css({ top: art_top, left: art_left, height: art_height, transform: rotation} );
         $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width, 'border-radius': frame_border_radius} );
-        $("#height").val(art_height);
-        $("#frame_height").val(frame_height);
-        $("#frame_width").val(frame_width);
+        $("#height").val(Math.round(art_height));
+        $("#frame_height").val(Math.round(frame_height));
+        $("#frame_width").val(Math.round(frame_width));
         $("#frame_border_radius").val(frame_border_radius);
         $(".imgbuttom").removeClass("border-success").addClass("border-dark")
         $("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
