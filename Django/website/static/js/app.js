@@ -1,34 +1,42 @@
 
-function like_button(id,url,csrfToken){
-  var post_url =url
-  $.ajax({
-    type: 'POST',
-    url: post_url,
-    data: {
-      'csrfmiddlewaretoken': csrfToken,
-      'id':id,
-    },
-    success: LikePost,
-    dataType: 'html'
-  });
-  function LikePost(data) {
-    var data = $.parseJSON(data)
-    if (data['liked']) {
-      $('#heart_sign_color_'+data['art_pk']).addClass('text-danger')
-      $('#like_count_'+data['art_pk']).text(data['like_count'])
-    }
-    else
-    {
-      $('#heart_sign_color_'+data['art_pk']).removeClass('text-danger')
-      $('#like_count_'+data['art_pk']).text(data['like_count'])
-    }
-  };
+function like_button(id,url,csrfToken,authenticated){
+  if (authenticated=='False'){
+    flashMessage("You must be logged in to like an ArtWork")
+  }else{
+    var post_url =url
+    $.ajax({
+      type: 'POST',
+      url: post_url,
+      data: {
+        'csrfmiddlewaretoken': csrfToken,
+        'id':id,
+      },
+      success: LikePost,
+
+      dataType: 'html'
+    });
+
+    function LikePost(data) {
+      var data = $.parseJSON(data)
+      if (data['liked']) {
+        $('#heart_sign_color_'+data['art_pk']).addClass('text-danger')
+        $('#like_count_'+data['art_pk']).text(data['like_count'])
+      }
+      else
+      {
+        $('#heart_sign_color_'+data['art_pk']).removeClass('text-danger')
+        $('#like_count_'+data['art_pk']).text(data['like_count'])
+      }
+    };
+  }
+
 };
 
 
 
 
 function flashMessage(message){
+  $('.flashMessage').css({'visibility': 'visible'})
   $('.flashMessage').text(message)
   $('.flashMessage').slideDown(500).delay(2000).slideUp();
 }

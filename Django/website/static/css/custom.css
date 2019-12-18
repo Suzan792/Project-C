@@ -195,3 +195,7 @@ h2 {
   max-height: 100vh;
   padding: 1em;
 }
+
+.flashMessage{
+  visibility: hidden;
+}

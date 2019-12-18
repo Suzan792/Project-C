@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import ListView, View, DeleteView, UpdateView
 from art.forms import CommentForm
 from art.models import Artwork, Comment
-from products.models import Design
+from products.models import Design, Product
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -71,6 +71,18 @@ class ArtDetailView(View):
     def get(self, request, *args, **kwargs):
         art = Artwork.objects.get(pk=self.kwargs.get('pk'))
         designs = Design.objects.filter(art=art, user=None)
+        products = Product.objects.all()
+        productWithoutDesign = []
+        for product in products:
+            i = products.count()
+            for design in designs:
+                if product == design.product:
+                    i=i-1
+            if i==products.count():
+                productWithoutDesign.append(product)
+
+
+
         comments = Comment.objects.filter(artwork=art).order_by('-id')
         comment_form = CommentForm()
         liked = False
@@ -81,6 +93,7 @@ class ArtDetailView(View):
         context = {
             'object': art,
             'designs': designs,
+            'products': productWithoutDesign,
             'comments': comments,
             'comment_form': comment_form,
         }

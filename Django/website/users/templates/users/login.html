@@ -4,6 +4,9 @@
 {% block title %} Registration {% endblock %}
 
 {% block body %}
+  {% if user.is_authenticated %}
+  <h1 class="mt-4 h4">You're already logged in.</h1>
+  {% else %}
     <form method="POST" class="mt-5">
       {% csrf_token %}
       <fieldset class="form-group">
@@ -19,9 +22,7 @@
         {% csrf_token %}
         {{ form|crispy }}
       </fieldset>
-      <div class="form-group">
         <button class="btn btn-outline-info" type="submit">Login</button>
-      </div>
     </form>
     <div class="border-top pt-3">
       <small class="text-muted">
@@ -29,6 +30,7 @@
         Forgot your password? <a class="ml-2" href="{% url 'password_reset' %}">Reset password</a>
       </small>
     </div>
+    {% endif %}
 {% endblock body %}
 {% block javascript %}
 <script>

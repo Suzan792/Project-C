@@ -34,7 +34,7 @@
                 {% csrf_token %}
                 <a class="like_button button"type="submit" onclick="like_button({{object.id}},
                 '{% url 'artDetail_page' object.pk %}',
-                '{{ csrf_token }}')"> <i id="heart_sign_color_{{object.id}}"class="fas fa-heart {%isLiked object.id user.id%}" ></i></a>
+                '{{ csrf_token }}','{{user.is_authenticated}}')"> <i id="heart_sign_color_{{object.id}}"class="fas fa-heart {%isLiked object.id user.id%}" ></i></a>
               </form>
             </span>
             <span class="float-right" >
@@ -106,6 +106,30 @@
           <p class="card-text collapse" id="collapseContent_{{design.product.id}}">{{design.product.description}}</p>
           <!-- Button -->
           <a class="btn text-info p-0  collapsed" data-toggle="collapse" href="#collapseContent_{{design.product.id}}" aria-expanded="false" aria-controls="collapseContent">Show description</a>
+          </div>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% for product in products %}
+    <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
+      <div id="productCart"class="card" style="">
+        <div id="productImageView" class=" mt-5 " >
+          <img id="product_image_edit" src="{{product.product_photo.url}}"alt="art image is not loading error">
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">
+            <a href="{% url 'productDetail_page' object.id product.id %}">{{product.product_name}}</a>
+          </h4>
+          <h5>${{product.price|add:object.artwork_price}}</h5>
+          <div id="collapsible_text"class="collapse-content">
+          <!-- Text -->
+          <p class="card-text collapse" id="collapseContent_{{product.id}}">{{product.description}}</p>
+          <!-- Button -->
+          <a class="btn text-info p-0  collapsed" data-toggle="collapse" href="#collapseContent_{{product.id}}" aria-expanded="false" aria-controls="collapseContent">Show description</a>
           </div>
         </div>
         <div class="card-footer">
