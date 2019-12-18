@@ -6,16 +6,18 @@ import datetime
 
 # Create your models here.
 class OrderProduct(models.Model):
+    product_name = models.CharField(max_length = 60)
     product_photo = models.ImageField(default='default_product.jpg', upload_to='order_product_pics')
 
     def __str__(self):
-        return "Order product id: %s" % self.id
+        return "%s" % self.name
 
 class OrderArtwork(models.Model):
+    artwork_name = models.CharField(max_length = 60)
     artwork_photo = models.ImageField(default='default_art.png', upload_to='order_art_pics')
 
     def __str__(self):
-        return "Order artwork id: %s" % self.id
+        return "%s" % self.name
 
 class OrderDesign(models.Model):
     # item = models.OneToManyField(Design, null=True, blank=True)
@@ -36,7 +38,7 @@ class OrderDesign(models.Model):
     rotation = models.CharField(max_length=100,default='matrix(1, 0, 0, 1, 0, 0)')
 
     def __str__(self):
-        return "Order design id: %s" % self.id
+        return self.art.artwork_name + '   |   ' + self.product.product_name
 
 class OrderHistory(models.Model):
     ORDER_STATUS_CHOICES = [

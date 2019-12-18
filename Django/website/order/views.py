@@ -1,9 +1,50 @@
 from django.shortcuts import render, get_list_or_404
 from django.views.generic import View
 
-from .models import OrderHistory
+from .models import OrderHistory, OrderProduct, OrderArtwork, OrderDesign
 
 # Create your views here.
+
+def add_orders(request, order, order_date, order_datetime):
+    design = order.item.design
+    product = design.product
+    artwork = design.art
+
+    order_product_instance = OrderProduct.objects.create(
+        product_name=product.product_name,
+        product_photo=product.product_photo,
+    )
+    order_artwork_instance = OrderArtwork.objects.create(
+        artwork_name=artwork.artwork_name,
+        artwork_photo=artwork.artwork_photo,
+    )
+    order_design_instance = OrderDesign.objects.create(
+        paid_price='',
+        quantity='',
+        product=order_product_instance,
+        art=order_artwork_instance,
+        coordinate_left=design.coordinate_left,
+        coordinate_top=design.coordinate_top,
+        height=design.height,
+        width=design.width,
+        frame_height=design.frame_height,
+        frame_width=design.frame_width,
+        frame_coordinate_left=design.frame_coordinate_left,
+        frame_coordinate_top=design.frame_coordinate_top,
+        frame_border_radius=design.frame_border_radius,
+        rotation=design.rotation,
+    )
+    order_history_instance = OrderHistory.objects.create(
+        design=order_design_instance,
+        user='',
+        order_date=order_date,
+        order_datetime=order_datetime,
+        status='IM',     
+    )
+
+    # template = 'orders/my_orders.html'
+
+    # return render(request, template)
 
 def return_orders(request):
     orders = []
