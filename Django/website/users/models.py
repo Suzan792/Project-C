@@ -17,7 +17,7 @@ class UserProfile(models.Model):
     country = models.CharField(max_length = 60, choices=(('','Country'),('netherland','Netherland'),('usa','USA'),('syria','Syria'),('germany','Germany'),('uk','United Kingdom')),default = 'null')
     language = models.CharField(max_length = 60, choices=(('english','English'),('dutch','Dutch')),default = 'English')
     sign_up_date = models.DateField(("Date"), default=datetime.date.today)
-    activated_artist_date = models.DateTimeField(blank=True)
+    activated_artist_date = models.DateTimeField(blank=True, null = True)
 
 
     def __str__(self):
