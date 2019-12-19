@@ -13,32 +13,57 @@ from products.models import Product, Design
 from django.views.generic import View
 from django.urls import reverse
 
+
 # from product.models import Product
 
 def view(request):
-    cart = Cart.objects.all()[0]
+    try:
+        the_id = request.session['cart_id']
+    except:
+        the_id = None
+    if the_id:
+        cart = Cart.objects.get(id=the_id)
+    else:
+        empty_message = "Your Cart is Empty, please add something to your cart."
+        context = {"empty": True, "empty_message": empty_message}
+
+    try:
+        the_id
+    except cart.DoesNotExist:
+        pass
+    if the_id:
+        new_total = 0.00
+        for a in cart.item.all():
+            new_total += float(a.product.price + a.art.artwork_price)
+        request.session['items_total'] = cart.item.count()
+        cart.total = round(new_total, 2)
+        cart.save()
+
+        payment_data = payment(request, cart, new_total)
+        order = payment_data[0]
+        form = payment_data[1]
+
+        context = {"cart": cart, 'order': order, 'form': form}
+
     template = "carts/view.html"
-
-    new_total = 0.00
-    for a in cart.item.all():
-        new_total += float(a.product.price)
-    cart.total = round(new_total, 2)
-    cart.save()
-
-    payment_data = payment(request, cart, new_total)
-    order = payment_data[0]
-    form = payment_data[1]
-    
-    context = {"cart": cart, 'order': order, 'form': form}
-
     return render(request, template, context)
 
 
 class FreshCart(View):
     def get(self, request, *args, **kwargs):
-        cart = Cart.objects.all()[0]
+        request.session.set_expiry(12000)
         try:
-            product = Design.objects.get(id = self.kwargs.get('design_pk'))
+            the_id = request.session['cart_id']
+        except:
+            new_cart = Cart()
+            new_cart.save()
+            request.session['cart_id'] = new_cart.id
+            the_id = new_cart.id
+
+        cart = Cart.objects.get(id=the_id)
+
+        try:
+            product = Design.objects.get(id=self.kwargs.get('design_pk'))
         except Product.DoesNotExist:
             pass
         except:
@@ -48,6 +73,7 @@ class FreshCart(View):
         else:
             cart.item.remove(product)
         return HttpResponseRedirect(reverse("cart"))
+
 
 def payment(request, cart, total):
     host = request.get_host()
@@ -70,10 +96,12 @@ def payment(request, cart, total):
 
     return cart, pform
 
+
 @csrf_exempt
 def payment_done(request):
     messages.success(request, f'Payment succesful')
     return redirect('home_page')
+
 
 @csrf_exempt
 def payment_cancelled(request):

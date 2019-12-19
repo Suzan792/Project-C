@@ -59,7 +59,7 @@
           </li>
           {% endif %}
           <li class="nav-item">
-            <a class="nav-link" id="card_page" href="{% url 'cart' %}">Cart</a>
+            <a class="nav-link" id="card_page" href="{% url 'cart' %}">Cart <span class="badge" style="background-color: #c5c5c5">{% if not request.session.items_total %} 0 {% else %} {{ request.session.items_total }} {% endif %}</span></a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item mt-1 ml-2">

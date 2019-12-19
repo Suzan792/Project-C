@@ -3,8 +3,13 @@
 {% block title %} Shopping Cart {% endblock title %}
 
 {%block body %}
-
 <div class="container">
+
+{% if empty %}
+
+<h1 style="text-align:center;">{{ empty_message }}</h1>
+
+{% else %}
     <div class="row">
         <div class="col-sm 8 col-sm-offset-2">
             <table class="table">
@@ -53,7 +58,7 @@
                     <td><a href="{% url 'productDetail_page' item.art.id item.product.id %}" >{{ item }}</a></td>
                     <td></td>
                     <td><a href="{% url 'update_cart' item.id %}" >Delete</a></td>
-                    <td>{{ item.product.price }}</td>
+                    <td>€{{ item.product.price|add:item.art.artwork_price }}</td>
                 </tr>
 
                 {% endfor %}
@@ -63,9 +68,12 @@
             </div>
         </div>
     </div>
+
+{% endif %}
 </div>
 
 {% endblock body %}
+
 
 {% block javascript %}
 <script>
