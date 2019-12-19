@@ -71,6 +71,7 @@ class ArtDetailView(View):
     def get(self, request, *args, **kwargs):
         art = Artwork.objects.get(pk=self.kwargs.get('pk'))
         designs = Design.objects.filter(art=art, user=None)
+        print(designs.count())
         products = Product.objects.all()
         productWithoutDesign = []
         for product in products:
