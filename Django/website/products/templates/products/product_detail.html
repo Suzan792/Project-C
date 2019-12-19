@@ -332,6 +332,7 @@ function saveCoordinate(url,csrfToken){
       'frame_width':frame_width,
       'frame_border_radius':frame_border_radius,
       'rotation':rotation,
+
       'font':font,
       'font_weight':font_weight,
       'font_style':font_style,
@@ -378,6 +379,10 @@ function designEditButtons(){
       $("#save_button").show()
       $("#art_image_edit_controller_space").show()
     }
+  });
+
+  $("#design_text").mousedown(function() {
+      $("#save_button").show()
   });
 
   $( function() {

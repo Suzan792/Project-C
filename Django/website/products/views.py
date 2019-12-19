@@ -146,13 +146,26 @@ class ProductDesignEditView(View):
                 design.designArtCoordinate.coordinate_left = request.POST.get('left')[:-2]
                 design.designArtCoordinate.height = request.POST.get('height')[:-2]
                 design.designArtCoordinate.width = request.POST.get('width')[:-2]
+
                 design.designArtFrameCoordinate.rotation = str(request.POST.get('rotation'))
                 design.designArtFrameCoordinate.frame_coordinate_top = request.POST.get('frame_top')[:-2]
                 design.designArtFrameCoordinate.frame_coordinate_left = request.POST.get('frame_left')[:-2]
                 design.designArtFrameCoordinate.frame_width = request.POST.get('frame_width')[:-2]
                 design.designArtFrameCoordinate.frame_height = request.POST.get('frame_height')[:-2]
                 design.designArtFrameCoordinate.frame_border_radius = request.POST.get('frame_border_radius')[:-2]
-                design.save()
+                ##text
+                design.designTextCoordinate.font = request.POST.get('font')
+                design.designTextCoordinate.font_weight = request.POST.get('font_weight')
+                design.designTextCoordinate.font_style = request.POST.get('font_style')
+                design.designTextCoordinate.coordinate_top = request.POST.get('text_top')[:-2]
+                design.designTextCoordinate.coordinate_left = request.POST.get('text_left')[:-2]
+                design.designTextCoordinate.font_color = request.POST.get('font_color')
+                design.designTextCoordinate.text = request.POST.get('text')
+                design.designTextCoordinate.font_size = request.POST.get('text_size')[:-2]
+
+                design.designArtCoordinate.save()
+                design.designArtFrameCoordinate.save()
+                design.designTextCoordinate.save()
                 status = 'success'
                 return JsonResponse({'status':status})
         else:
