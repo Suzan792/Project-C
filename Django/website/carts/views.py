@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Cart
+from order.views import add_orders
 from products.models import Product, Design
 from django.views.generic import View
 from django.urls import reverse
@@ -27,7 +28,7 @@ def view(request):
     payment_data = payment(request, cart, new_total)
     order = payment_data[0]
     form = payment_data[1]
-
+    
     context = {"cart": cart, 'order': order, 'form': form}
 
     return render(request, template, context)
@@ -64,6 +65,9 @@ def payment(request, cart, total):
     }
 
     pform = PayPalPaymentsForm(initial=paypal_form)
+
+    move_to_orderhistory(request, cart)
+
     return cart, pform
 
 @csrf_exempt
@@ -75,3 +79,13 @@ def payment_done(request):
 def payment_cancelled(request):
     messages.warning(request, f'Payment was cancelled')
     return redirect('cart')
+
+def move_to_orderhistory(request, cart):
+    today = datetime.today()
+    print(today)
+    date_time = datetime.now()
+
+    for item in cart.item.all():
+        add_orders(request, item, today, date_time)
+        cart.item.remove(item)
+        print('items added,removed')

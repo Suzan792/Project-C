@@ -6,17 +6,19 @@ from .models import OrderHistory, OrderProduct, OrderArtwork, OrderDesign
 # Create your views here.
 
 def add_orders(request, order, order_date, order_datetime):
-    design = order.item.design
+    design = order
     product = design.product
     artwork = design.art
 
     order_product_instance = OrderProduct.objects.create(
         product_name=product.product_name,
         product_photo=product.product_photo,
+        price=product.price,
     )
     order_artwork_instance = OrderArtwork.objects.create(
         artwork_name=artwork.artwork_name,
         artwork_photo=artwork.artwork_photo,
+        artwork_price=artwork.artwork_price,
     )
     order_design_instance = OrderDesign.objects.create(
         paid_price=order_artwork_instance.artwork_price + order_product_instance.price,

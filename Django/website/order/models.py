@@ -6,18 +6,20 @@ import datetime
 
 # Create your models here.
 class OrderProduct(models.Model):
-    product_name = models.CharField(max_length = 60)
+    product_name = models.CharField(max_length = 60, default='')
     product_photo = models.ImageField(default='default_product.jpg', upload_to='order_product_pics')
+    price = models.DecimalField(max_digits=6, decimal_places=2, default=24.99)
 
     def __str__(self):
-        return "%s" % self.name
+        return "%s" % self.product_name
 
 class OrderArtwork(models.Model):
-    artwork_name = models.CharField(max_length = 60)
+    artwork_name = models.CharField(max_length = 60, default='')
     artwork_photo = models.ImageField(default='default_art.png', upload_to='order_art_pics')
+    artwork_price = models.DecimalField(max_digits=1000, decimal_places=2, default=24.99)
 
     def __str__(self):
-        return "%s" % self.name
+        return "%s" % self.artwork_name
 
 class OrderDesign(models.Model):
     # item = models.OneToManyField(Design, null=True, blank=True)
