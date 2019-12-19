@@ -43,9 +43,9 @@ class ProductDetailView(View):
         else:
             art = Artwork.objects.get(id = self.kwargs.get('art_pk'))
             product = Product.objects.get(id = self.kwargs.get('product_pk'))
-            designArtCoordinate = Product.objects.create()
-            designArtFrameCoordinate = Product.objects.create()
-            designTextCoordinate = Product.objects.create()
+            designArtCoordinate = DesignArtCoordinate.objects.create()
+            designArtFrameCoordinate = DesignArtFrameCoordinate.objects.create()
+            designTextCoordinate = DesignTextCoordinate.objects.create()
             designs = Design.objects.filter(art= art, product= product, user__isnull=True,
             designArtCoordinate =designArtCoordinate,designArtFrameCoordinate=designArtFrameCoordinate,designTextCoordinate=designTextCoordinate)
             form = forms.CreateProductDesignForm()

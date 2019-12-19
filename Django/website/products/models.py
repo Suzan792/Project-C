@@ -7,7 +7,7 @@ import datetime
 # Create your models here.
 class Product(models.Model):
     product_name = models.CharField(max_length = 60)
-    stock = models.IntegerField()
+    stock = models.IntegerField(default=None,blank=True, null=True)
     description = models.CharField(max_length = 600)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     product_photo = models.ImageField(default='default_product.jpg',upload_to='product_pics')
