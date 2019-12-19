@@ -90,11 +90,11 @@ def payment(request, cart, total):
         'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
     }
 
-    pform = PayPalPaymentsForm(initial=paypal_form)
+    form = PayPalPaymentsForm(initial=paypal_form)
 
     move_to_orderhistory(request, cart)
 
-    return cart, pform
+    return cart, form
 
 
 @csrf_exempt
