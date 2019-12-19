@@ -57,7 +57,7 @@ class DesignTextCoordinate(models.Model):
     font_weight = models.DecimalField(default= 300,max_digits=10, decimal_places=3)
     font_style =  models.CharField(max_length = 60,default='normal')
     font_color =  models.CharField(max_length = 60,default='black')
-    font_size = models.DecimalField(default= 300,max_digits=10, decimal_places=3)
+    font_size = models.DecimalField(default= 40,max_digits=10, decimal_places=3)
     text =  models.TextField(default='')
 
 class Design(models.Model):
