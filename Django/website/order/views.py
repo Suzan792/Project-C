@@ -6,6 +6,9 @@ from .models import OrderHistory, OrderProduct, OrderArtwork, OrderDesign
 # Create your views here.
 
 def add_orders(request, order, order_date, order_datetime):
+    '''
+    This function is used to add orders to the order history.
+    '''
     design = order
     product = design.product
     artwork = design.art
@@ -53,6 +56,9 @@ def add_orders(request, order, order_date, order_datetime):
     # return render(request, template)
 
 def return_orders(request):
+    '''
+    This function returns orders for the order history.
+    '''
     orders = []
     order_list = []
     order_items = []
