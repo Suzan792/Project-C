@@ -14,6 +14,7 @@
         <div class="crop_frame">
           <img id="art_image_edit" style=""src="{{art.artwork_photo.url}}"alt="art image is not loading error">
         </div>
+        <p  id="design_text" style=" position: absolute;  margin: 0px; white-space: pre-wrap; font-family: Lobster"; font-weight: normal>{{designs.0.designTextCoordinate.text}}</p>
       </div>
       <div class="row m-0 pl-4 pt-3" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
         {% for design in designs %}
@@ -41,19 +42,31 @@
             style="height: 100%; position: absolute;  margin: -0px 0px 0px 0px;"
             class="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
           </div>
+          <p  id="design_text_{{design.id}}" style=" position: absolute;  margin: 0px; white-space: pre-wrap; font-family: Lobster"; font-weight: normal>{{designs.0.designTextCoordinate.text}}</p>
+
           <script>
           var schale = 0.15
-          var coordinate_top = parseInt({{design.coordinate_top}})*schale
-          var coordinate_left = parseInt({{design.coordinate_left}})*schale
-          var height = {{design.height}}*schale
-          var frame_coordinate_top = parseInt({{design.frame_coordinate_top}})*schale
-          var frame_coordinate_left = parseInt({{design.frame_coordinate_left}})*schale
-          var frame_height = {{design.frame_height}}*schale
-          var frame_width = {{design.frame_width}}*schale
-          var border_radius= {{design.frame_border_radius}}*schale
+          var coordinate_top = parseInt({{design.designArtCoordinate.coordinate_top}})*schale
+          var coordinate_left = parseInt({{design.designArtCoordinate.coordinate_left}})*schale
+          var height = {{design.designArtCoordinate.height}}*schale
+
+          var frame_coordinate_top = parseInt({{design.designArtFrameCoordinate.frame_coordinate_top}})*schale
+          var frame_coordinate_left = parseInt({{design.designArtFrameCoordinate.frame_coordinate_left}})*schale
+          var frame_height = {{design.designArtFrameCoordinate.frame_height}}*schale
+          var frame_width = {{design.designArtFrameCoordinate.frame_width}}*schale
+          var border_radius= {{design.designArtFrameCoordinate.frame_border_radius}}*schale
+
+          var text_top = {{design.designTextCoordinate.coordinate_top}}*schale
+          var text_left ={{design.designTextCoordinate.coordinate_left}}*schale
+          var font_size = {{design.designTextCoordinate.font_size}}*schale
+          var font_weight ={{design.designTextCoordinate.font_weight}}*schale
           /*sets the active design coordinate when the page loads for the first time*/
           $("#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{design.rotation}}'});
           $("#crop_frame_{{design.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
+          $( "#design_text_{{design.id}}").css({top:text_top,left:text_left,
+          'font-family':'{{design.designTextCoordinate.font}}','font-weight':font_weight+'px',
+          'font-style':'{{design.designTextCoordinate.font_style}}','color':'{{design.designTextCoordinate.font_color}}',
+          'font-size':font_size+'px'})
           </script>
         </div>
       </div>
@@ -87,24 +100,80 @@
 <div class="col-lg-4 col-md-12 col-sm-12 mt-5 m-0 p-0" id="art_image_edit_controller_space">
   <div class="col-12 p-0 mt-3">
     <label for="height">art size in px: </label>
-    <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.height | stringformat:'d'}}">
+    <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtCoordinate.height | stringformat:'d'}}">
   </div>
   <div class="col-12 p-0 mt-3">
     <label for="frame_height">Frame height in px: </label>
-    <input type="number" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.frame_height | stringformat:'d'}}">
+    <input type="number" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_height | stringformat:'d'}}">
   </div>
   <div class="col-12 p-0 mt-3">
     <label for="frame_width">Frame width in px: </label>
-    <input type="number" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.frame_width | stringformat:'d'}}">
+    <input type="number" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_width | stringformat:'d'}}">
   </div>
   <div class="col-12 p-0 mt-3">
     <label for="frame_border_radius">Frame border-radius px:</label>
-    <input type="number" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.frame_border_radius}}">
+    <input type="number" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_border_radius}}">
+  </div>
+  <div class="col-12 p-0 mt-3">
+    <label for="frame_border_radius">Text size in px:</label>
+    <input type="number" id="text_size" name="tentacles" min="0" max="1000" value="{{designs.0.designTextCoordinate.font_size}}">
+  </div>
+  <textarea class="mb-3" id="design_text_input" rows="4" cols="35" style="white-space: pre-wrap;" name="comment" form="usrform">
+  </textarea>
+  <div class="row mx-0 mb-3 p-0">
+    <p class="m-0 pr-2">Font:</p>
+    <select id="font">
+      <option value="Inria Serif">Inria Serif</option>
+      <option value="Roboto">Roboto</option>
+      <option value="Oswald">Oswald</option>
+      <option value="Ma Shan Zheng">Ma Shan Zheng</option>
+      <option value="Ubuntu">Ubuntu</option>
+      <option value="Open Sans Condensed">Open Sans Condensed</option>
+      <option value="Lilita One">Lilita One</option>
+      <option value="Anton">Anton</option>
+      <option value="Varela Round">Varela Round</option>
+      <option value="Crimson Text">Crimson Text</option>
+      <option value="Lobster">Lobster</option>
+      <option value="Bowlby One SC">Bowlby One SC</option>
+      <option value="Dancing Script">Dancing Script</option>
+    </select>
+  </div>
+  <div class="row mx-0 mb-3 p-0">
+    <p class="m-0 pr-2">Font-weight:</p>
+    <select id="font-weight">
+      <option value="normal">normal</option>
+      <option value="bold">bold</option>
+      <option value="900">Extra bold</option>
+    </select>
+  </div>
+  <div class="row mx-0 mb-3 p-0">
+    <p class="m-0 pr-2">Font-style:</p>
+    <select id="font-style">
+      <option value="normal">normal</option>
+      <option value="italic">italic</option>
+    </select>
+  </div>
+  <div class="row mx-0 mb-3 p-0">
+    <p class="m-0 pr-2">Font color:</p>
+    <select id="font-color">
+      <option value="#F0F8FF">AliceBlue</option>
+      <option value="#FAEBD7">AntiqueWhite </option>
+      <option value="#DC143C">Crimson </option>
+      <option value="#FFF8DC">Cornsilk </option>
+      <option value="#191970">MidnightBlue </option>
+      <option value="#2F4F4F">DarkSlateGray </option>
+      <option value="#000000">Black </option>
+      <option value="#F8F8FF">GhostWhite</option>
+      <option value="#FFFFFF">White</option>
+      <option value="#F5F5F5">WhiteSmoke  </option>
+      <option value="#F8F8FF">GhostWhite</option>
+      <option value="##000080">Navy </option>
+    </select>
   </div>
 </div>
 </div>
 <div id="dialog-confirm" title="Delete this product design?">
-  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>These design will be permanently deleted and cannot be recovered. Are you sure?</p>
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;" ></span>These design will be permanently deleted and cannot be recovered. Are you sure?</p>
 </div>
 {% endblock body%}
 {% block javascript %}
@@ -115,19 +184,26 @@ var activeDesignId;
 var draggability = 'disable';
 if({{designs.count}} != 0){
   /*sets the active design coordinate when the page loads for the first time*/
-  $( "#art_image_edit" ).css({ top: '{{designs.0.coordinate_top}}'+'px', left:'{{designs.0.coordinate_left}}'+'px',
-  height: '{{designs.0.height}}', transform: '{{designs.0.rotation}}'});
-  $( ".crop_frame" ).css({ top: '{{designs.0.frame_coordinate_top}}'+'px', left:'{{designs.0.frame_coordinate_left}}'+'px',
-  height: '{{designs.0.frame_height}}'+'px', width: '{{designs.0.frame_width}}'+'px', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
-  'border-radius': parseInt('{{designs.0.frame_border_radius}}')
-});
-$( "#art_image_edit_top_left" ).css({ top: '{{designs.0.frame_coordinate_top}}'+'px', left:'{{designs.0.frame_coordinate_left}}'+'px'
-});
-$( "#art_image_edit_top_right" ).css({ top: '{{designs.0.frame_coordinate_top}}'+'px', left:'{{designs.0.frame_coordinate_left}}'+'px'
-});
-$('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
-$('#productChoiceButton_'+'{{designs.0.id}}').css({ 'border-bottom': 'solid 4px #f76c6c'})
-designEditButtons()
+  $( "#art_image_edit" ).css({ top: '{{designs.0.designArtCoordinate.coordinate_top}}'+'px', left:'{{designs.0.designArtCoordinate.coordinate_left}}'+'px',
+  height: '{{designs.0.designArtCoordinate.height}}'+'px'});
+  $( ".crop_frame" ).css({ top: '{{designs.0.designArtFrameCoordinate.frame_coordinate_top}}'+'px', left:'{{designs.0.designArtFrameCoordinate.frame_coordinate_left}}'+'px',
+  height: '{{designs.0.designArtFrameCoordinate.frame_height}}'+'px', width: '{{designs.0.designArtFrameCoordinate.frame_width}}'+'px', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
+  'border-radius': parseInt('{{designs.0.designArtFrameCoordinate.frame_border_radius}}')
+  });
+
+  $( "#design_text").css({top:'{{designs.0.designTextCoordinate.coordinate_top}}'+'px',left: '{{designs.0.designTextCoordinate.coordinate_left}}'+'px',
+  'font-family':'{{designs.0.designTextCoordinate.font}}','font-weight':'{{designs.0.designTextCoordinate.font_weight}}'+'px',
+  'font-style':'{{designs.0.designTextCoordinate.font_style}}','color':'{{designs.0.designTextCoordinate.font_color}}',
+  'font-size':'{{designs.0.designTextCoordinate.font_size}}'+'px'})
+
+  $("#font").val('{{designs.0.designTextCoordinate.font}}')
+  $("#font-style").val('{{designs.0.designTextCoordinate.font_style}}')
+  $("#font-weight").val('{{designs.0.designTextCoordinate.font_weight}}')
+  $("#font-color").val('{{designs.0.designTextCoordinate.font_color}}')
+
+  $('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
+  $('#productChoiceButton_'+'{{designs.0.id}}').css({ 'border-bottom': 'solid 4px #f76c6c'})
+  designEditButtons()
 }
 
 $("#art_image_edit_controller_space").hide()
@@ -141,8 +217,12 @@ if('{{designs.0.user}}' != 'None'){
   } );
 
   $( function() {
+    $( "#design_text" ).draggable().draggable(draggability);
+  } );
+  $( function() {
     $( "#art_image_edit" ).draggable().draggable(draggability);
   } );
+
 
   $("#art_image_edit_controller_space").show()
 
@@ -150,9 +230,9 @@ if('{{designs.0.user}}' != 'None'){
 }
 
 function addToCart(){
-    $.get('/cart/'+activeDesignId+'/',function( data ) {
-      window.location.href = "/cart/";
-    })
+  $.get('/cart/'+activeDesignId+'/',function( data ) {
+    window.location.href = "/cart/";
+  })
 }
 
 function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName){
@@ -168,10 +248,14 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
   $( function() {
     $( ".crop_frame" ).draggable().draggable(draggability);
   } );
-
+  $( function() {
+    $( "#design_text" ).draggable().draggable(draggability);
+  } );
   $( function() {
     $( "#art_image_edit" ).draggable().draggable(draggability);
   } );
+
+
 
   activeDesignId = id
   $.ajax({
@@ -210,24 +294,34 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
 };
 
 function saveCoordinate(url,csrfToken){
-
+  // art
   var art_top = $( "#art_image_edit" ).css("top")
   var art_left = $( "#art_image_edit" ).css("left")
   var height = $( "#art_image_edit" ).css("height")
   var width = $( "#art_image_edit" ).css("width")
+  // frame
   var rotation = $( "#art_image_edit" ).css("transform")
   var frame_top = $( ".crop_frame" ).css("top")
   var frame_left = $( ".crop_frame" ).css("left")
   var frame_height = $( ".crop_frame" ).css("height")
   var frame_width = $( ".crop_frame" ).css("width")
   var frame_border_radius = $( ".crop_frame" ).css("border-top-left-radius")
-  var designId = activeDesignId
+  // text
+  var font = $( "#design_text" ).css("font-family")
+  var font_weight = $( "#design_text" ).css("font-weight")
+  var font_style = $( "#design_text" ).css("font-style")
+  var font_color = $( "#design_text" ).css("color")
+  var text_top = $( "#design_text" ).css("top")
+  var text_left = $( "#design_text" ).css("left")
+  var text = $( "#design_text" ).text();
+  var text_size = $( "#design_text").css("font-size");
+  console.log(text_size)
   $.ajax({
     type: 'POST',
     url: url,
     data: {
       'csrfmiddlewaretoken': csrfToken,
-      'designId':designId,
+      'designId':activeDesignId,
       'left': art_left,
       'top':art_top,
       'height':height,
@@ -238,6 +332,15 @@ function saveCoordinate(url,csrfToken){
       'frame_width':frame_width,
       'frame_border_radius':frame_border_radius,
       'rotation':rotation,
+
+      'font':font,
+      'font_weight':font_weight,
+      'font_style':font_style,
+      'font_color':font_color,
+      'text_top':text_top,
+      'text_left':text_left,
+      'text':text,
+      'text_size':text_size
     },
     success: alert,
     dataType: 'json'
@@ -255,6 +358,16 @@ function saveCoordinate(url,csrfToken){
     var small_frame_height = parseInt(frame_height)*schale
     var small_frame_width = parseInt(frame_width)*schale
     var small_frame_frame_border_radius = parseInt(frame_border_radius)*schale
+
+    var small_text_top = parseInt(text_top)*schale
+    var small_text_left =parseInt(text_left)*schale
+    var small_font_size = parseInt(text_size)*schale
+    var small_font_weight =parseInt(font_weight)*schale
+
+    $( "#design_text_"+activeDesignId).css({top:small_text_top,left:small_text_left,
+    'font-family':font,'font-weight':small_font_weight+'px',
+    'font-style':font_style,'color':font_color,
+    'font-size':small_font_size})
     $("#art_image_view_small_"+activeDesignId).css({ top: small_art_coordinate_top, left: small_art_coordinate_left, height: small_art_height});
     $("#crop_frame_"+activeDesignId).css({ top: small_frame_coordinate_top, left: small_frame_coordinate_left, height: small_frame_height, width:small_frame_width, 'border-radius': small_frame_frame_border_radius});
   };
@@ -266,6 +379,10 @@ function designEditButtons(){
       $("#save_button").show()
       $("#art_image_edit_controller_space").show()
     }
+  });
+
+  $("#design_text").mousedown(function() {
+      $("#save_button").show()
   });
 
   $( function() {
@@ -287,7 +404,7 @@ function designEditButtons(){
     $("#art_image_edit_controller_space").hide()
   }
 
-  $(".crop_frame").mouseover(function(){
+  $("#main").mouseover(function(){
     if(draggability=='enable'){
       $(".crop_frame").mouseover(function(){
         if(draggability=='enable'){
@@ -310,15 +427,44 @@ function designEditButtons(){
       $( "#frame_height" ).change(function(){
         $("#save_button").show()
         height = $("#frame_height").val();
-        $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)'})
-        $( ".crop_frame" ).css({ height: height});
+        $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', height: height})
+      });
+
+      $( "#text_size" ).change(function(){
+        $("#save_button").show()
+        text_size = $("#text_size").val();
+        $("#design_text").css({ 'font-size': text_size+'px'})
+      });
+      $( "#design_text_input" ).change(function(){
+        $("#save_button").show()
+        text_size = $("#design_text_input").val();
+        $("#design_text").html($("#design_text_input").val())
+      });
+      $( "#font-weight" ).change(function(){
+        $("#save_button").show()
+        font_weight = $("#font-weight").val();
+        $("#design_text").css({'font-weight': font_weight})
+      });
+      $( "#font-style" ).change(function(){
+        $("#save_button").show()
+        font_style = $("#font-style").val();
+        $("#design_text").css({'font-style': font_style})
+      });
+      $( "#font" ).change(function(){
+        $("#save_button").show()
+        font = $("#font").val();
+        $("#design_text").css({'font-family': font})
+      });
+      $( "#font-color" ).change(function(){
+        $("#save_button").show()
+        font = $("#font-color").val();
+        $("#design_text").css({'color': font})
       });
 
       $( "#frame_width" ).change(function(){
         $("#save_button").show()
         width = $("#frame_width").val();
-        $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)'})
-        $( ".crop_frame" ).css({ width: width});
+        $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', width: width})
       });
 
       $("#frame_border_radius").change(function(){

@@ -19,7 +19,6 @@
             {% endif %}
           {% endwith %}
         {% endif %}
-        {% csrf_token %}
         {{ form|crispy }}
       </fieldset>
         <button class="btn btn-outline-info" type="submit">Login</button>

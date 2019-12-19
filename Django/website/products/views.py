@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import View
-from products.models import Design, Product
+from products.models import Design, Product, DesignArtCoordinate, DesignArtFrameCoordinate, DesignTextCoordinate
 from art.models import Artwork
 from django.utils import timezone
 from django.urls import reverse
@@ -16,16 +16,16 @@ class ProductDetailView(View):
         if request.is_ajax():
             design = Design.objects.get(id= request.GET.get('designId'))
             id = request.GET.get('designId')
-            top = design.coordinate_top
-            left = design.coordinate_left
-            height = design.height
-            width = design.width
-            frame_top = design.frame_coordinate_top
-            frame_left =design.frame_coordinate_left
-            frame_height = design.frame_height
-            frame_width = design.frame_width
-            rotation = design.rotation
-            frame_border_radius = design.frame_border_radius
+            top = design.designArtCoordinate.coordinate_top
+            left = design.designArtCoordinate.coordinate_left
+            height = design.designArtCoordinate.height
+            width = design.designArtCoordinate.width
+            frame_top = design.designArtFrameCoordinate.frame_coordinate_top
+            frame_left =design.designArtFrameCoordinate.frame_coordinate_left
+            frame_height = design.designArtFrameCoordinate.frame_height
+            frame_width = design.designArtFrameCoordinate.frame_width
+            rotation = design.designArtFrameCoordinate.rotation
+            frame_border_radius = design.designArtFrameCoordinate.frame_border_radius
             status = 'success'
             return JsonResponse({'status':status,'top':top,'left':left,'height':height, 'width':width, 'rotation':rotation, 'frame_top': frame_top,
             'frame_left': frame_left, 'frame_height': frame_height, 'frame_width': frame_width, 'frame_border_radius':frame_border_radius,'id':id})
@@ -43,7 +43,11 @@ class ProductDetailView(View):
         else:
             art = Artwork.objects.get(id = self.kwargs.get('art_pk'))
             product = Product.objects.get(id = self.kwargs.get('product_pk'))
-            designs = Design.objects.filter(art= art, product= product, user__isnull=True)
+            designArtCoordinate = DesignArtCoordinate.objects.create()
+            designArtFrameCoordinate = DesignArtFrameCoordinate.objects.create()
+            designTextCoordinate = DesignTextCoordinate.objects.create()
+            designs = Design.objects.filter(art= art, product= product, user__isnull=True,
+            designArtCoordinate =designArtCoordinate,designArtFrameCoordinate=designArtFrameCoordinate,designTextCoordinate=designTextCoordinate)
             form = forms.CreateProductDesignForm()
             context = {
             'art':art,
@@ -60,18 +64,31 @@ class ProductDetailView(View):
                 return JsonResponse({'status':"success"})
             else:
                 design = Design.objects.get(id= request.POST.get('designId'))
-                design.coordinate_top = request.POST.get('top')[:-2]
-                design.coordinate_left = request.POST.get('left')[:-2]
-                design.height = request.POST.get('height')[:-2]
-                design.width = request.POST.get('width')[:-2]
-                design.rotation = str(request.POST.get('rotation'))
-                design.frame_coordinate_top = request.POST.get('frame_top')[:-2]
-                design.frame_coordinate_left = request.POST.get('frame_left')[:-2]
-                design.frame_width = request.POST.get('frame_width')[:-2]
-                design.frame_height = request.POST.get('frame_height')[:-2]
-                design.frame_border_radius = request.POST.get('frame_border_radius')[:-2]
-                print(request.POST.get('width')[:-2])
-                design.save()
+                ##art
+                design.designArtCoordinate.coordinate_top = request.POST.get('top')[:-2]
+                design.designArtCoordinate.coordinate_left = request.POST.get('left')[:-2]
+                design.designArtCoordinate.height = request.POST.get('height')[:-2]
+                design.designArtCoordinate.width = request.POST.get('width')[:-2]
+                ##artframe
+                design.designArtFrameCoordinate.rotation = str(request.POST.get('rotation'))
+                design.designArtFrameCoordinate.frame_coordinate_top = request.POST.get('frame_top')[:-2]
+                design.designArtFrameCoordinate.frame_coordinate_left = request.POST.get('frame_left')[:-2]
+                design.designArtFrameCoordinate.frame_width = request.POST.get('frame_width')[:-2]
+                design.designArtFrameCoordinate.frame_height = request.POST.get('frame_height')[:-2]
+                design.designArtFrameCoordinate.frame_border_radius = request.POST.get('frame_border_radius')[:-2]
+                ##text
+                design.designTextCoordinate.font = request.POST.get('font')
+                design.designTextCoordinate.font_weight = request.POST.get('font_weight')
+                design.designTextCoordinate.font_style = request.POST.get('font_style')
+                design.designTextCoordinate.coordinate_top = request.POST.get('text_top')[:-2]
+                design.designTextCoordinate.coordinate_left = request.POST.get('text_left')[:-2]
+                design.designTextCoordinate.font_color = request.POST.get('font_color')
+                design.designTextCoordinate.text = request.POST.get('text')
+                design.designTextCoordinate.font_size = request.POST.get('text_size')[:-2]
+
+                design.designArtCoordinate.save()
+                design.designArtFrameCoordinate.save()
+                design.designTextCoordinate.save()
                 return JsonResponse({'status':'success'})
         if request.POST.get("add_design"):
             art_pk = self.kwargs.get('art_pk')
@@ -90,16 +107,16 @@ class ProductDesignEditView(View):
 
                     design = Design.objects.get(id= request.GET.get('designId'))
                     id = request.GET.get('designId')
-                    top = design.coordinate_top
-                    left = design.coordinate_left
-                    height = design.height
-                    width = design.width
-                    frame_top = design.frame_coordinate_top
-                    frame_left =design.frame_coordinate_left
-                    frame_height = design.frame_height
-                    frame_width = design.frame_width
-                    rotation = design.rotation
-                    frame_border_radius = design.frame_border_radius
+                    top = design.designArtCoordinate.coordinate_top
+                    left = design.designArtCoordinate.coordinate_left
+                    height = design.designArtCoordinate.height
+                    width = design.designArtCoordinate.width
+                    frame_top = design.designArtFrameCoordinate.frame_coordinate_top
+                    frame_left =design.designArtFrameCoordinate.frame_coordinate_left
+                    frame_height = design.designArtFrameCoordinate.frame_height
+                    frame_width = design.designArtFrameCoordinate.frame_width
+                    rotation = design.designArtFrameCoordinate.rotation
+                    frame_border_radius = design.designArtFrameCoordinate.frame_border_radius
                     status = 'success'
                     return JsonResponse({'status':status,'top':top,'left':left,'height':height, 'width':width, 'rotation':rotation, 'frame_top': frame_top,
                     'frame_left': frame_left, 'frame_height': frame_height, 'frame_width': frame_width, 'frame_border_radius':frame_border_radius,'id':id})
@@ -125,17 +142,30 @@ class ProductDesignEditView(View):
                 return JsonResponse({'status':"success"})
             else:
                 design = Design.objects.get(id= request.POST.get('designId'))
-                design.coordinate_top = request.POST.get('top')[:-2]
-                design.coordinate_left = request.POST.get('left')[:-2]
-                design.height = request.POST.get('height')[:-2]
-                design.width = request.POST.get('width')[:-2]
-                design.rotation = str(request.POST.get('rotation'))
-                design.frame_coordinate_top = request.POST.get('frame_top')[:-2]
-                design.frame_coordinate_left = request.POST.get('frame_left')[:-2]
-                design.frame_width = request.POST.get('frame_width')[:-2]
-                design.frame_height = request.POST.get('frame_height')[:-2]
-                design.frame_border_radius = request.POST.get('frame_border_radius')[:-2]
-                design.save()
+                design.designArtCoordinate.coordinate_top = request.POST.get('top')[:-2]
+                design.designArtCoordinate.coordinate_left = request.POST.get('left')[:-2]
+                design.designArtCoordinate.height = request.POST.get('height')[:-2]
+                design.designArtCoordinate.width = request.POST.get('width')[:-2]
+
+                design.designArtFrameCoordinate.rotation = str(request.POST.get('rotation'))
+                design.designArtFrameCoordinate.frame_coordinate_top = request.POST.get('frame_top')[:-2]
+                design.designArtFrameCoordinate.frame_coordinate_left = request.POST.get('frame_left')[:-2]
+                design.designArtFrameCoordinate.frame_width = request.POST.get('frame_width')[:-2]
+                design.designArtFrameCoordinate.frame_height = request.POST.get('frame_height')[:-2]
+                design.designArtFrameCoordinate.frame_border_radius = request.POST.get('frame_border_radius')[:-2]
+                ##text
+                design.designTextCoordinate.font = request.POST.get('font')
+                design.designTextCoordinate.font_weight = request.POST.get('font_weight')
+                design.designTextCoordinate.font_style = request.POST.get('font_style')
+                design.designTextCoordinate.coordinate_top = request.POST.get('text_top')[:-2]
+                design.designTextCoordinate.coordinate_left = request.POST.get('text_left')[:-2]
+                design.designTextCoordinate.font_color = request.POST.get('font_color')
+                design.designTextCoordinate.text = request.POST.get('text')
+                design.designTextCoordinate.font_size = request.POST.get('text_size')[:-2]
+
+                design.designArtCoordinate.save()
+                design.designArtFrameCoordinate.save()
+                design.designTextCoordinate.save()
                 status = 'success'
                 return JsonResponse({'status':status})
         else:
