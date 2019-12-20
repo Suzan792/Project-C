@@ -23,3 +23,7 @@ def isEditable(design_pk):
     else:
         res = "true"
     return res
+
+@register.simple_tag
+def addFloat(float1, float2):
+    return float1+float2
