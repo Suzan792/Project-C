@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Cart
-from order.views import add_orders
+import order.views as order_views 
 from products.models import Product, Design
 from django.views.generic import View
 from django.urls import reverse
@@ -92,7 +92,7 @@ def payment(request, cart, total):
 
     form = PayPalPaymentsForm(initial=paypal_form)
 
-    move_to_orderhistory(request, cart)
+    # move_to_orderhistory(request, cart)
 
     return cart, form
 
@@ -114,6 +114,6 @@ def move_to_orderhistory(request, cart):
     date_time = datetime.now()
 
     for item in cart.item.all():
-        add_orders(request, item, today, date_time)
+        order_views.add_orders(request, item, today, date_time)
         cart.item.remove(item)
         print('items added,removed')

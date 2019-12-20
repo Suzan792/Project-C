@@ -38,6 +38,14 @@ class OrderDesign(models.Model):
     frame_coordinate_top = models.DecimalField(default=10, max_digits=10, decimal_places=3)
     frame_border_radius = models.IntegerField(default= 0)
     rotation = models.CharField(max_length=100,default='matrix(1, 0, 0, 1, 0, 0)')
+    text_coordinate_left = models.DecimalField(default= 300,max_digits=10, decimal_places=3)
+    text_coordinate_top = models.DecimalField(default= 300,max_digits=10, decimal_places=3)
+    text_font = models.CharField(max_length = 300,default='Roboto')
+    text_font_weight = models.DecimalField(default= 300,max_digits=10, decimal_places=3)
+    text_font_style =  models.CharField(max_length = 60,default='normal')
+    text_font_color =  models.CharField(max_length = 60,default='black')
+    text_font_size = models.DecimalField(default= 40,max_digits=10, decimal_places=3)
+    text =  models.TextField(default='')
 
     def __str__(self):
         return self.art.artwork_name + '   |   ' + self.product.product_name
