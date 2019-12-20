@@ -26,9 +26,20 @@ class ProductDetailView(View):
             frame_width = design.designArtFrameCoordinate.frame_width
             rotation = design.designArtFrameCoordinate.rotation
             frame_border_radius = design.designArtFrameCoordinate.frame_border_radius
+            text = design.designTextCoordinate.text
+            text_top = design.designTextCoordinate.coordinate_top
+            text_left = design.designTextCoordinate.coordinate_left
+            font_color = design.designTextCoordinate.font_color
+            font_weight = design.designTextCoordinate.font_weight
+            font = design.designTextCoordinate.font
+            font_style = design.designTextCoordinate.font_style
+            font_size =design.designTextCoordinate.font_size
+
             status = 'success'
             return JsonResponse({'status':status,'top':top,'left':left,'height':height, 'width':width, 'rotation':rotation, 'frame_top': frame_top,
-            'frame_left': frame_left, 'frame_height': frame_height, 'frame_width': frame_width, 'frame_border_radius':frame_border_radius,'id':id})
+            'frame_left': frame_left, 'frame_height': frame_height, 'frame_width': frame_width, 'frame_border_radius':frame_border_radius,'id':id,'text':text,
+            'text_top':text_top,'text_left':text_left,'font_color':font_color,'font_weight':font_weight,'font':font,'font_style':font_style,'font_size':font_size})
+
         elif request.user.is_authenticated:
             user = request.user.userprofile
             designs = Design.objects.filter(Q(art=art), Q(product=product), Q(user=user) | Q(user=None)).order_by('-user')
@@ -85,6 +96,7 @@ class ProductDetailView(View):
                 design.designArtCoordinate.save()
                 design.designArtFrameCoordinate.save()
                 design.designTextCoordinate.save()
+
                 return JsonResponse({'status':'success'})
         if request.POST.get("add_design"):
             art_pk = self.kwargs.get('art_pk')
@@ -138,11 +150,12 @@ class ProductDesignEditView(View):
                 return JsonResponse({'status':"success"})
             else:
                 design = Design.objects.get(id= request.POST.get('designId'))
+                ##art
                 design.designArtCoordinate.coordinate_top = request.POST.get('top')[:-2]
                 design.designArtCoordinate.coordinate_left = request.POST.get('left')[:-2]
                 design.designArtCoordinate.height = request.POST.get('height')[:-2]
                 design.designArtCoordinate.width = request.POST.get('width')[:-2]
-
+                ##frame
                 design.designArtFrameCoordinate.rotation = str(request.POST.get('rotation'))
                 design.designArtFrameCoordinate.frame_coordinate_top = request.POST.get('frame_top')[:-2]
                 design.designArtFrameCoordinate.frame_coordinate_left = request.POST.get('frame_left')[:-2]
@@ -162,8 +175,7 @@ class ProductDesignEditView(View):
                 design.designArtCoordinate.save()
                 design.designArtFrameCoordinate.save()
                 design.designTextCoordinate.save()
-                status = 'success'
-                return JsonResponse({'status':status})
+                return JsonResponse({'status':'success'})
         else:
             art_pk = self.kwargs.get('art_pk')
             product_pk = request.POST.get('product')

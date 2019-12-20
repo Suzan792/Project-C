@@ -43,7 +43,7 @@
             style="height: 100%; position: absolute;  margin: -0px 0px 0px 0px;"
             class="art_image_edit" src="{{design.art.artwork_photo.url}}"alt="art image is not loading error">
           </div>
-          <p  id="design_text_{{design.id}}" style=" position: absolute;  margin: 0px; white-space: pre-wrap; font-family: Lobster"; font-weight: normal>{{designs.0.designTextCoordinate.text}}</p>
+          <p  id="design_text_{{design.id}}" style=" position: absolute;  margin: 0px; white-space: pre-wrap; font-family: Lobster"; font-weight: normal>{{design.designTextCoordinate.text}}</p>
 
           <script>
           var schale = 0.15
@@ -98,77 +98,78 @@
     </div>
   </div>
 </div>
-<div class="col-lg-4 col-md-12 col-sm-12 mt-5 m-0 p-0" id="art_image_edit_controller_space">
-  <div class="col-12 p-0 mt-3">
-    <label for="height">art size in px: </label>
-    <input type="number" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtCoordinate.height | stringformat:'d'}}">
+<div class="col-lg-4 col-md-12 col-sm-12 m-0 mt-4 px-5" id="art_image_edit_controller_space">
+  <div class="form-group p-0 mt-3">
+    <label for="height">Art size in px: </label>
+    <input type="number" class="form-control" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtCoordinate.height | stringformat:'d'}}">
   </div>
-  <div class="col-12 p-0 mt-3">
+  <div class="form-group p-0 mt-3">
     <label for="frame_height">Frame height in px: </label>
-    <input type="number" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_height | stringformat:'d'}}">
+    <input type="number" class="form-control" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_height | stringformat:'d'}}">
   </div>
-  <div class="col-12 p-0 mt-3">
+  <div class="form-group col-12 p-0 mt-3">
     <label for="frame_width">Frame width in px: </label>
-    <input type="number" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_width | stringformat:'d'}}">
+    <input type="number" class="form-control" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_width | stringformat:'d'}}">
   </div>
-  <div class="col-12 p-0 mt-3">
+  <div class="form-group-12 p-0 mt-3">
     <label for="frame_border_radius">Frame border-radius px:</label>
-    <input type="number" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_border_radius}}">
+    <input type="number" class="form-control" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_border_radius}}">
   </div>
-  <div class="col-12 p-0 mt-3">
+  <div class="form-group p-0 mt-3">
     <label for="frame_border_radius">Text size in px:</label>
-    <input type="number" id="text_size" name="tentacles" min="0" max="1000" value="{{designs.0.designTextCoordinate.font_size}}">
+    <input type="number" class="form-control" id="text_size" name="tentacles" min="0" max="1000" value="{{designs.0.designTextCoordinate.font_size}}">
   </div>
-  <textarea class="mb-3" id="design_text_input" rows="4" cols="35" style="white-space: pre-wrap;" name="comment" form="usrform">
-  </textarea>
-  <div class="row mx-0 mb-3 p-0">
-    <p class="m-0 pr-2">Font:</p>
-    <select id="font">
-      <option value="Inria Serif">Inria Serif</option>
-      <option value="Roboto">Roboto</option>
-      <option value="Oswald">Oswald</option>
-      <option value="Ma Shan Zheng">Ma Shan Zheng</option>
-      <option value="Ubuntu">Ubuntu</option>
-      <option value="Open Sans Condensed">Open Sans Condensed</option>
-      <option value="Lilita One">Lilita One</option>
-      <option value="Anton">Anton</option>
-      <option value="Varela Round">Varela Round</option>
-      <option value="Crimson Text">Crimson Text</option>
-      <option value="Lobster">Lobster</option>
-      <option value="Bowlby One SC">Bowlby One SC</option>
-      <option value="Dancing Script">Dancing Script</option>
+  <div class="md-form">
+    <label  >Text</label>
+    <textarea class="md-textarea form-control mb-3" id="design_text_input" rows="4" cols="35" style="white-space: pre-wrap;" name="comment" form="usrform"></textarea>
+
+    </div>
+  <div class="form-group mx-0 mb-3 p-0">
+    <label>Font</label>
+    <select class="form-control" id="font">
+      <option style="font-family: Inria Serif!important;" value="Inria Serif">Inria Serif</option>
+      <option style="font-family: Roboto!important;" value="Roboto">Roboto</option>
+      <option style="font-family: Oswald!important!important;" value="Oswald">Oswald</option>
+      <option style="font-family: Ma Shan Zheng!important;" value="Ma Shan Zheng">Ma Shan Zheng</option>
+      <option style="font-family: Ubuntu!important;" value="Ubuntu">Ubuntu</option>
+      <option style="font-family: Open Sans Condensed!important;" value="Open Sans Condensed">Open Sans Condensed</option>
+      <option style="font-family: Lilita One!important;" value="Lilita One">Lilita One</option>
+      <option style="font-family: Anton!important;" value="Anton">Anton</option>
+      <option style="font-family: Varela Round!important;" value="Varela Round">Varela Round</option>
+      <option style="font-family: Crimson Text!important;" value="Crimson Text">Crimson Text</option>
+      <option style="font-family: Lobster!important;" value="Lobster">Lobster</option>
+      <option style="font-family: Bowlby One SC!important;" value="Bowlby One SC">Bowlby One SC</option>
+      <option style="font-family: Dancing Script!important;" value="Dancing Script">Dancing Script</option>
     </select>
   </div>
-  <div class="row mx-0 mb-3 p-0">
-    <p class="m-0 pr-2">Font-weight:</p>
-    <select id="font-weight">
+
+  <div class="form-group mx-0 mb-3 p-0">
+    <label>Font-weight</label>
+    <select class="form-control" id="font-weight">
       <option value="normal">normal</option>
       <option value="bold">bold</option>
       <option value="900">Extra bold</option>
     </select>
   </div>
-  <div class="row mx-0 mb-3 p-0">
-    <p class="m-0 pr-2">Font-style:</p>
-    <select id="font-style">
+  <div class="form-group mx-0 mb-3 p-0">
+    <label>Font-style</label>
+    <select class="form-control" id="font-style">
       <option value="normal">normal</option>
       <option value="italic">italic</option>
     </select>
   </div>
-  <div class="row mx-0 mb-3 p-0">
-    <p class="m-0 pr-2">Font color:</p>
-    <select id="font-color">
-      <option value="#F0F8FF">AliceBlue</option>
-      <option value="#FAEBD7">AntiqueWhite </option>
-      <option value="#DC143C">Crimson </option>
-      <option value="#FFF8DC">Cornsilk </option>
-      <option value="#191970">MidnightBlue </option>
-      <option value="#2F4F4F">DarkSlateGray </option>
-      <option value="#000000">Black </option>
-      <option value="#F8F8FF">GhostWhite</option>
-      <option value="#FFFFFF">White</option>
-      <option value="#F5F5F5">WhiteSmoke  </option>
-      <option value="#F8F8FF">GhostWhite</option>
-      <option value="##000080">Navy </option>
+  <div class="form-group mx-0 mb-3 p-0">
+    <label>Font color</label>
+    <select class="form-control" id="font-color">
+      <option style="background: #F0F8FF;" value="#F0F8FF">AliceBlue</option>
+      <option style="background: #FAEBD7;" value="#FAEBD7">AntiqueWhite </option>
+      <option style="background: #DC143C;" value="#DC143C">Crimson </option>
+      <option style="background: #FFF8DC;" value="#FFF8DC">Cornsilk </option>
+      <option style="background: #191970;" value="#191970">MidnightBlue </option>
+      <option style="background: #2F4F4F;" value="#2F4F4F">DarkSlateGray </option>
+      <option style="background: #000000;" value="#000000">Black </option>
+      <option style="background: #F8F8FF;" value="#F8F8FF">GhostWhite</option>
+      <option style="background: #000080;" value="#000080">Navy </option>
     </select>
   </div>
 </div>
@@ -256,9 +257,8 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
     $( "#art_image_edit" ).draggable().draggable(draggability);
   } );
 
-
-
   activeDesignId = id
+
   $.ajax({
     type: 'GET',
     url: url,
@@ -281,14 +281,30 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
       frame_width = data['frame_width']
       frame_border_radius = data['frame_border_radius']
       rotation = data['rotation']
+
+      text_top = data['text_top']
+      text_left = data['text_left']
+      font = data['font']
+      font_weight = data['font_weight']
+      font_color = data['font_color']
+      font_style = data['font_style']
+      font_size = data['font_size']
+
       $("#art_image_edit").css({ top: art_top, left: art_left, height: art_height, transform: rotation} );
       $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width, 'border-radius': frame_border_radius} );
       $("#height").val(Math.round(art_height));
+
       $("#frame_height").val(Math.round(frame_height));
       $("#frame_width").val(Math.round(frame_width));
       $("#frame_border_radius").val(frame_border_radius);
       $(".imgbuttom").removeClass("border-success").addClass("border-dark")
       $("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
+
+      $('#design_text').text(data['text'])
+      $( "#design_text").css({top:text_top+'px',left: text_left+'px',
+      'font-family':font,'font-weight':font_weight+'px',
+      'font-style':font_style,'color':font_color,
+      'font-size':font_size+'px'})
       document.getElementById("product_image_edit").src = imageUrl;
     }
   });
