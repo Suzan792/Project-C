@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load custom_templatetags_art %}
 
 {% block title %} Shopping Cart {% endblock title %}
 
@@ -60,7 +61,7 @@
                     <td><a href="{% url 'productDetail_page' item.art.id item.product.id %}" >{{ item }}</a></td>
                     <td></td>
                     <td><a href="{% url 'update_cart' item.id %}" >Delete</a></td>
-                    <td>€{{ item.product.price|add:item.art.artwork_price }}</td>
+                    <td>€{% addFloat item.product.price item.art.artwork_price %}</td>
                 </tr>
 
                 {% endfor %}
