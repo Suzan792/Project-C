@@ -159,4 +159,4 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 PAYPAL_RECEIVER_EMAIL = 'sb-uxbir626964@business.example.com'
 PAYPAL_TEST = True
-PAYPAL_BUY_BUTTON_IMAGE = '/static/paypal/paypal-button-white.png/'
+PAYPAL_BUY_BUTTON_IMAGE = '/paypal/paypal-button-white.png/'
