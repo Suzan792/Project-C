@@ -10,4 +10,5 @@ urlpatterns = [
     path('payment_done', views.payment_done, name='payment_done'),
     path('payment_cancelled', views.payment_cancelled, name='payment_cancelled'),
     path('paypal/', include('paypal.standard.ipn.urls')),
+    path('cart/', views.request_to_paypal, name='request_to_paypal')
 ]

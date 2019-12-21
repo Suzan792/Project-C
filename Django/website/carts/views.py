@@ -1,5 +1,7 @@
 from datetime import datetime
 from paypal.standard.forms import PayPalPaymentsForm
+from urllib.parse import urlencode
+from urllib.request import urlopen
 
 from django.conf import settings
 from django.contrib import messages
@@ -8,7 +10,8 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Cart
-import order.views as order_views 
+from .forms import PayPalForm
+from order import views as order_views 
 from products.models import Product, Design
 from django.views.generic import View
 from django.urls import reverse
@@ -90,7 +93,7 @@ def payment(request, cart, total):
         'cancel_return': 'http://{}{}'.format(host, reverse('payment_cancelled')),
     }
 
-    form = PayPalPaymentsForm(initial=paypal_form)
+    form = PayPalForm(initial=paypal_form)
 
     # move_to_orderhistory(request, cart)
 
@@ -117,3 +120,23 @@ def move_to_orderhistory(request, cart):
         order_views.add_orders(request, item, today, date_time)
         cart.item.remove(item)
         print('items added,removed')
+
+def request_to_paypal(request, form):
+    print(request.POST.get("currency_code",''))
+    post_data = [
+        ("cmd",request.POST.get("cmd",'')),
+        ("charset",request.POST.get("charset",'')),
+        ("currency_code",request.POST.get("currency_code",'')),
+        ("no_shipping",request.POST.get("no_shipping",'')),
+        ("business",request.POST.get("business",'')),
+        ("amount",request.POST.get("amount",'')),
+        ("item_name",request.POST.get("item_name",'')),
+        ("invoice",request.POST.get("invoice",'')),
+        ("notify_url",request.POST.get("notify_url",'')),
+        ("cancel_return",request.POST.get("cancel_return",'')),
+        ("return",request.POST.get("return",'')),
+    ]
+    result = urlopen(form.get_endpoint(), urlencode(post_data))
+    content = result.read()
+    print(content)
+    
