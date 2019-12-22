@@ -70,7 +70,10 @@ class ProductDetailView(View):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
             if request.POST.get('action')== "delete":
-                Design.objects.get(id= request.POST['pk']).delete()
+                design = Design.objects.get(id= request.POST['pk'])
+                storage, path = design.design_photo.storage, design.design_photo.path
+                design.delete()
+                storage.delete(path)
                 return JsonResponse({'status':"success"})
             else:
                 data = request.POST.get('image')
@@ -80,13 +83,11 @@ class ProductDetailView(View):
                 fileStorage = FileSystemStorage()
                 fileStorage.location = 'media/design_pics'
                 design = Design.objects.get(id= request.POST.get('designId'))
-                if design.design_photo.path != 'design_pics/defaultDesign.png':
+                if design.design_photo.url != '/media/design_pics/defaultDesign.png':
                     storage, path = design.design_photo.storage, design.design_photo.path
                     storage.delete(path)
                 name = fileStorage.get_available_name('design.png')
                 fileStorage.save(name,data)
-                print('-----------------------------')
-                print(name)
                 design.design_photo = 'design_pics/'+name
 
 
@@ -179,14 +180,11 @@ class ProductDesignEditView(View):
                 fileStorage = FileSystemStorage()
                 fileStorage.location = 'media/design_pics'
                 design = Design.objects.get(id= request.POST.get('designId'))
-                print('----------------!!-------------')
                 if design.design_photo.url != '/media/design_pics/defaultDesign.png':
                     storage, path = design.design_photo.storage, design.design_photo.path
                     storage.delete(path)
                 name = fileStorage.get_available_name('design.png')
                 fileStorage.save(name,data)
-                print('-----------------------------')
-                print(name)
                 design.design_photo = 'design_pics/'+name
 
                 ##art
