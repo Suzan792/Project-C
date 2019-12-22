@@ -17,6 +17,7 @@
         </div>
         <p  id="design_text" style=" position: absolute;  margin: 0px; white-space: pre-wrap; font-family: Lobster"; font-weight: normal>{{designs.0.designTextCoordinate.text}}</p>
       </div>
+
       <div class="row m-0 pl-4 pt-3" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
         {% for design in designs %}
         <div class="card mb-3"
@@ -311,6 +312,14 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
 };
 
 function saveCoordinate(url,csrfToken){
+
+  var imageUri;
+  window.scrollTo(0,0);
+  html2canvas(document.querySelector("#imageEditSpace")).then(canvas => {
+      imageUri = canvas.toDataURL();
+      console.log(imageUri)
+
+
   // art
   var art_top = $( "#art_image_edit" ).css("top")
   var art_left = $( "#art_image_edit" ).css("left")
@@ -357,7 +366,8 @@ function saveCoordinate(url,csrfToken){
       'text_top':text_top,
       'text_left':text_left,
       'text':text,
-      'text_size':text_size
+      'text_size':text_size,
+      'image':imageUri
     },
     success: alert,
     dataType: 'json'
@@ -388,6 +398,8 @@ function saveCoordinate(url,csrfToken){
     $("#art_image_view_small_"+activeDesignId).css({ top: small_art_coordinate_top, left: small_art_coordinate_left, height: small_art_height});
     $("#crop_frame_"+activeDesignId).css({ top: small_frame_coordinate_top, left: small_frame_coordinate_left, height: small_frame_height, width:small_frame_width, 'border-radius': small_frame_frame_border_radius});
   };
+
+    });
 };
 
 function designEditButtons(){

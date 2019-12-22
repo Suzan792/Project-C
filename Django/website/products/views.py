@@ -7,7 +7,10 @@ from django.urls import reverse
 from . import forms
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
-
+import base64
+from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
+import os
 # Create your views here.
 class ProductDetailView(View):
     def get(self, request, *args, **kwargs):
@@ -70,7 +73,24 @@ class ProductDetailView(View):
                 Design.objects.get(id= request.POST['pk']).delete()
                 return JsonResponse({'status':"success"})
             else:
+                data = request.POST.get('image')
+                format, imgstr = data.split(';base64,')
+                ext = format.split('/')[-1]
+                data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+                fileStorage = FileSystemStorage()
+                fileStorage.location = 'media/design_pics'
                 design = Design.objects.get(id= request.POST.get('designId'))
+                if design.design_photo.path != 'design_pics/defaultDesign.png':
+                    storage, path = design.design_photo.storage, design.design_photo.path
+                    storage.delete(path)
+                name = fileStorage.get_available_name('design.png')
+                fileStorage.save(name,data)
+                print('-----------------------------')
+                print(name)
+                design.design_photo = 'design_pics/'+name
+
+
+
                 ##art
                 design.designArtCoordinate.coordinate_top = request.POST.get('top')[:-2]
                 design.designArtCoordinate.coordinate_left = request.POST.get('left')[:-2]
@@ -96,7 +116,7 @@ class ProductDetailView(View):
                 design.designArtCoordinate.save()
                 design.designArtFrameCoordinate.save()
                 design.designTextCoordinate.save()
-
+                design.save()
                 return JsonResponse({'status':'success'})
         if request.POST.get("add_design"):
             art_pk = self.kwargs.get('art_pk')
@@ -146,10 +166,29 @@ class ProductDesignEditView(View):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
             if request.POST.get('action')== "delete":
-                Design.objects.get(id= request.POST['pk']).delete()
+                design = Design.objects.get(id= request.POST['pk'])
+                storage, path = design.design_photo.storage, design.design_photo.path
+                design.delete()
+                storage.delete(path)
                 return JsonResponse({'status':"success"})
             else:
+                data = request.POST.get('image')
+                format, imgstr = data.split(';base64,')
+                ext = format.split('/')[-1]
+                data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+                fileStorage = FileSystemStorage()
+                fileStorage.location = 'media/design_pics'
                 design = Design.objects.get(id= request.POST.get('designId'))
+                print('----------------!!-------------')
+                if design.design_photo.url != '/media/design_pics/defaultDesign.png':
+                    storage, path = design.design_photo.storage, design.design_photo.path
+                    storage.delete(path)
+                name = fileStorage.get_available_name('design.png')
+                fileStorage.save(name,data)
+                print('-----------------------------')
+                print(name)
+                design.design_photo = 'design_pics/'+name
+
                 ##art
                 design.designArtCoordinate.coordinate_top = request.POST.get('top')[:-2]
                 design.designArtCoordinate.coordinate_left = request.POST.get('left')[:-2]
@@ -175,6 +214,7 @@ class ProductDesignEditView(View):
                 design.designArtCoordinate.save()
                 design.designArtFrameCoordinate.save()
                 design.designTextCoordinate.save()
+                design.save()
                 return JsonResponse({'status':'success'})
         else:
             art_pk = self.kwargs.get('art_pk')

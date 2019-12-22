@@ -31,39 +31,15 @@
                     </tr>
                 </tfoot>
                 {% for item in cart.item.all %}
-
                 <tr>
                     <td>
-                        <div id="productImageOrderView" style="position: relative;" class=" sm-5 p-0 " >
-                            <img id="product_image_order" style="height: 90px; width: 90px; position: relative; text-align:center;"src="{{item.product.product_photo.url}}" alt="product image is not loading error">
-                            <div id="crop_frame_{{item.id}}" style="position: absolute; border-radius: 2px; border: 0.75px solid rgba(250, 0, 0, .0);overflow: hidden; height: 40%;">
-                                <img id="art_image_view_small_{{item.id}}" style="height: 100%; position: absolute;  margin: -0px 0px 0px 0px;" class="art_image_edit" src="{{item.art.artwork_photo.url}}"alt="art image is not loading error">
-                            </div>
-
-                            <script>
-                                var schale = 0.15
-                                var coordinate_top = parseInt({{item.designArtCoordinate.coordinate_top}})*schale
-                                var coordinate_left = parseInt({{item.designArtCoordinate.coordinate_left}})*schale
-                                var height = {{item.designArtCoordinate.height}}*schale
-                                console.log({{item.designArtFrameCoordinate.frame_coordinate_top}}*schale)
-                                console.log({{item.designArtFrameCoordinate.frame_coordinate_top}})
-                                var frame_coordinate_top = parseInt({{item.designArtFrameCoordinate.frame_coordinate_top}})*schale
-                                var frame_coordinate_left = parseInt({{item.designArtFrameCoordinate.frame_coordinate_left}})*schale
-                                var frame_height = {{item.designArtFrameCoordinate.frame_height}}*schale
-                                var frame_width = {{item.designArtFrameCoordinate.frame_width}}*schale
-                                var border_radius= {{item.designArtFrameCoordinate.frame_border_radius}}*schale
-                                /*sets the active design coordinate when the page loads for the first time*/
-                                $("#art_image_view_small_{{item.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{item.designArtFrameCoordinate.rotation}}'});
-                                $("#crop_frame_{{item.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
-                            </script>
-                        </div>
+                        <img id="product_image_order" style="height: 90px; width: 90px; position: relative; text-align:center;"src="{{item.design_photo.url}}" alt="product image is not loading error">
                     </td>
                     <td><a href="{% url 'productDetail_page' item.art.id item.product.id %}" >{{ item }}</a></td>
                     <td></td>
                     <td><a href="{% url 'update_cart' item.id %}" >Delete</a></td>
                     <td>€{% addFloat item.product.price item.art.artwork_price %}</td>
                 </tr>
-
                 {% endfor %}
             </table>
             <div class="col-md-4 offset-md-4">
