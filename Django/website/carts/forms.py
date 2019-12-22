@@ -4,7 +4,7 @@ from django import forms
 from django.utils.html import format_html
 
 class PayPalForm(PayPalPaymentsForm):
-    form_action = ""
+    form_action = "request_to_paypal/"
     image = "{% static '/paypal/paypal-button-white'%}"
     
     def render(self):

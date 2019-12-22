@@ -1,13 +1,17 @@
 from datetime import datetime
 from paypal.standard.forms import PayPalPaymentsForm
+from paypal.standard.conf import POSTBACK_ENDPOINT, SANDBOX_POSTBACK_ENDPOINT
+
+import requests
 from urllib.parse import urlencode
 from urllib.request import urlopen
 
 from django.conf import settings
 from django.contrib import messages
+from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404, render, redirect, HttpResponseRedirect
 from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, requires_csrf_token
 
 from .models import Cart
 from .forms import PayPalForm
@@ -18,7 +22,6 @@ from django.urls import reverse
 
 
 # from product.models import Product
-
 def view(request):
     try:
         the_id = request.session['cart_id']
@@ -77,7 +80,6 @@ class FreshCart(View):
             cart.item.remove(product)
         return HttpResponseRedirect(reverse("cart"))
 
-
 def payment(request, cart, total):
     host = request.get_host()
 
@@ -94,8 +96,6 @@ def payment(request, cart, total):
     }
 
     form = PayPalForm(initial=paypal_form)
-
-    # move_to_orderhistory(request, cart)
 
     return cart, form
 
@@ -121,22 +121,34 @@ def move_to_orderhistory(request, cart):
         cart.item.remove(item)
         print('items added,removed')
 
-def request_to_paypal(request, form):
-    print(request.POST.get("currency_code",''))
-    post_data = [
-        ("cmd",request.POST.get("cmd",'')),
-        ("charset",request.POST.get("charset",'')),
-        ("currency_code",request.POST.get("currency_code",'')),
-        ("no_shipping",request.POST.get("no_shipping",'')),
-        ("business",request.POST.get("business",'')),
-        ("amount",request.POST.get("amount",'')),
-        ("item_name",request.POST.get("item_name",'')),
-        ("invoice",request.POST.get("invoice",'')),
-        ("notify_url",request.POST.get("notify_url",'')),
-        ("cancel_return",request.POST.get("cancel_return",'')),
-        ("return",request.POST.get("return",'')),
-    ]
-    result = urlopen(form.get_endpoint(), urlencode(post_data))
-    content = result.read()
-    print(content)
+@csrf_exempt
+def request_to_paypal(request):
+    # move_to_orderhistory(request, request.session['cart_id'])
+
+    post_data = {
+        'cmd' : request.POST.get("cmd",''),
+        'charset' : request.POST.get("charset",''),
+        'currency_code' : request.POST.get("currency_code",''),
+        'no_shipping' : request.POST.get("no_shipping",''),
+        'business' : request.POST.get("business",''),
+        'amount' : request.POST.get("amount",''),
+        'item_name' : request.POST.get("item_name",''),
+        'invoice' : request.POST.get("invoice",''),
+        'notify_url' : request.POST.get("notify_url",''),
+        'cancel_return' : request.POST.get("cancel_return",''),
+        'return' : request.POST.get("return",''),
+    }
+
+    def get_endpoint():
+        "Returns the endpoint url for the form."
+        if getattr(settings, 'PAYPAL_TEST', True):
+            return SANDBOX_POSTBACK_ENDPOINT
+        else:
+            return POSTBACK_ENDPOINT
+        
+
+    r = requests.post(get_endpoint(), data=post_data)
+    print(r.url)
+
+    return redirect(r.url)
     
