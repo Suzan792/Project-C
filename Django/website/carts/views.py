@@ -123,7 +123,15 @@ def move_to_orderhistory(request, cart):
 
 @csrf_exempt
 def request_to_paypal(request):
-    # move_to_orderhistory(request, request.session['cart_id'])
+    def get_cart(request):
+        '''
+        This function returns the current cart if its id is saved in the session.
+        '''
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        return cart
+
+    move_to_orderhistory(request, get_cart(request))
 
     post_data = {
         'cmd' : request.POST.get("cmd",''),
@@ -146,9 +154,7 @@ def request_to_paypal(request):
         else:
             return POSTBACK_ENDPOINT
         
-
     r = requests.post(get_endpoint(), data=post_data)
-    print(r.url)
 
     return redirect(r.url)
     
