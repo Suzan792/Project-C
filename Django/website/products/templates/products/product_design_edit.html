@@ -205,9 +205,9 @@ function productChoiceButton(id,imageUrl,url,csrfToken,pageName){
       rotation = data['rotation']
       $("#art_image_edit").css({ top: art_top, left: art_left, height: art_height, transform: rotation} );
       $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width, 'border-radius': frame_border_radius} );
-      $("#height").val(Math.rond(art_height));
-      $("#frame_height").val(Math.rond(frame_height));
-      $("#frame_width").val(Math.rond(frame_width));
+      $("#height").val(Math.round(art_height));
+      $("#frame_height").val(Math.round(frame_height));
+      $("#frame_width").val(Math.round(frame_width));
       $("#frame_border_radius").val(frame_border_radius);
       $(".imgbuttom").removeClass("border-success").addClass("border-dark")
       $("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
@@ -217,6 +217,12 @@ function productChoiceButton(id,imageUrl,url,csrfToken,pageName){
 };
 
 function saveCoordinate(url,csrfToken){
+  var imageUri;
+  window.scrollTo(0,0);
+  html2canvas(document.querySelector("#imageEditSpace")).then(canvas => {
+      imageUri = canvas.toDataURL();
+      console.log(imageUri)
+
   var art_top = $( "#art_image_edit" ).css("top")
   var art_left = $( "#art_image_edit" ).css("left")
   var height = $( "#art_image_edit" ).css("height")
@@ -260,7 +266,8 @@ function saveCoordinate(url,csrfToken){
       'text_top':text_top,
       'text_left':text_left,
       'text':text,
-      'text_size':text_size
+      'text_size':text_size,
+      'image':imageUri
     },
     success: alert,
     dataType: 'json'
@@ -281,6 +288,7 @@ function saveCoordinate(url,csrfToken){
     $("#art_image_view_small_"+activeDesignId).css({ top: small_art_coordinate_top, left: small_art_coordinate_left, height: small_art_height});
     $("#crop_frame_"+activeDesignId).css({ top: small_frame_coordinate_top, left: small_frame_coordinate_left, height: small_frame_height, width:small_frame_width, 'border-radius': small_frame_frame_border_radius});
   };
+  });
 };
 
 function designEditButtons(){
