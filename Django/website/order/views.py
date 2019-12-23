@@ -26,10 +26,6 @@ def add_orders(request, order, order_date, order_datetime):
     
     return order_history_item_instance
 
-    # template = 'orders/my_orders.html'
-
-    # return render(request, template)
-
 def return_orders(request):
     '''
     This function returns orders for the order history.
@@ -41,7 +37,6 @@ def return_orders(request):
     try:
         order_items = get_list_or_404(OrderHistoryItem.objects.order_by('-id'), user=request.user)
         old_item = None
-        # for item in order_items[::-1]:
         for item in order_items:
 
             if old_item == None:

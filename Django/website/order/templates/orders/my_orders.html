@@ -21,7 +21,7 @@
                             <th>Item</th>
                             <th>Item name</th>
                             <th>Price</th>
-                            <th>Order date</th>
+                            <th>Quantity</th>
                             <th>Status</th>
                         </thead>
 
@@ -32,7 +32,7 @@
                             </td>
                             <td>{{ order }}</td>
                             <td>€{{ order.paid_price }}</td>
-                            <td>{{ order.order_date }}</td>
+                            <td>{{ order.quantity }}</td>
                             <td>{{ order.get_status_display }}</td>
                         </tr>
                         {% endfor %}

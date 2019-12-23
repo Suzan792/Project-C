@@ -5,5 +5,5 @@ from django.views.generic import TemplateView
 from . import views
 
 urlpatterns = [
-    path('order/', views.return_orders, name='order_page'),
+    path('orders/', views.return_orders, name='order_page'),
 ]
