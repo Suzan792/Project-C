@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_list_or_404
 from django.views.generic import View
 
-from .models import OrderHistory, OrderProduct, OrderArtwork, OrderDesign
+from .models import OrderHistoryItem
 
 # Create your views here.
 
@@ -13,51 +13,18 @@ def add_orders(request, order, order_date, order_datetime):
     product = design.product
     artwork = design.art
 
-    order_product_instance = OrderProduct.objects.create(
-        product_name=product.product_name,
-        product_photo=product.product_photo,
-        price=product.price,
-    )
-    order_artwork_instance = OrderArtwork.objects.create(
-        artwork_name=artwork.artwork_name,
-        artwork_photo=artwork.artwork_photo,
-        artwork_price=artwork.artwork_price,
-    )
-    order_design_instance = OrderDesign.objects.create(
-        paid_price=order_artwork_instance.artwork_price + order_product_instance.price,
-        quantity=1,
-        product=order_product_instance,
-        art=order_artwork_instance,
-        coordinate_left=design.designArtCoordinate.coordinate_left,
-        coordinate_top=design.designArtCoordinate.coordinate_top,
-        height=design.designArtCoordinate.height,
-        width=design.designArtCoordinate.width,
-        frame_height=design.designArtFrameCoordinate.frame_height,
-        frame_width=design.designArtFrameCoordinate.frame_width,
-        frame_coordinate_left=design.designArtFrameCoordinate.frame_coordinate_left,
-        frame_coordinate_top=design.designArtFrameCoordinate.frame_coordinate_top,
-        frame_border_radius=design.designArtFrameCoordinate.frame_border_radius,
-        rotation=design.designArtFrameCoordinate.rotation,
-        text_coordinate_left = design.designTextCoordinate.coordinate_left,
-        text_coordinate_top = design.designTextCoordinate.coordinate_top,
-        text_font = design.designTextCoordinate.font,
-        text_font_weight = design.designTextCoordinate.font_weight,
-        text_font_style = design.designTextCoordinate.font_style,
-        text_font_color = design.designTextCoordinate.font_color,
-        text_font_size = design.designTextCoordinate.font_size,
-        text = design.designTextCoordinate.text,
-    )
-    order_history_instance = OrderHistory.objects.create(
-        design=order_design_instance,
+    order_history_item_instance = OrderHistoryItem.objects.create(
+        name = artwork.artwork_name + '   |   ' + product.product_name,
+        design_photo=design.design_photo,
         user=request.user,
         order_date=order_date,
         order_datetime=order_datetime,
-        status='NP',     
+        status='NP',  
+        paid_price=artwork.artwork_price + product.price,
+        quantity=1,   
     )
-
-    print('Orders have been added')
     
-    return order_history_instance
+    return order_history_item_instance
 
     # template = 'orders/my_orders.html'
 
@@ -72,7 +39,7 @@ def return_orders(request):
     order_items = []
 
     try:
-        order_items = get_list_or_404(OrderHistory.objects.order_by('-id'), user=request.user)
+        order_items = get_list_or_404(OrderHistoryItem.objects.order_by('-id'), user=request.user)
         old_item = None
         # for item in order_items[::-1]:
         for item in order_items:

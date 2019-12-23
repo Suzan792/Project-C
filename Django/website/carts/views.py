@@ -119,13 +119,16 @@ def move_to_orderhistory(request, cart):
     for item in cart.item.all():
         order_views.add_orders(request, item, today, date_time)
         cart.item.remove(item)
-        print('items added,removed')
 
 @csrf_exempt
 def request_to_paypal(request):
+    '''
+    This view calls a function that moves the products in the cart to the order history.
+    It also sends a post request to PayPal.
+    '''
     def get_cart(request):
         '''
-        This function returns the current cart if its id is saved in the session.
+        This function returns the current cart if its id is saved in the session. 
         '''
         cart_id = request.session['cart_id']
         cart = Cart.objects.get(id=cart_id)
