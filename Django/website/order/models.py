@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from products.models import Design
 import datetime
 
 # Create your models here.

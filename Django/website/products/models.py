@@ -16,26 +16,6 @@ class Product(models.Model):
     def __str__(self):
         return 'Product: ' + self.product_name + ' Upload date: ' + str(self.upload_date)
 
-class Order(models.Model):
-    user = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
-    product = models.ForeignKey(Product, on_delete = models.SET('deleted'))
-    artwork = models.ForeignKey(art.Artwork, on_delete = models.SET('deleted'))
-    order_date = models.DateField(("Date"), default=datetime.date.today)
-
-    def __str__(self):
-        return 'Order: ' + self.ID + ' Order date: ' + self.order_date
-
-class Wish(models.Model):
-    user = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
-    product = models.ForeignKey(Product, on_delete = models.SET('deleted'))
-    artwork = models.ForeignKey(art.Artwork, on_delete = models.SET('deleted'))
-    wish_date = models.DateField(("Date"), default=datetime.date.today)
-
-    def __str__(self):
-        return 'Wish: ' + self.ID + ' Wish date: ' + self.wish_date
-
-
-
 class DesignArtCoordinate(models.Model):
     coordinate_left = models.DecimalField(default=10, max_digits=10, decimal_places=3)
     coordinate_top = models.DecimalField(default=10, max_digits=10, decimal_places=3)

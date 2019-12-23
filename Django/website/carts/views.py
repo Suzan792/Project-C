@@ -1,27 +1,19 @@
 from datetime import datetime
-from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.conf import POSTBACK_ENDPOINT, SANDBOX_POSTBACK_ENDPOINT
-
 import requests
-from urllib.parse import urlencode
-from urllib.request import urlopen
 
 from django.conf import settings
 from django.contrib import messages
-from django.middleware.csrf import get_token
-from django.shortcuts import get_object_or_404, render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt, requires_csrf_token
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import View
 
 from .models import Cart
 from .forms import PayPalForm
 from order import views as order_views 
 from products.models import Product, Design
-from django.views.generic import View
-from django.urls import reverse
 
-
-# from product.models import Product
 def view(request):
     try:
         the_id = request.session['cart_id']
@@ -81,6 +73,10 @@ class FreshCart(View):
         return HttpResponseRedirect(reverse("cart"))
 
 def payment(request, cart, total):
+    '''
+    This function returns the cart and the PayPal form (that will be sent to PayPal).
+    You need to pass request, a cart and the total paid price for an order as parameters.
+    '''
     host = request.get_host()
 
     paypal_form = {
@@ -105,13 +101,15 @@ def payment_done(request):
     messages.success(request, f'Payment succesful')
     return redirect('home_page')
 
-
 @csrf_exempt
 def payment_cancelled(request):
     messages.warning(request, f'Payment was cancelled')
     return redirect('cart')
 
 def move_to_orderhistory(request, cart):
+    '''
+    Use this function to add an item to the order history.
+    '''
     today = datetime.today()
     print(today)
     date_time = datetime.now()
