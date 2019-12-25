@@ -13,7 +13,7 @@ class OrderHistoryItem(models.Model):
     ]
     
     name = models.CharField(max_length = 60)
-    design_photo = models.ImageField(default='design_pics/defaultDesign.png',upload_to='design_pics',null=True,blank=True)
+    design_photo = models.ImageField(default='design_pics/defaultDesign.png',upload_to='order_pics')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_date = models.DateField(("Date"), default=datetime.date.today)
     order_datetime = models.DateTimeField(("DateTime"), default=datetime.datetime.now)
