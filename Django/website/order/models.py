@@ -3,7 +3,6 @@ from django.db import models
 
 import datetime
 
-# Create your models here.
 class OrderHistoryItem(models.Model):
     ORDER_STATUS_CHOICES = [
         ('AR', 'Arrived'),

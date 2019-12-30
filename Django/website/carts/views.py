@@ -82,9 +82,8 @@ def payment(request, cart, total):
     paypal_form = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
         'amount': total,
-        # 'item_name': 'Order {}'.format(datetime.now()),
-        'item_name': 'Order 1234',
-        'invoice': str(cart.id),
+        'item_name': 'Order {}'.format(datetime.today()),
+        'invoice': '',
         'currency_code': 'EUR',
         'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
         'return_url': 'http://{}{}'.format(host, reverse('payment_done')),
@@ -109,6 +108,7 @@ def payment_cancelled(request):
 def move_to_orderhistory(request, cart):
     '''
     Use this function to add an item to the order history.
+    It returns the date and time of the order so it can be passed as an invoice to paypal.
     '''
     today = datetime.today()
     print(today)
@@ -117,6 +117,8 @@ def move_to_orderhistory(request, cart):
     for item in cart.item.all():
         order_views.add_orders(request, item, today, date_time)
         cart.item.remove(item)
+
+    return date_time
 
 @csrf_exempt
 def request_to_paypal(request):
@@ -132,7 +134,7 @@ def request_to_paypal(request):
         cart = Cart.objects.get(id=cart_id)
         return cart
 
-    move_to_orderhistory(request, get_cart(request))
+    date_time = move_to_orderhistory(request, get_cart(request))
 
     post_data = {
         'cmd' : request.POST.get("cmd",''),
@@ -142,14 +144,17 @@ def request_to_paypal(request):
         'business' : request.POST.get("business",''),
         'amount' : request.POST.get("amount",''),
         'item_name' : request.POST.get("item_name",''),
-        'invoice' : request.POST.get("invoice",''),
+        'invoice' : date_time,
         'notify_url' : request.POST.get("notify_url",''),
         'cancel_return' : request.POST.get("cancel_return",''),
         'return' : request.POST.get("return",''),
     }
 
     def get_endpoint():
-        "Returns the endpoint url for the form."
+        '''
+        Returns the endpoint url for the form. 
+        This is where the information in the form will be sent.
+        '''
         if getattr(settings, 'PAYPAL_TEST', True):
             return SANDBOX_POSTBACK_ENDPOINT
         else:

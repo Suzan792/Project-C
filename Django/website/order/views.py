@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.views.generic import View
 
 from .models import OrderHistoryItem
-
-# Create your views here.
+from paypal.standard.ipn.models import PayPalIPN
+from paypal.standard.models import ST_PP_COMPLETED
 
 def add_orders(request, order, order_date, order_datetime):
     '''
@@ -26,7 +26,7 @@ def add_orders(request, order, order_date, order_datetime):
     
     return order_history_item_instance
 
-def return_orders(request):
+def get_orders(request):
     '''
     This function returns orders for the order history.
     '''
@@ -38,6 +38,7 @@ def return_orders(request):
         order_items = get_list_or_404(OrderHistoryItem.objects.order_by('-id'), user=request.user)
         old_item = None
         for item in order_items:
+            check_status(request, item)
 
             if old_item == None:
                 old_item = item
@@ -57,3 +58,20 @@ def return_orders(request):
     context = { 'orders' : orders, 'amount_of_orders' : len(order_items) }
 
     return render(request, template, context)
+
+def check_status(request, item):
+    '''
+    This function checks if items with the status 'NP' (Not paid) have the status 'Completed'.
+    If they do, the item's status is changed to 'IM' (In the making).
+    If they don't, nothing changes.
+    One item can be checked at a time.
+    '''
+    if item.status == 'NP':
+        try:
+            paypal_ipn = get_object_or_404(PayPalIPN.objects, invoice = str(item.order_datetime)[:26])
+            if paypal_ipn.payment_status == ST_PP_COMPLETED:
+                item.status = 'IM'
+                item.save()
+            print('Found IPN')
+        except:
+            print('No IPN')
