@@ -72,6 +72,5 @@ def check_status(request, item):
             if paypal_ipn.payment_status == ST_PP_COMPLETED:
                 item.status = 'IM'
                 item.save()
-            print('Found IPN')
         except:
-            print('No IPN')
+            print('Payment has not been completed')

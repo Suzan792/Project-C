@@ -33,7 +33,10 @@
                             <td>{{ order }}</td>
                             <td>€{{ order.paid_price }}</td>
                             <td>{{ order.quantity }}</td>
-                            <td>{{ order.get_status_display }}</td>
+                            <td>
+                                {{ order.get_status_display }}
+                                <img id="status_icon_order" style="height: 70px; width: 70px; position: relative; text-align:center;"src="" alt="Image is not loading">
+                            </td>
                         </tr>
                         {% endfor %}
                     </table>
