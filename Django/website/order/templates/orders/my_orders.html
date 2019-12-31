@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load staticfiles %}
 
 {% block title %} My Orders {% endblock title %}
 
@@ -34,8 +35,20 @@
                             <td>€{{ order.paid_price }}</td>
                             <td>{{ order.quantity }}</td>
                             <td>
-                                {{ order.get_status_display }}
-                                <img id="status_icon_order" style="height: 70px; width: 70px; position: relative; text-align:center;"src="" alt="Image is not loading">
+                                <div>
+                                    {% if order.status == "NP" %}
+                                    <img id="status_icon_order" style="height: 70px; width: 70px; position: relative; text-align:center;"src="{% static '../media/order_status_icons/NP.svg' %}" alt="Image is not loading">
+                                    {% elif order.status == 'SE'%}
+                                    <img id="status_icon_order" style="height: 70px; width: 70px; position: relative; text-align:center;"src="{% static '../media/order_status_icons/SE.svg' %}" alt="Image is not loading">
+                                    {% elif order.status == 'IM'%}
+                                    <img id="status_icon_order" style="height: 70px; width: 70px; position: relative; text-align:center;"src="{% static '../media/order_status_icons/IM.svg' %}" alt="Image is not loading">
+                                    {% elif order.status == 'AR'%}
+                                    <img id="status_icon_order" style="height: 70px; width: 70px; position: relative; text-align:center;"src="{% static '../media/order_status_icons/AR.svg' %}" alt="Image is not loading">
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    {{ order.get_status_display }}
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
