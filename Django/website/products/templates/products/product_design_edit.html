@@ -111,16 +111,16 @@
   <div class="row mx-0 mb-3 p-0">
     <p class="m-0 pr-2">Font-weight:</p>
     <select id="font-weight">
-      <option value="normal">normal</option>
-      <option value="bold">bold</option>
+      <option value="normal">Normal</option>
+      <option value="bold">Bold</option>
       <option value="900">Extra bold</option>
     </select>
   </div>
   <div class="row mx-0 mb-3 p-0">
     <p class="m-0 pr-2">Font-style:</p>
     <select id="font-style">
-      <option value="normal">normal</option>
-      <option value="italic">italic</option>
+      <option value="normal">Normal</option>
+      <option value="italic">Italic</option>
     </select>
   </div>
   <div class="row mx-0 mb-3 p-0">
@@ -275,7 +275,7 @@ function saveCoordinate(url,csrfToken){
   function alert(data) {
     var data = data
     $("#save_button").hide()
-    flashMessage("Your design is saved successfully")
+    flashMessage("Your design has been saved successfully")
     var schale = 0.15
     var small_art_coordinate_top = parseInt(art_top)*schale
     var small_art_coordinate_left = parseInt(art_left)*schale

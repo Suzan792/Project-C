@@ -56,14 +56,14 @@ class ProfilePhotoUpdateForm(forms.ModelForm):
         fields = ['image']
 class ProfileInfoForm(forms.ModelForm):
     street_name = forms.CharField(max_length = 60, required = False)
-    house_nr = forms.IntegerField( required = False)
+    house_number = forms.IntegerField( required = False)
     addition = forms.CharField(max_length = 60, required = False)
-    house_nr = forms.CharField(max_length = 60, required = False)
+    house_number = forms.CharField(max_length = 60, required = False)
     postcode = forms.CharField(max_length = 60, required = False)
     city = forms.CharField(max_length = 60, required = False)
     class Meta:
         model = UserProfile
-        fields = ['street_name','house_nr','addition','house_nr','postcode','city','country','language']
+        fields = ['street_name','house_number','addition','house_number','postcode','city','country','language']
 
 
 class artistApplication(forms.ModelForm):
