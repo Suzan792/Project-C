@@ -67,7 +67,7 @@
       </div>
       {% endfor %}
     </div >
-    <button class="btn btn-success mt-3 ml-4" id="save_button"onclick="saveCoordinate('{% url 'editProduct_page' art.id %}','{{ csrf_token }}')">Save Design</button>
+    <button class="btn btn-success mt-3 ml-4" id="save_button"onclick="saveDesignCoordinate('{% url 'editProduct_page' art.id %}','{{ csrf_token }}','#art_image_edit','.crop_frame','#design_text',confirmationMessage='ture', '#design_text_','#art_image_view_small_','#crop_frame_')">Save Design</button>
     <div class="m-4">
       <form  action="{% url 'editProduct_page' art.pk %}" method="POST">
         {% csrf_token %}
@@ -265,95 +265,7 @@ function productChoiceButton(id,imageUrl,url,csrfToken,pageName){
   });
 };
 
-function saveCoordinate(url,csrfToken){
-  $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, 0)'})
-  var imageUri;
-  window.scrollTo(0,0);
-  html2canvas(document.querySelector("#imageEditSpace")).then(canvas => {
-      imageUri = canvas.toDataURL();
 
-  var art_top = $( "#art_image_edit" ).css("top")
-  var art_left = $( "#art_image_edit" ).css("left")
-  var height = $( "#art_image_edit" ).css("height")
-  var width = $( "#art_image_edit" ).css("width")
-  var rotation = $( "#art_image_edit" ).css("transform")
-  var frame_top = $( ".crop_frame" ).css("top")
-  var frame_left = $( ".crop_frame" ).css("left")
-  var frame_height = $( ".crop_frame" ).css("height")
-  var frame_width = $( ".crop_frame" ).css("width")
-  var frame_border_radius = $( ".crop_frame" ).css("border-top-left-radius")
-  var designId = activeDesignId
-  // text
-  var font = $( "#design_text" ).css("font-family")
-  var font_weight = $( "#design_text" ).css("font-weight")
-  var font_style = $( "#design_text" ).css("font-style")
-  var font_color = $( "#design_text" ).css("color")
-  var text_top = $( "#design_text" ).css("top")
-  var text_left = $( "#design_text" ).css("left")
-  var text = $( "#design_text" ).text();
-  var text_size = $( "#design_text").css("font-size");
-  $.ajax({
-    type: 'POST',
-    url: url,
-    data: {
-      'csrfmiddlewaretoken': csrfToken,
-      'action':'save',
-      'designId':designId,
-      'left': art_left,
-      'top':art_top,
-      'height':height,
-      'width':width,
-      'frame_top':frame_top,
-      'frame_left':frame_left,
-      'frame_height':frame_height,
-      'frame_width':frame_width,
-      'frame_border_radius':frame_border_radius,
-      'rotation':rotation,
-      'font':font,
-      'font_weight':font_weight,
-      'font_style':font_style,
-      'font_color':font_color,
-      'text_top':text_top,
-      'text_left':text_left,
-      'text':text,
-      'text_size':text_size,
-      'image':imageUri
-    },
-    success: alert,
-    dataType: 'json'
-  });
-  function alert(data) {
-    var data = data
-    flashMessage("Your design is saved successfully")
-    var schale = 0.15
-    var small_art_coordinate_top = parseInt(art_top)*schale
-    var small_art_coordinate_left = parseInt(art_left)*schale
-    var small_art_height = parseInt(height)*schale
-    var small_frame_coordinate_top = parseInt(frame_top)*schale
-    var small_frame_coordinate_left = parseInt(frame_left)*schale
-    var small_frame_height = parseInt(frame_height)*schale
-    var small_frame_width = parseInt(frame_width)*schale
-    var small_frame_frame_border_radius = parseInt(frame_border_radius)*schale
-
-    var small_text_top = parseInt(text_top)*schale
-    var small_text_left =parseInt(text_left)*schale
-    var small_font_size = parseInt(text_size)*schale
-    var small_font_weight =parseInt(font_weight)*schale
-    $("#design_text_"+activeDesignId).text(text)
-    $( "#design_text_"+activeDesignId).css({top:small_text_top,left:small_text_left,
-    'font-family':font,'font-weight':small_font_weight+'px',
-    'font-style':font_style,'color':font_color,
-    'font-size':small_font_size})
-    $("#design_text_"+activeDesignId).css({top:small_text_top,left:small_text_left,
-    'font-family':font,'font-weight':small_font_weight+'px',
-    'font-style':font_style,'color':font_color,
-    'font-size':small_font_size})
-    $("#art_image_view_small_"+activeDesignId).css({ top: small_art_coordinate_top, left: small_art_coordinate_left, height: small_art_height});
-    $("#crop_frame_"+activeDesignId).css({ top: small_frame_coordinate_top, left: small_frame_coordinate_left, height: small_frame_height, width:small_frame_width, 'border-radius': small_frame_frame_border_radius});
-    saveDesign = false;
-  };
-  });
-};
 
 function designEditButtons(){
   $(".crop_frame").mousedown(function() {
@@ -412,7 +324,7 @@ function designEditButtons(){
         $("#design_text").css({'color': color})
         saveDesign = true
       });
-      setInterval(function(){if (saveDesign){saveCoordinate(pageUrl,"{{ csrf_token }}");saveDesign = false;};}, 6000);
+      setInterval(function(){if (saveDesign){saveDesignCoordinate(pageUrl,"{{ csrf_token }}",'#art_image_edit','.crop_frame','#design_text',confirmationMessage='false', '#design_text_','#art_image_view_small_','#crop_frame_');saveDesign = false;};}, 6000);
 }
 </script>
 {% endblock %}
