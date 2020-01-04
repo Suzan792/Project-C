@@ -80,9 +80,6 @@ class ArtDetailView(View):
                     i=i-1
             if i==products.count():
                 productWithoutDesign.append(product)
-
-
-
         comments = Comment.objects.filter(artwork=art).order_by('-id')
         comment_form = CommentForm()
         liked = False

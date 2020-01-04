@@ -182,6 +182,7 @@
 {% block javascript %}
 <script>
 var activeDesignId;
+var saveDesign = false;
 
 
 var draggability = 'disable';
@@ -215,21 +216,12 @@ $("#save_button").hide()
 
 activeDesignId = parseInt('{{designs.0.id}}');
 if('{{designs.0.user}}' != 'None'){
-  $( function() {
-    $( ".crop_frame" ).draggable().draggable(draggability);
-  } );
-
-  $( function() {
-    $( "#design_text" ).draggable().draggable(draggability);
-  } );
-  $( function() {
-    $( "#art_image_edit" ).draggable().draggable(draggability);
-  } );
-
-
+  draggability = 'enable';
+  $( ".crop_frame" ).draggable().draggable(draggability);
+  $( "#design_text" ).draggable().draggable(draggability);
+  $( "#art_image_edit" ).draggable().draggable(draggability);
   $("#art_image_edit_controller_space").show()
 
-  draggability = 'enable';
 }
 
 function addToCart(){
@@ -291,6 +283,21 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
       font_style = data['font_style']
       font_size = data['font_size']
 
+      var schale = 0.15
+      var small_art_coordinate_top = parseInt(art_top)*schale
+      var small_art_coordinate_left = parseInt(art_left)*schale
+      var small_art_height = parseInt(art_height)*schale
+      var small_frame_coordinate_top = parseInt(frame_top)*schale
+      var small_frame_coordinate_left = parseInt(frame_left)*schale
+      var small_frame_height = parseInt(frame_height)*schale
+      var small_frame_width = parseInt(frame_width)*schale
+      var small_frame_frame_border_radius = parseInt(frame_border_radius)*schale
+
+      var small_text_top = parseInt(text_top)*schale
+      var small_text_left =parseInt(text_left)*schale
+      var small_font_size = parseInt(font_size)*schale
+      var small_font_weight =parseInt(font_weight)*schale
+
       $("#art_image_edit").css({ top: art_top, left: art_left, height: art_height, transform: rotation} );
       $(".crop_frame").css({ top: frame_top, left: frame_left, height: frame_height, width: frame_width, 'border-radius': frame_border_radius} );
       $("#height").val(Math.round(art_height));
@@ -306,13 +313,19 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
       'font-family':font,'font-weight':font_weight+'px',
       'font-style':font_style,'color':font_color,
       'font-size':font_size+'px'})
+      $("#design_text_"+activeDesignId).text(data['text'])
+
+      $("#design_text_"+activeDesignId).css({top:small_text_top,left:small_text_left,
+      'font-family':font,'font-weight':small_font_weight+'px',
+      'font-style':font_style,'color':font_color,
+      'font-size':small_font_size})
       document.getElementById("product_image_edit").src = imageUrl;
     }
   });
 };
 
 function saveCoordinate(url,csrfToken){
-
+  $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, 0)'})
   var imageUri;
   window.scrollTo(0,0);
   html2canvas(document.querySelector("#imageEditSpace")).then(canvas => {
@@ -347,6 +360,7 @@ function saveCoordinate(url,csrfToken){
     url: url,
     data: {
       'csrfmiddlewaretoken': csrfToken,
+      'action':'save',
       'designId':activeDesignId,
       'left': art_left,
       'top':art_top,
@@ -390,13 +404,14 @@ function saveCoordinate(url,csrfToken){
     var small_text_left =parseInt(text_left)*schale
     var small_font_size = parseInt(text_size)*schale
     var small_font_weight =parseInt(font_weight)*schale
-
+    $("#design_text_"+activeDesignId).text(text)
     $( "#design_text_"+activeDesignId).css({top:small_text_top,left:small_text_left,
     'font-family':font,'font-weight':small_font_weight+'px',
     'font-style':font_style,'color':font_color,
     'font-size':small_font_size})
     $("#art_image_view_small_"+activeDesignId).css({ top: small_art_coordinate_top, left: small_art_coordinate_left, height: small_art_height});
     $("#crop_frame_"+activeDesignId).css({ top: small_frame_coordinate_top, left: small_frame_coordinate_left, height: small_frame_height, width:small_frame_width, 'border-radius': small_frame_frame_border_radius});
+    saveDesign = false;
   };
 
     });
@@ -412,20 +427,15 @@ function designEditButtons(){
 
   $("#design_text").mousedown(function() {
       $("#save_button").show()
+
   });
 
-  $( function() {
+
     $( ".crop_frame" ).draggable();
-  } );
-  $( function() {
     $( ".crop_frame" ).draggable(draggability);
-  } );
-  $( function() {
     $( "#art_image_edit" ).draggable();
-  } );
-  $( function() {
     $( "#art_image_edit" ).draggable(draggability);
-  } );
+
 
   if (draggability=='enable'){
     $("#art_image_edit_controller_space").show()
@@ -459,57 +469,45 @@ function designEditButtons(){
         $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', height: height})
       });
 
-      $( "#text_size" ).change(function(){
-        $("#save_button").show()
+      $("#design_text").mouseover(function(){
+        $("#design_text").css({  'cursor': 'move'})
+      });
+
+
+      $("#art_image_edit, .crop_frame, #design_text").mouseup(function(){
+        saveDesign = true
+      })
+
+      $( "#text_size , #design_text_input, #font-weight, font-style, #font, #font-color, #height, #frame_height, #frame_width, #frame_border_radius, #rotation" ).change(function(){
+        height = $("#height").val();
         text_size = $("#text_size").val();
-        $("#design_text").css({ 'font-size': text_size+'px'})
-      });
-      $( "#design_text_input" ).change(function(){
-        $("#save_button").show()
-        text_size = $("#design_text_input").val();
-        $("#design_text").html($("#design_text_input").val())
-      });
-      $( "#font-weight" ).change(function(){
-        $("#save_button").show()
         font_weight = $("#font-weight").val();
-        $("#design_text").css({'font-weight': font_weight})
-      });
-      $( "#font-style" ).change(function(){
-        $("#save_button").show()
         font_style = $("#font-style").val();
-        $("#design_text").css({'font-style': font_style})
-      });
-      $( "#font" ).change(function(){
-        $("#save_button").show()
         font = $("#font").val();
+        color = $("#font-color").val();
+        frame_height = $("#frame_height").val();
+        frame_width = $("#frame_width").val();
+        border_radius = $("#frame_border_radius").val();
+        rotation = $("#rotation").val();
+        $( "#art_image_edit" ).css({'-webkit-transform': 'rotate(' + rotation + 'deg)',
+        '-moz-transform': 'rotate(' + rotation + 'deg)',
+        '-ms-transform': 'rotate(' + rotation + 'deg)',
+        '-o-transform': 'rotate(' + rotation + 'deg)',
+        'transform': 'rotate(' + rotation + 'deg)',});
+        $( ".crop_frame" ).css({ 'border-radius': border_radius+'px'});
+        $( ".crop_frame" ).css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', height: frame_height});
+        $( ".crop_frame" ).css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', width: frame_width});
+        $("#art_image_edit" ).css({ height: height});
+        $("#design_text").css({ 'font-size': text_size+'px'})
+        $("#design_text").css({'font-weight': font_weight})
+        $("#design_text").html($("#design_text_input").val())
+        $("#design_text").css({'font-style': font_style})
         $("#design_text").css({'font-family': font})
+        $("#design_text").css({'color': color})
+        saveDesign = true
       });
-      $( "#font-color" ).change(function(){
-        $("#save_button").show()
-        font = $("#font-color").val();
-        $("#design_text").css({'color': font})
-      });
-
-      $( "#frame_width" ).change(function(){
-        $("#save_button").show()
-        width = $("#frame_width").val();
-        $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', width: width})
-      });
-
-      $("#frame_border_radius").change(function(){
-        $("#save_button").show()
-        value = $("#frame_border_radius").val();
-        $( ".crop_frame" ).css({ 'border-radius': value+'px'});
-      });
-      $( "#rotation" ).change(function(){
-        $("#save_button").show()
-        value = $("#rotation").val();
-        $( "#art_image_edit" ).css({'-webkit-transform': 'rotate(' + value + 'deg)',
-        '-moz-transform': 'rotate(' + value + 'deg)',
-        '-ms-transform': 'rotate(' + value + 'deg)',
-        '-o-transform': 'rotate(' + value + 'deg)',
-        'transform': 'rotate(' + value + 'deg)',});
-      });
+      setInterval(function(){
+        if(saveDesign){saveCoordinate("{% url 'productDetail_page' art.id product.id %}","{{ csrf_token }}","{{ csrf_token }}"); saveDesign = false;};}, 6000);
     }
   });
 }

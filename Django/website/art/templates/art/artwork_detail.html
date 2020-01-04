@@ -75,7 +75,7 @@
     {% for design in designs %}
     <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
       <div id="productCart"class="card" style="">
-          <img  src="{{design.design_photo.url}}" style="width: 90%" alt="art image is not loading error">
+          <a href="{% url 'productDetail_page' design.art.id design.product.id %}"><img  src="{{design.design_photo.url}}" style="width: 90%" alt="art image is not loading error"></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="{% url 'productDetail_page' design.art.id design.product.id %}">{{design.product.product_name}}</a>
@@ -97,7 +97,7 @@
     {% for product in products %}
     <div class="col-lg-12 col-md-6 col-sm-12 mt-5">
       <div id="productCart"class="card" style="">
-          <img   style="width: 90%" src="{{product.product_photo.url}}"alt="art image is not loading error">
+          <a href="{% url 'productDetail_page' object.id product.id %}"><img   style="width: 90%" src="{{product.product_photo.url}}"alt="art image is not loading error"></a>
         <div class="card-body">
           <h4 class="card-title">
             <a href="{% url 'productDetail_page' object.id product.id %}">{{product.product_name}}</a>
