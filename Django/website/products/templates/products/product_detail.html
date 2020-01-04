@@ -307,7 +307,8 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
       $("#frame_border_radius").val(frame_border_radius);
       $(".imgbuttom").removeClass("border-success").addClass("border-dark")
       $("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
-
+      $("#design_text_input").text(data['text'])
+      
       $('#design_text').text(data['text'])
       $( "#design_text").css({top:text_top+'px',left: text_left+'px',
       'font-family':font,'font-weight':font_weight+'px',

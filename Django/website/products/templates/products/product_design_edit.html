@@ -102,7 +102,7 @@
   </div>
   <div class="md-form">
     <label  >Text</label>
-    <textarea class="md-textarea form-control mb-3" id="design_text_input" rows="4" cols="35" style="white-space: pre-wrap;" name="comment" form="usrform"></textarea>
+    <textarea class="md-textarea form-control mb-3" id="design_text_input" rows="4" cols="35" style="white-space: pre-wrap;" name="comment" form="usrform">{{designs.0.designTextCoordinate.text}}</textarea>
 
     </div>
   <div class="form-group mx-0 mb-3 p-0">
@@ -188,7 +188,6 @@ $("#dialog-confirm").css("display","none");
 
 
 function deleteDesign(url,csrfToken){
-  console.log(url);
   deleteProductDesign(url,csrfToken,activeDesignId);
 }
 
@@ -233,6 +232,8 @@ function productChoiceButton(id,imageUrl,url,csrfToken,pageName){
       $("#frame_border_radius").val(frame_border_radius);
       $(".imgbuttom").removeClass("border-success").addClass("border-dark")
       $("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
+      $("#design_text_input").text(data['text'])
+
 
       var schale = 0.15
       var small_art_coordinate_top = parseInt(art_top)*schale

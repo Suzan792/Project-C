@@ -124,7 +124,6 @@ function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmation
     if (confirmationMessage=='true'){
       flashMessage("Your design is saved successfully")
     }
-    console.log(confirmationMessage)
     var schale = 0.15
     var small_art_coordinate_top = parseInt(art_top)*schale
     var small_art_coordinate_left = parseInt(art_left)*schale
@@ -139,7 +138,6 @@ function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmation
     var small_text_left =parseInt(text_left)*schale
     var small_font_size = parseInt(text_size)*schale
     var small_font_weight =parseInt(font_weight)*schale
-    console.log(buttonTextId+activeDesignId+'')
     $(buttonTextId+activeDesignId+'').text(text)
     $( buttonTextId+activeDesignId+'').css({top:small_text_top,left:small_text_left,
     'font-family':font,'font-weight':small_font_weight+'px',
