@@ -82,7 +82,7 @@ def profile(request):
             user_update_form.save()
             profile_info_update_form.save()
             profile_photo_update_form.save()
-            messages.success(request, f'Your profile information is updated')
+            messages.success(request, f'Your profile information has been updated')
             return redirect('profile_page')
 
     else:

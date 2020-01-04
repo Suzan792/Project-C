@@ -29,7 +29,7 @@ def upload_art(request):
             instance = form.save(commit=False)
             instance.artist = request.user.userprofile
             instance.save()
-            messages.success(request, f'Your ArtWork  is uploaded')
+            messages.success(request, f'Your Artwork has been uploaded')
             return redirect('artDetail_page', form.instance.id)
     else:
         form = forms.uploadArt()

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users',
     'search',
     'products',
+    'order',
     'crispy_forms',
     'paypal.standard.ipn',
 ]
@@ -159,4 +160,3 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 PAYPAL_RECEIVER_EMAIL = 'sb-uxbir626964@business.example.com'
 PAYPAL_TEST = True
-PAYPAL_BUY_BUTTON_IMAGE = 'https://risingtidestartups.com/wp-content/uploads/2018/08/paypal-checkout-button.png'

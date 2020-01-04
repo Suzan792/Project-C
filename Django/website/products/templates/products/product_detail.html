@@ -121,12 +121,12 @@
     <input type="number" class="form-control" id="text_size" name="tentacles" min="0" max="1000" value="{{designs.0.designTextCoordinate.font_size}}">
   </div>
   <div class="md-form">
-    <label  >Text</label>
+    <label  >Text:</label>
     <textarea class="md-textarea form-control mb-3" id="design_text_input" rows="4" cols="35" style="white-space: pre-wrap;" name="comment" form="usrform"></textarea>
 
     </div>
   <div class="form-group mx-0 mb-3 p-0">
-    <label>Font</label>
+    <label>Font:</label>
     <select class="form-control" id="font">
       <option style="font-family: Inria Serif!important;" value="Inria Serif">Inria Serif</option>
       <option style="font-family: Roboto!important;" value="Roboto">Roboto</option>
@@ -145,22 +145,22 @@
   </div>
 
   <div class="form-group mx-0 mb-3 p-0">
-    <label>Font-weight</label>
+    <label>Font weight:</label>
     <select class="form-control" id="font-weight">
-      <option value="normal">normal</option>
-      <option value="bold">bold</option>
+      <option value="normal">Normal</option>
+      <option value="bold">Bold</option>
       <option value="900">Extra bold</option>
     </select>
   </div>
   <div class="form-group mx-0 mb-3 p-0">
-    <label>Font-style</label>
+    <label>Font style:</label>
     <select class="form-control" id="font-style">
-      <option value="normal">normal</option>
-      <option value="italic">italic</option>
+      <option value="normal">Normal</option>
+      <option value="italic">Italic</option>
     </select>
   </div>
   <div class="form-group mx-0 mb-3 p-0">
-    <label>Font color</label>
+    <label>Font color:</label>
     <select class="form-control" id="font-color">
       <option style="background: #F0F8FF;" value="#F0F8FF">AliceBlue</option>
       <option style="background: #FAEBD7;" value="#FAEBD7">AntiqueWhite </option>
@@ -389,7 +389,7 @@ function saveCoordinate(url,csrfToken){
   function alert(data) {
     var data = data
     $("#save_button").hide()
-    flashMessage("Your design is saved successfully")
+    flashMessage("Your design has been saved successfully")
     var schale = 0.15
     var small_art_coordinate_top = parseInt(art_top)*schale
     var small_art_coordinate_left = parseInt(art_left)*schale

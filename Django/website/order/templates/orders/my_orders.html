@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+
+{% block title %} My Orders {% endblock title %}
+
+{% block body %}
+<h2 class="mt-3">Your orders</h2>
+
+{% if not user.is_authenticated %}
+<p>Please log in to view this page!</p>
+{% elif amount_of_orders > 0 %}
+<div class="container p-0">
+    <div class="col p-0">
+        <div class="tabs">
+            {% for orderlist in orders %}
+            <div class="tab">
+                <input class="accordion_input" type="checkbox" id="chck{{orderlist.0.order_datetime}}">
+                <label class="tab-label mb-0" for="chck{{orderlist.0.order_datetime}}">Order {{orderlist.0.order_datetime}}</label>
+                <div class="tab-content">
+                    <table class="table">
+                        <thead>
+                            <th>Item</th>
+                            <th>Item name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                        </thead>
+
+                        {% for order in orderlist %}
+                        <tr>
+                            <td>
+                                <img id="product_image_order" style="height: 90px; width: 90px; position: relative; text-align:center;"src="{{order.design_photo.url}}" alt="product image is not loading error">
+                            </td>
+                            <td>{{ order }}</td>
+                            <td>€{{ order.paid_price }}</td>
+                            <td>{{ order.quantity }}</td>
+                            <td>
+                                <div>
+                                    {% if order.status == "NP" %}
+                                    <img id="status_icon_order" style="height: 70px; width: 70px; position: relative; text-align:center;"src="{% static '../media/order_status_icons/NP.svg' %}" alt="Image is not loading">
+                                    {% elif order.status == 'SE'%}
+                                    <img id="status_icon_order" style="height: 70px; width: 70px; position: relative; text-align:center;"src="{% static '../media/order_status_icons/SE.svg' %}" alt="Image is not loading">
+                                    {% elif order.status == 'IM'%}
+                                    <img id="status_icon_order" style="height: 70px; width: 70px; position: relative; text-align:center;"src="{% static '../media/order_status_icons/IM.svg' %}" alt="Image is not loading">
+                                    {% elif order.status == 'AR'%}
+                                    <img id="status_icon_order" style="height: 70px; width: 70px; position: relative; text-align:center;"src="{% static '../media/order_status_icons/AR.svg' %}" alt="Image is not loading">
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    {{ order.get_status_display }}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div> 
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% else %}
+<p>You have not ordered anything yet!</p>
+{% endif %}
+{% endblock body %}
