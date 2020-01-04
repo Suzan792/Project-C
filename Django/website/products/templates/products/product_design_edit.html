@@ -67,7 +67,7 @@
       </div>
       {% endfor %}
     </div >
-    <button class="btn btn-success mt-3 ml-4" id="save_button"onclick="saveDesignCoordinate('{% url 'editProduct_page' art.id %}','{{ csrf_token }}','#art_image_edit','.crop_frame','#design_text',confirmationMessage='ture', '#design_text_','#art_image_view_small_','#crop_frame_')">Save Design</button>
+    <button class="btn btn-success mt-3 ml-4" id="save_button"onclick="saveDesignCoordinate('{% url 'editProduct_page' art.id %}','{{ csrf_token }}','#art_image_edit','.crop_frame','#design_text',confirmationMessage='true', '#design_text_','#art_image_view_small_','#crop_frame_')">Save Design</button>
     <div class="m-4">
       <form  action="{% url 'editProduct_page' art.pk %}" method="POST">
         {% csrf_token %}
