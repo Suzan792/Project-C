@@ -11,7 +11,7 @@ class PayPalForm(PayPalPaymentsForm):
             u"""
             <form action="{0}" method="post">
             {1}
-            <button class="btn btn-outline-primary mb-2" type="submit">Checkout with PayPal</button>
+            <button class="btn btn-primary mb-2" type="submit">Checkout with PayPal</button>
             </form>
             """, 
             self.form_action, self.as_p())
