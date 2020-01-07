@@ -111,7 +111,6 @@ def move_to_orderhistory(request, cart):
     It returns the date and time of the order so it can be passed as an invoice to paypal.
     '''
     today = datetime.today()
-    print(today)
     date_time = datetime.now()
 
     for item in cart.item.all():

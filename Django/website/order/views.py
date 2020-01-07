@@ -15,11 +15,12 @@ def add_orders(request, order, order_date, order_datetime):
     product = design.product
     artwork = design.art
 
-    imageData = design.design_photo.open()
-    fileStorage = FileSystemStorage()
-    fileStorage.location = 'media/order_pics'
-    name = fileStorage.get_available_name('orderdesign.png')
-    fileStorage.save(name,imageData)
+    # This code saves the design image to the folder 'media/order_pics'.
+    image_data = design.design_photo.open()
+    file_storage = FileSystemStorage()
+    file_storage.location = 'media/order_pics'
+    name = file_storage.get_available_name('orderdesign.png')
+    file_storage.save(name,image_data)
     design_location = 'order_pics/' + name
 
     order_history_item_instance = OrderHistoryItem.objects.create(
