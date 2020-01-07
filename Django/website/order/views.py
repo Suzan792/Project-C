@@ -1,9 +1,11 @@
+from paypal.standard.ipn.models import PayPalIPN
+from paypal.standard.models import ST_PP_COMPLETED
+
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.views.generic import View
 
 from .models import OrderHistoryItem
-from paypal.standard.ipn.models import PayPalIPN
-from paypal.standard.models import ST_PP_COMPLETED
 
 def add_orders(request, order, order_date, order_datetime):
     '''
@@ -13,9 +15,17 @@ def add_orders(request, order, order_date, order_datetime):
     product = design.product
     artwork = design.art
 
+    # This code saves the design image to the folder 'media/order_pics'.
+    image_data = design.design_photo.open()
+    file_storage = FileSystemStorage()
+    file_storage.location = 'media/order_pics'
+    name = file_storage.get_available_name('orderdesign.png')
+    file_storage.save(name,image_data)
+    design_location = 'order_pics/' + name
+
     order_history_item_instance = OrderHistoryItem.objects.create(
         name = artwork.artwork_name + '   |   ' + product.product_name,
-        design_photo=design.design_photo,
+        design_photo=design_location,
         user=request.user,
         order_date=order_date,
         order_datetime=order_datetime,

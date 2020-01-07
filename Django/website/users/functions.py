@@ -18,7 +18,6 @@ def send_confirmation_email(request, form, user, user_email):
         'uid':urlsafe_base64_encode(force_bytes(user.pk)),
         'token':account_activation_token.make_token(user),
     })
-    print(message)
 
     send_mail(
         mail_subject,
