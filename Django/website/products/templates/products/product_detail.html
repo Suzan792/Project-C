@@ -66,114 +66,124 @@
           $("#art_image_view_small_{{design.id}}").css({ top: coordinate_top, left: coordinate_left, height: height, transform: '{{design.rotation}}'});
           $("#crop_frame_{{design.id}}").css({ top: frame_coordinate_top, left: frame_coordinate_left, height: frame_height, width:frame_width, 'border-radius': border_radius});
           $( "#design_text_{{design.id}}").css({top:text_top,left:text_left,
-          'font-family':'{{design.designTextCoordinate.font}}','font-weight':font_weight+'px',
-          'font-style':'{{design.designTextCoordinate.font_style}}','color':'{{design.designTextCoordinate.font_color}}',
-          'font-size':font_size+'px'})
-          </script>
+            'font-family':'{{design.designTextCoordinate.font}}','font-weight':font_weight+'px',
+            'font-style':'{{design.designTextCoordinate.font_style}}','color':'{{design.designTextCoordinate.font_color}}',
+            'font-size':font_size+'px'})
+            </script>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class=" mt-3 ml-4">
+        <button class="btn btn-success mb-2" id="save_button"onclick="saveDesignCoordinate('{% url 'productDetail_page' art.id product.id %}','{{ csrf_token }}','#art_image_edit','.crop_frame','#design_text',confirmationMessage='true', '#design_text_','#art_image_view_small_','#crop_frame_')">Save Design</button>
+        {% if user.is_authenticated %}
+        <form  action="{% url 'productDetail_page' art.pk product.pk %}" method="POST">
+          {% csrf_token %}
+          <button class="btn btn-outline-primary mb-2" type="submit" name="add_design" value="add_design"value="add_design">Make a custom design</button>
+        </form>
+        {% else %}
+        <p class="h4">You must be logged in to create a custom design</p>
+        {% endif %}
+
+      </div>
+      {% if designs %}
+      <div class="card-body">
+        <h4 class="card-title">
+          <a href="#">{{product.product_name}}</a>
+          {% if designs.count >= 1 %}
+          <button id="addToCart" class="btn btn-success" onclick="addToCart({% if user.is_authenticated %}true{% else %}false{% endif %})">Add to Cart</button>
+          {% endif %}
+        </h4>
+        <h5 id = "price">€{%addFloat product.price art.artwork_price%}</h5>
+        <div class="pb-5" id="collapsible_text"class="collapse-content">
+          <!-- Text -->
+          <p class="card-text" id="collapseContent_{{product.id}}">{{product.description}}</p>
+          <!-- Button -->
         </div>
       </div>
-      {% endfor %}
-    </div>
-    <div class=" mt-3 ml-4">
-      <button class="btn btn-success mb-2" id="save_button"onclick="saveDesignCoordinate('{% url 'productDetail_page' art.id product.id %}','{{ csrf_token }}','#art_image_edit','.crop_frame','#design_text',confirmationMessage='true', '#design_text_','#art_image_view_small_','#crop_frame_')">Save Design</button>
-      {% if user.is_authenticated %}
-      <form  action="{% url 'productDetail_page' art.pk product.pk %}" method="POST">
-        {% csrf_token %}
-        <button class="btn btn-outline-primary mb-2" type="submit" name="add_design" value="add_design"value="add_design">Make a custom design</button>
-      </form>
       {% endif %}
     </div>
-    <div class="card-body">
-      <h4 class="card-title">
-        <a href="#">{{product.product_name}}</a>
-        {% if designs.count >= 1 %}
-        <button id="addToCart" class="btn btn-success" onclick="addToCart()">Add to Cart</button>
-        {% endif %}
-      </h4>
-      <h5 id = "price">€{%addFloat product.price art.artwork_price%}</h5>
-      <div class="pb-5" id="collapsible_text"class="collapse-content">
-        <!-- Text -->
-        <p class="card-text" id="collapseContent_{{product.id}}">{{product.description}}</p>
-        <!-- Button -->
-      </div>
+  </div>
+  {% if designs %}
+  <div class="col-lg-4 col-md-12 col-sm-12 m-0 mt-4 px-5" id="art_image_edit_controller_space">
+    <p class="h4 mt-2 mb-0">-------Artwork-------</p>
+    <div class="form-group p-0 mt-3">
+      <label for="height">Art size in px: </label>
+      <input type="number" class="form-control" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtCoordinate.height | stringformat:'d'}}">
     </div>
-  </div>
-</div>
-<div class="col-lg-4 col-md-12 col-sm-12 m-0 mt-4 px-5" id="art_image_edit_controller_space">
-  <div class="form-group p-0 mt-3">
-    <label for="height">Art size in px: </label>
-    <input type="number" class="form-control" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtCoordinate.height | stringformat:'d'}}">
-  </div>
-  <div class="form-group p-0 mt-3">
-    <label for="frame_height">Frame height in px: </label>
-    <input type="number" class="form-control" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_height | stringformat:'d'}}">
-  </div>
-  <div class="form-group col-12 p-0 mt-3">
-    <label for="frame_width">Frame width in px: </label>
-    <input type="number" class="form-control" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_width | stringformat:'d'}}">
-  </div>
-  <div class="form-group-12 p-0 mt-3">
-    <label for="frame_border_radius">Frame border-radius px:</label>
-    <input type="number" class="form-control" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_border_radius}}">
-  </div>
-  <div class="form-group p-0 mt-3">
-    <label for="frame_border_radius">Text size in px:</label>
-    <input type="number" class="form-control" id="text_size" name="tentacles" min="0" max="1000" value="{{designs.0.designTextCoordinate.font_size}}">
-  </div>
-  <div class="md-form">
-    <label  >Text:</label>
-    <textarea class="md-textarea form-control mb-3" id="design_text_input" rows="4" cols="35" style="white-space: pre-wrap;" name="comment" form="usrform"></textarea>
+    <p class="h4 mt-2 mb-0">--------Frame--------</p>
+    <div class="form-group p-0 mt-3">
+      <label for="frame_height">Frame height in px: </label>
+      <input type="number" class="form-control" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_height | stringformat:'d'}}">
+    </div>
+    <div class="form-group col-12 p-0 mt-3">
+      <label for="frame_width">Frame width in px: </label>
+      <input type="number" class="form-control" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_width | stringformat:'d'}}">
+    </div>
+    <div class="form-group-12 p-0 mt-3">
+      <label for="frame_border_radius">Frame border-radius px:</label>
+      <input type="number" class="form-control" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_border_radius}}">
+    </div>
+    <p class="h4 mt-2 mb-0">--------Text--------</p>
+    <div class="form-group p-0 mt-3">
+      <label for="frame_border_radius">Text size in px:</label>
+      <input type="number" class="form-control" id="text_size" name="tentacles" min="0" max="1000" value="{{designs.0.designTextCoordinate.font_size}}">
+    </div>
+    <div class="md-form">
+      <label  >Text:</label>
+      <textarea class="md-textarea form-control mb-3" id="design_text_input" rows="4" cols="35" style="white-space: pre-wrap;" name="comment" form="usrform"></textarea>
 
     </div>
-  <div class="form-group mx-0 mb-3 p-0">
-    <label>Font:</label>
-    <select class="form-control" id="font">
-      <option style="font-family: Inria Serif!important;" value="Inria Serif">Inria Serif</option>
-      <option style="font-family: Roboto!important;" value="Roboto">Roboto</option>
-      <option style="font-family: Oswald!important!important;" value="Oswald">Oswald</option>
-      <option style="font-family: Ma Shan Zheng!important;" value="Ma Shan Zheng">Ma Shan Zheng</option>
-      <option style="font-family: Ubuntu!important;" value="Ubuntu">Ubuntu</option>
-      <option style="font-family: Open Sans Condensed!important;" value="Open Sans Condensed">Open Sans Condensed</option>
-      <option style="font-family: Lilita One!important;" value="Lilita One">Lilita One</option>
-      <option style="font-family: Anton!important;" value="Anton">Anton</option>
-      <option style="font-family: Varela Round!important;" value="Varela Round">Varela Round</option>
-      <option style="font-family: Crimson Text!important;" value="Crimson Text">Crimson Text</option>
-      <option style="font-family: Lobster!important;" value="Lobster">Lobster</option>
-      <option style="font-family: Bowlby One SC!important;" value="Bowlby One SC">Bowlby One SC</option>
-      <option style="font-family: Dancing Script!important;" value="Dancing Script">Dancing Script</option>
-    </select>
-  </div>
+    <div class="form-group mx-0 mb-3 p-0">
+      <label>Font:</label>
+      <select class="form-control" id="font">
+        <option style="font-family: Inria Serif!important;" value="Inria Serif">Inria Serif</option>
+        <option style="font-family: Roboto!important;" value="Roboto">Roboto</option>
+        <option style="font-family: Oswald!important!important;" value="Oswald">Oswald</option>
+        <option style="font-family: Ma Shan Zheng!important;" value="Ma Shan Zheng">Ma Shan Zheng</option>
+        <option style="font-family: Ubuntu!important;" value="Ubuntu">Ubuntu</option>
+        <option style="font-family: Open Sans Condensed!important;" value="Open Sans Condensed">Open Sans Condensed</option>
+        <option style="font-family: Lilita One!important;" value="Lilita One">Lilita One</option>
+        <option style="font-family: Anton!important;" value="Anton">Anton</option>
+        <option style="font-family: Varela Round!important;" value="Varela Round">Varela Round</option>
+        <option style="font-family: Crimson Text!important;" value="Crimson Text">Crimson Text</option>
+        <option style="font-family: Lobster!important;" value="Lobster">Lobster</option>
+        <option style="font-family: Bowlby One SC!important;" value="Bowlby One SC">Bowlby One SC</option>
+        <option style="font-family: Dancing Script!important;" value="Dancing Script">Dancing Script</option>
+      </select>
+    </div>
 
-  <div class="form-group mx-0 mb-3 p-0">
-    <label>Font weight:</label>
-    <select class="form-control" id="font-weight">
-      <option value="normal">Normal</option>
-      <option value="bold">Bold</option>
-      <option value="900">Extra bold</option>
-    </select>
+    <div class="form-group mx-0 mb-3 p-0">
+      <label>Font weight:</label>
+      <select class="form-control" id="font-weight">
+        <option value="normal">Normal</option>
+        <option value="bold">Bold</option>
+        <option value="900">Extra bold</option>
+      </select>
+    </div>
+    <div class="form-group mx-0 mb-3 p-0">
+      <label>Font style:</label>
+      <select class="form-control" id="font-style">
+        <option value="normal">Normal</option>
+        <option value="italic">Italic</option>
+      </select>
+    </div>
+    <div class="form-group mx-0 mb-3 p-0">
+      <label>Font color:</label>
+      <select class="form-control" id="font-color">
+        <option style="background: #F0F8FF;" value="#F0F8FF">AliceBlue</option>
+        <option style="background: #FAEBD7;" value="#FAEBD7">AntiqueWhite </option>
+        <option style="background: #DC143C;" value="#DC143C">Crimson </option>
+        <option style="background: #FFF8DC;" value="#FFF8DC">Cornsilk </option>
+        <option style="background: #191970;" value="#191970">MidnightBlue </option>
+        <option style="background: #2F4F4F;" value="#2F4F4F">DarkSlateGray </option>
+        <option style="background: #000000;" value="#000000">Black </option>
+        <option style="background: #F8F8FF;" value="#F8F8FF">GhostWhite</option>
+        <option style="background: #000080;" value="#000080">Navy </option>
+      </select>
+    </div>
   </div>
-  <div class="form-group mx-0 mb-3 p-0">
-    <label>Font style:</label>
-    <select class="form-control" id="font-style">
-      <option value="normal">Normal</option>
-      <option value="italic">Italic</option>
-    </select>
-  </div>
-  <div class="form-group mx-0 mb-3 p-0">
-    <label>Font color:</label>
-    <select class="form-control" id="font-color">
-      <option style="background: #F0F8FF;" value="#F0F8FF">AliceBlue</option>
-      <option style="background: #FAEBD7;" value="#FAEBD7">AntiqueWhite </option>
-      <option style="background: #DC143C;" value="#DC143C">Crimson </option>
-      <option style="background: #FFF8DC;" value="#FFF8DC">Cornsilk </option>
-      <option style="background: #191970;" value="#191970">MidnightBlue </option>
-      <option style="background: #2F4F4F;" value="#2F4F4F">DarkSlateGray </option>
-      <option style="background: #000000;" value="#000000">Black </option>
-      <option style="background: #F8F8FF;" value="#F8F8FF">GhostWhite</option>
-      <option style="background: #000080;" value="#000080">Navy </option>
-    </select>
-  </div>
-</div>
+  {% endif %}
 </div>
 <div id="dialog-confirm" title="Delete this product design?">
   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;" ></span>These design will be permanently deleted and cannot be recovered. Are you sure?</p>
@@ -193,26 +203,25 @@ if({{designs.count}} != 0){
   $( ".crop_frame" ).css({ top: '{{designs.0.designArtFrameCoordinate.frame_coordinate_top}}'+'px', left:'{{designs.0.designArtFrameCoordinate.frame_coordinate_left}}'+'px',
   height: '{{designs.0.designArtFrameCoordinate.frame_height}}'+'px', width: '{{designs.0.designArtFrameCoordinate.frame_width}}'+'px', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
   'border-radius': parseInt('{{designs.0.designArtFrameCoordinate.frame_border_radius}}')
-  });
+});
 
-  $( "#design_text").css({top:'{{designs.0.designTextCoordinate.coordinate_top}}'+'px',left: '{{designs.0.designTextCoordinate.coordinate_left}}'+'px',
-  'font-family':'{{designs.0.designTextCoordinate.font}}','font-weight':'{{designs.0.designTextCoordinate.font_weight}}'+'px',
-  'font-style':'{{designs.0.designTextCoordinate.font_style}}','color':'{{designs.0.designTextCoordinate.font_color}}',
-  'font-size':'{{designs.0.designTextCoordinate.font_size}}'+'px'})
+$( "#design_text").css({top:'{{designs.0.designTextCoordinate.coordinate_top}}'+'px',left: '{{designs.0.designTextCoordinate.coordinate_left}}'+'px',
+'font-family':'{{designs.0.designTextCoordinate.font}}','font-weight':'{{designs.0.designTextCoordinate.font_weight}}'+'px',
+'font-style':'{{designs.0.designTextCoordinate.font_style}}','color':'{{designs.0.designTextCoordinate.font_color}}',
+'font-size':'{{designs.0.designTextCoordinate.font_size}}'+'px'})
 
-  $("#font").val('{{designs.0.designTextCoordinate.font}}')
-  $("#font-style").val('{{designs.0.designTextCoordinate.font_style}}')
-  $("#font-weight").val('{{designs.0.designTextCoordinate.font_weight}}')
-  $("#font-color").val('{{designs.0.designTextCoordinate.font_color}}')
+$("#font").val('{{designs.0.designTextCoordinate.font}}')
+$("#font-style").val('{{designs.0.designTextCoordinate.font_style}}')
+$("#font-weight").val('{{designs.0.designTextCoordinate.font_weight}}')
+$("#font-color").val('{{designs.0.designTextCoordinate.font_color}}')
 
-  $('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
-  $('#productChoiceButton_'+'{{designs.0.id}}').css({ 'border-bottom': 'solid 4px #f76c6c'})
-  designEditButtons()
+$('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
+$('#productChoiceButton_'+'{{designs.0.id}}').css({ 'border-bottom': 'solid 4px #f76c6c'})
+designEditButtons()
 }
 
 $("#art_image_edit_controller_space").hide()
 $("#dialog-confirm").css("display","none");
-$("#save_button").hide()
 
 activeDesignId = parseInt('{{designs.0.id}}');
 if('{{designs.0.user}}' != 'None'){
@@ -224,10 +233,15 @@ if('{{designs.0.user}}' != 'None'){
 
 }
 
-function addToCart(){
-  $.get('/cart/'+activeDesignId+'/',function( data ) {
-    window.location.href = "/cart/";
-  })
+function addToCart(authenticated){
+  if(authenticated=='true'){
+    $.get('/cart/'+activeDesignId+'/',function( data ) {
+      window.location.href = "/cart/";
+    })
+  }else{
+    flashMessage("You must be logged in to be able to purchase a product")
+  }
+
 }
 
 function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName){
@@ -239,7 +253,6 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
   }else{
     $("#art_image_edit_controller_space").hide()
   }
-  $("#save_button").hide()
   $( function() {
     $( ".crop_frame" ).draggable().draggable(draggability);
   } );
@@ -308,7 +321,7 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
       $(".imgbuttom").removeClass("border-success").addClass("border-dark")
       $("#product_".concat(activeDesignId)).removeClass("border-dark").addClass("border-success");
       $("#design_text_input").text(data['text'])
-      
+
       $('#design_text').text(data['text'])
       $( "#design_text").css({top:text_top+'px',left: text_left+'px',
       'font-family':font,'font-weight':font_weight+'px',
@@ -317,103 +330,109 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
       $("#design_text_"+activeDesignId).text(data['text'])
 
       $("#design_text_"+activeDesignId).css({top:small_text_top,left:small_text_left,
-      'font-family':font,'font-weight':small_font_weight+'px',
-      'font-style':font_style,'color':font_color,
-      'font-size':small_font_size})
-      document.getElementById("product_image_edit").src = imageUrl;
-    }
-  });
-};
+        'font-family':font,'font-weight':small_font_weight+'px',
+        'font-style':font_style,'color':font_color,
+        'font-size':small_font_size})
+        document.getElementById("product_image_edit").src = imageUrl;
+      }
+    });
+  };
 
 
 
-function designEditButtons(){
-  $(".crop_frame").mousedown(function() {
-    if(draggability=='enable'){
+  function designEditButtons(){
+    $(".crop_frame").mousedown(function() {
+      if(draggability=='enable'){
+        $("#save_button").show()
+        $("#art_image_edit_controller_space").show()
+      }
+    });
+    $("#design_text").mousedown(function() {
       $("#save_button").show()
-      $("#art_image_edit_controller_space").show()
-    }
-  });
-  $("#design_text").mousedown(function() {
-      $("#save_button").show()
-  });
+    });
     $( ".crop_frame" ).draggable();
     $( ".crop_frame" ).draggable(draggability);
     $( "#art_image_edit" ).draggable();
     $( "#art_image_edit" ).draggable(draggability);
-  if (draggability=='enable'){
-    $("#art_image_edit_controller_space").show()
-  }else{
-    $("#art_image_edit_controller_space").hide()
-  }
-  $("#main").mouseover(function(){
-    if(draggability=='enable'){
-      $(".crop_frame").mouseover(function(){
-        if(draggability=='enable'){
-          $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', 'cursor': 'move'})
-        }
-        else{
-          $(".crop_frame").css({'cursor': 'auto'})
-        }
-      });
-      $(".crop_frame").mouseout(function(){
-        $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .0)'})
-      });
-
-      $( "#height" ).change(function(){
-        $("#save_button").show()
-        height = $("#height").val();
-        $( "#art_image_edit" ).css({ height: height});
-      });
-
-      $( "#frame_height" ).change(function(){
-        $("#save_button").show()
-        height = $("#frame_height").val();
-        $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', height: height})
-      });
-
-      $("#design_text").mouseover(function(){
-        $("#design_text").css({  'cursor': 'move'})
-      });
-
-
-      $("#art_image_edit, .crop_frame, #design_text").mouseup(function(){
-        saveDesign = true
-      })
-
-      $( "#text_size , #design_text_input, #font-weight, font-style, #font, #font-color, #height, #frame_height, #frame_width, #frame_border_radius, #rotation" ).change(function(){
-        height = $("#height").val();
-        text_size = $("#text_size").val();
-        font_weight = $("#font-weight").val();
-        font_style = $("#font-style").val();
-        font = $("#font").val();
-        color = $("#font-color").val();
-        frame_height = $("#frame_height").val();
-        frame_width = $("#frame_width").val();
-        border_radius = $("#frame_border_radius").val();
-        rotation = $("#rotation").val();
-        $( "#art_image_edit" ).css({'-webkit-transform': 'rotate(' + rotation + 'deg)',
-        '-moz-transform': 'rotate(' + rotation + 'deg)',
-        '-ms-transform': 'rotate(' + rotation + 'deg)',
-        '-o-transform': 'rotate(' + rotation + 'deg)',
-        'transform': 'rotate(' + rotation + 'deg)',});
-        $( ".crop_frame" ).css({ 'border-radius': border_radius+'px'});
-        $( ".crop_frame" ).css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', height: frame_height});
-        $( ".crop_frame" ).css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', width: frame_width});
-        $("#art_image_edit" ).css({ height: height});
-        $("#design_text").css({ 'font-size': text_size+'px'})
-        $("#design_text").css({'font-weight': font_weight})
-        $("#design_text").html($("#design_text_input").val())
-        $("#design_text").css({'font-style': font_style})
-        $("#design_text").css({'font-family': font})
-        $("#design_text").css({'color': color})
-        saveDesign = true
-      });
-      setInterval(function(){
-        if(saveDesign){ saveDesignCoordinate("{% url 'productDetail_page' art.id product.id %}","{{ csrf_token }}",'#art_image_edit','.crop_frame','#design_text', confirmationMessage='false', '#design_text_','#art_image_view_small_','#crop_frame_'); saveDesign = false;};}, 6000);
+    if (draggability=='enable'){
+      $("#art_image_edit_controller_space").show()
+    }else{
+      $("#art_image_edit_controller_space").hide()
     }
-  });
-}
+    $("#main").mouseover(function(){
+      if(draggability=='enable'){
+        $(".crop_frame").mouseover(function(){
+          if(draggability=='enable'){
+            $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', 'cursor': 'move'})
+          }
+          else{
+            $(".crop_frame").css({'cursor': 'auto'})
+          }
+        });
+        $(".crop_frame").mouseout(function(){
+          $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .0)'})
+        });
 
-</script>
-{% endblock %}
+        $( "#height" ).change(function(){
+          $("#save_button").show()
+          height = $("#height").val();
+          $( "#art_image_edit" ).css({ height: height});
+        });
+
+        $( "#frame_height" ).change(function(){
+          $("#save_button").show()
+          height = $("#frame_height").val();
+          $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', height: height})
+        });
+
+        $("#design_text").mouseover(function(){
+          $("#design_text").css({  'cursor': 'move'})
+        });
+
+
+        $("#art_image_edit, .crop_frame, #design_text").mouseup(function(){
+          saveDesign = true
+        })
+
+        $( "#text_size , #design_text_input, #font-weight, font-style, #font, #font-color, #height, #frame_height, #frame_width, #frame_border_radius, #rotation" ).change(function(){
+          height = $("#height").val();
+          text_size = $("#text_size").val();
+          font_weight = $("#font-weight").val();
+          font_style = $("#font-style").val();
+          font = $("#font").val();
+          color = $("#font-color").val();
+          frame_height = $("#frame_height").val();
+          frame_width = $("#frame_width").val();
+          border_radius = $("#frame_border_radius").val();
+          rotation = $("#rotation").val();
+          $( "#art_image_edit" ).css({'-webkit-transform': 'rotate(' + rotation + 'deg)',
+          '-moz-transform': 'rotate(' + rotation + 'deg)',
+          '-ms-transform': 'rotate(' + rotation + 'deg)',
+          '-o-transform': 'rotate(' + rotation + 'deg)',
+          'transform': 'rotate(' + rotation + 'deg)',});
+          $( ".crop_frame" ).css({ 'border-radius': border_radius+'px'});
+          $( ".crop_frame" ).css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', height: frame_height});
+          $( ".crop_frame" ).css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, .5)', width: frame_width});
+          $("#art_image_edit" ).css({ height: height});
+          $("#design_text").css({ 'font-size': text_size+'px'})
+          $("#design_text").css({'font-weight': font_weight})
+          $("#design_text").html($("#design_text_input").val())
+          $("#design_text").css({'font-style': font_style})
+          $("#design_text").css({'font-family': font})
+          $("#design_text").css({'color': color})
+          if(saveDesign==false){
+            saveDesign = true
+          }
+
+        });
+
+      }
+    });
+    setInterval(function(){
+      if(saveDesign){
+        saveDesign = false; saveDesignCoordinate("{% url 'productDetail_page' art.id product.id %}","{{ csrf_token }}",'#art_image_edit','.crop_frame','#design_text', confirmationMessage='false', '#design_text_','#art_image_view_small_','#crop_frame_');
+      };}, 5000);
+    }
+
+  </script>
+  {% endblock %}

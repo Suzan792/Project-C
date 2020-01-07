@@ -14,7 +14,7 @@ class UserProfile(models.Model):
     addition = models.CharField(max_length = 60, null = True, blank=True)
     postcode = models.CharField(max_length = 60, null = True, blank=True)
     city = models.CharField(max_length = 60, null = True, blank=True)
-    country = models.CharField(max_length = 60, choices=(('','Country'),('netherlands','The Netherlands'),('usa','USA'),('syria','Syria'),('germany','Germany'),('uk','United Kingdom')),default = 'null')
+    country = models.CharField(max_length = 60, choices=(('','Country'),('netherlands','The Netherlands'),('usa','USA'),('syria','Syria'),('germany','Germany'),('uk','United Kingdom')),default = 'null', null = True, blank=True)
     language = models.CharField(max_length = 60, choices=(('english','English'),('dutch','Dutch')),default = 'English')
     sign_up_date = models.DateField(("Date"), default=datetime.date.today)
     activated_artist_date = models.DateTimeField(blank=True, null = True)
@@ -52,7 +52,3 @@ class isArtist(models.Model):
 
     def __str__(self):
         return 'Applicant: ' + self.applicant.user.username
-
-
-
-

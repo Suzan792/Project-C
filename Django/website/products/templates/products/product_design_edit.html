@@ -80,10 +80,12 @@
   </div>
 </div>
 <div class="col-lg-4 col-md-12 col-sm-12 m-0 mt-4 px-5" id="art_image_edit_controller_space">
+  <p class="h4 mt-2 mb-0">-------Artwork-------</p>
   <div class="form-group p-0 mt-3">
     <label for="height">Art size in px: </label>
     <input type="number" class="form-control" id="height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtCoordinate.height | stringformat:'d'}}">
   </div>
+  <p class="h4 mt-2 mb-0">--------Frame--------</p>
   <div class="form-group p-0 mt-3">
     <label for="frame_height">Frame height in px: </label>
     <input type="number" class="form-control" id="frame_height" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_height | stringformat:'d'}}">
@@ -92,10 +94,11 @@
     <label for="frame_width">Frame width in px: </label>
     <input type="number" class="form-control" id="frame_width" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_width | stringformat:'d'}}">
   </div>
-  <div class="form-group-12 p-0 mt-3">
+  <div class="form-group p-0 mt-3">
     <label for="frame_border_radius">Frame border-radius px:</label>
     <input type="number" class="form-control" id="frame_border_radius" name="tentacles" min="0" max="1000" value="{{designs.0.designArtFrameCoordinate.frame_border_radius}}">
   </div>
+  <p class="h4 mt-2 mb-0">--------Text--------</p>
   <div class="form-group p-0 mt-3">
     <label for="frame_border_radius">Text size in px:</label>
     <input type="number" class="form-control" id="text_size" name="tentacles" min="0" max="1000" value="{{designs.0.designTextCoordinate.font_size}}">
@@ -325,7 +328,7 @@ function designEditButtons(){
         $("#design_text").css({'color': color})
         saveDesign = true
       });
-      setInterval(function(){if (saveDesign){saveDesignCoordinate(pageUrl,"{{ csrf_token }}",'#art_image_edit','.crop_frame','#design_text',confirmationMessage='false', '#design_text_','#art_image_view_small_','#crop_frame_');saveDesign = false;};}, 6000);
+      setInterval(function(){if (saveDesign){saveDesignCoordinate(pageUrl,"{{ csrf_token }}",'#art_image_edit','.crop_frame','#design_text',confirmationMessage='false', '#design_text_','#art_image_view_small_','#crop_frame_');saveDesign = false;};}, 10000);
 }
 </script>
 {% endblock %}
