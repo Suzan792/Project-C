@@ -8,7 +8,8 @@ from products.models import Product
 from django.utils import timezone
 import json
 from django.http import JsonResponse
-
+def faq_page(request):
+    return render(request,'faq.html')
 
 def about_page(request):
     return render(request,'about.html')

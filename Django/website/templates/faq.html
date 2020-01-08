@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %} FAQ {% endblock %}
+
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <p class="h4 mt-5 mb-3">1. How to add a product with a design for my artwork? (Only for an artist account holder)</p>
+      <p class="h4">Step 1</p>
+      <p>Login with an artist account. You can check your account status on your profile page.</p>
+       <img class="col-sm-12 p-0 mb-3" style="border: 1px solid black;" src="{% static '../media/faq_pics/status.JPG' %}" alt="Smiley face" >
+      <p class="h4">Step 2</p>
+      <p>Upload an artwork by clicking on the upload artwork button on your profile page. (You can skip this step if you have already uploaded an artwork with your account)</p>
+       <img class="col-sm-12 p-0 mb-3" style="border: 1px solid black;" src="{% static '../media/faq_pics/upload.JPG' %}" alt="Smiley face" >
+      <p class="h4">Step 3</p>
+      <p>Click on My artworks button on your profile page.
+       On that page you can see all the artworks that you have uploaded so far.
+      </p>
+      <img class="col-sm-12 p-0 mb-3" style="border: 1px solid black;" src="{% static '../media/faq_pics/my_artwork.JPG' %}" alt="Smiley face" >
+      <p class="h4">Step 4</p>
+      <p>Click on the button called “Add/Edit Product” of the artwork that you want to make the design for.</p>
+      <img class="col-sm-12 p-0 mb-3" style="border: 1px solid black;" src="{% static '../media/faq_pics/addEditProductButton.JPG' %}" alt="Smiley face" >
+      <p class="h4">Step 5</p>
+      <p>Choose the product that you want to add the design to and click “Add product design” button. </p>
+      <img class="col-sm-12 p-0 mb-3" style="border: 1px solid black;" src="{% static '../media/faq_pics/productChoice.JPG' %}" alt="Smiley face" >
+      <p class="h4">Step 6</p>
+      <p>You can change the position of the artwork by dragging it by the frame.  The frame will appear when you hover over the art work with your mouse cursor.
+      You can set the width and height of the artwork-frame with the control panel on the right side of the screen.
+      Do not forget to save your design after you have finished designing.
+      </p>
+      <img class="col-sm-12 p-0 mb-3" style="border: 1px solid black;" src="{% static '../media/faq_pics/artworkFrame.JPG' %}" alt="Smiley face" >
+    </div>
+  </div>
+</div>
+
+
+{% endblock body%}
+
+{% block javascript %}
+<script>
+$("#faq_page").parent().addClass("active")
+</script>
+{% endblock %}

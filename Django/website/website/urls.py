@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ArtListView.as_view(), name='home_page'),
     path('about/', views.about_page, name='about_page'),
+    path('faq/', views.faq_page, name='faq_page'),
     path('', include('search.urls')),
     path('', include('users.urls')),
     path('', include('art.urls')),

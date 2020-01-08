@@ -38,13 +38,17 @@
           <li class="nav-item">
             <a class="nav-link" id="about_page" href="{% url 'about_page' %}">About</a>
           </li>
-          {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" id="logout_page" href="{% url 'logout_page' %}">Logout</a>
+            <a class="nav-link" id="faq_page" href="{% url 'faq_page' %}">FQA</a>
           </li>
+          {% if user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" id="profile_page" href="{% url 'profile_page' %}">Profile</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" id="logout_page" href="{% url 'logout_page' %}">Logout</a>
+          </li>
+
           {% else %}
           <li class="nav-item dropdown">
             <a id="register_pages" class="nav-link dropdown-toggle" id="signup_page" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">SignUp</a>
