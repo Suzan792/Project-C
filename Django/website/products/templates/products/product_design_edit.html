@@ -178,17 +178,19 @@ if({{designs.count}} != 0){
 
   $( ".crop_frame" ).css({ top: '{{designs.0.designArtFrameCoordinate.frame_coordinate_top}}'+'px', left:'{{designs.0.designArtFrameCoordinate.frame_coordinate_left}}'+'px',
   height: '{{designs.0.designArtFrameCoordinate.frame_height}}'+'px', width: '{{designs.0.designArtFrameCoordinate.frame_width}}'+'px', border: '5px solid rgba(250, 0, 0, .0)', 'border-radius': '4px',
-  'border-radius': parseInt('{{designs.0.designArtFrameCoordinate.frame_border_radius}}')
-});
+  'border-radius': parseInt('{{designs.0.designArtFrameCoordinate.frame_border_radius}}')});
 
-$( "#design_text").css({top:'{{designs.0.designTextCoordinate.coordinate_top}}'+'px',left: '{{designs.0.designTextCoordinate.coordinate_left}}'+'px',
-'font-family':'{{designs.0.designTextCoordinate.font}}','font-weight':'{{designs.0.designTextCoordinate.font_weight}}'+'px',
-'font-style':'{{designs.0.designTextCoordinate.font_style}}','color':'{{designs.0.designTextCoordinate.font_color}}',
-'font-size':'{{designs.0.designTextCoordinate.font_size}}'+'px'})
+  $( "#design_text").css({top:'{{designs.0.designTextCoordinate.coordinate_top}}'+'px',left: '{{designs.0.designTextCoordinate.coordinate_left}}'+'px',
+  'font-family':'{{designs.0.designTextCoordinate.font}}','font-weight':'{{designs.0.designTextCoordinate.font_weight}}'+'px',
+  'font-style':'{{designs.0.designTextCoordinate.font_style}}','color':'{{designs.0.designTextCoordinate.font_color}}',
+  'font-size':'{{designs.0.designTextCoordinate.font_size}}'+'px'})
 
-$('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
-$('#productChoiceButton_'+'{{designs.0.id}}').css({ 'border-bottom': 'solid 4px #f76c6c'})
-designEditButtons()
+  $('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
+  $('#productChoiceButton_'+'{{designs.0.id}}').css({ 'border-bottom': 'solid 4px #f76c6c'})
+  designEditButtons()
+}
+if({{designs.count}} == 0){
+  $("#save_button").hide();
 }
 $("#dialog-confirm").css("display","none");
 
