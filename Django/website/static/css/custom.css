@@ -55,7 +55,7 @@ body{
   height: 240px;
   width: 240px;
   position: relative;
-  text-align:cent 
+  text-align:cent
 }
 
 #productImageOrderView{
@@ -97,11 +97,14 @@ body{
 }
 
 .flashMessage{
+  visibility: hidden;
   position: fixed;
   text-align: center;
   width: 100%;
   left: 0px;
   top: 0px;
+  background-color: green;
+  color: white;
 }
 
 .no-container {
@@ -196,8 +199,4 @@ h2 {
 .accordion_input:checked ~ .tab-content {
   max-height: 100vh;
   padding: 1em;
-}
-
-.flashMessage{
-  visibility: hidden;
 }

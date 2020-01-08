@@ -1,7 +1,7 @@
 
 function like_button(id,url,csrfToken,authenticated){
   if (authenticated=='False'){
-    flashMessage("You must be logged in to like an ArtWork")
+    flashMessage("You must be logged in to like an ArtWork","info")
   }else{
     var post_url =url
     $.ajax({
@@ -35,8 +35,13 @@ function like_button(id,url,csrfToken,authenticated){
 
 
 
-function flashMessage(message){
+function flashMessage(message,type){
+
   $('.flashMessage').css({'visibility': 'visible'})
+
+  if(type=='info'){$('.flashMessage').css({'background-color': 'orange'});}
+  if(type=='warning'){$('.flashMessage').css({'background-color': 'red'});}
+  if(type=='success'){$('.flashMessage').css({'background-color': 'green'});}
   $('.flashMessage').text(message)
   $('.flashMessage').slideDown(500).delay(2000).slideUp();
 }
@@ -122,7 +127,7 @@ function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmation
   function alert(data) {
     var data = data
     if (confirmationMessage=='true'){
-      flashMessage("Your design is saved successfully")
+      flashMessage("Your design is saved successfully","success")
     }
     var schale = 0.15
     var small_art_coordinate_top = parseInt(art_top)*schale

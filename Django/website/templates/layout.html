@@ -67,7 +67,7 @@
             <a  href="{% url 'profile_page' %}" data-toggle="tooltip" data-placement="top"><img class="rounded-circle article-img"  src="{{ user.userprofile.image.url }}"></a>
           </li>
           <li class="nav-item mt-1 ml-2">
-            <a href="{% url 'profile_page' %}"><h1  class="h6 mt-1" style="color: white;">Hi {{user.username}}</h1></a> 
+            <a href="{% url 'profile_page' %}"><h1  class="h6 mt-1" style="color: white;">Hi {{user.username}}</h1></a>
           </li>
           {% endif %}
         </ul>
@@ -98,7 +98,7 @@
           <script type="application/javascript" src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
           <script type="application/javascript" src="{% static 'js/html2canvas.min.js' %}"></script>
           {% block body %} {% endblock %}
-          <div class="flashMessage alert alert-success" role="alert">
+          <div class="flashMessage alert" role="alert">
             <p class="flashMessage"></p>
           </div>
           {% block javascript %}{% endblock %}
