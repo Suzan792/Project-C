@@ -338,7 +338,7 @@ function productChoiceButton(id,imageUrl,url,csrfToken,pageName){
       $("#design_text").css({'color': color})
       saveDesign = true
     });
-    setInterval(function(){if (saveDesign){saveDesignCoordinate(pageUrl,"{{ csrf_token }}",'#art_image_edit','.crop_frame','#design_text',confirmationMessage='false', '#design_text_','#art_image_view_small_','#crop_frame_');saveDesign = false;};}, 10000);
+    setInterval(function(){if (saveDesign){saveDesignCoordinate(pageUrl,"{{ csrf_token }}",'#art_image_edit','.crop_frame','#design_text',confirmationMessage='false', '#design_text_','#art_image_view_small_','#crop_frame_');saveDesign = false;};}, 5000);
   }
 </script>
 {% endblock %}
