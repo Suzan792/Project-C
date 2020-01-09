@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %} FAQ {% endblock %}
+
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <a href="{% url 'faq_q1_page' %}"><p class="h4 mt-5 mb-3">1. How to add a product with a design for my artwork? (Only for an artist account holder)</p></a>
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock body%}
+
+{% block javascript %}
+<script>
+$("#faq_page").parent().addClass("active")
+</script>
+{% endblock %}

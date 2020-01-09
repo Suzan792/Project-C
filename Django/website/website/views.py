@@ -9,7 +9,9 @@ from django.utils import timezone
 import json
 from django.http import JsonResponse
 def faq_page(request):
-    return render(request,'faq.html')
+    return render(request,'faq/faq.html')
+def faq_q1_page(request):
+    return render(request,'faq/productDesignFaq.html')
 
 def about_page(request):
     return render(request,'about.html')
