@@ -6,58 +6,76 @@
 
 {% if request.GET.q != "" %}
 <h1 class="display-5 text center">Results for:  '{{ request.GET.q }}'</h1>
+<p> {{object_list.count}} Results</p>
 
-<div class="card-columns">
-  {% for art in object_list %}
 
-  <!--Card-->
-  <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 ">
-    <!--Card image-->
-    <div class="view view-cascade overlay">
-      <img class="card-img-top" src="{{ art.artwork_photo.url }}"
-      alt="artwork">
-      <a>
-        <div class="mask rgba-white-slight"></div>
-      </a>
-    </div>
-    <!--/.Card image-->
-    <!--Card content-->
-    <div class="card-body card-body-cascade ">
-      <!--Category & Title-->
-      <h4 class="card-title text-center"><strong><a href="{% url 'artDetail_page' art.id %}">{{ art.artwork_name }}</a></strong></h4>
-      <!--Description-->
-      <p class="card-text">{{art.artwork_description }}</p>
-      <!--Card footer-->
-      <div class="card-footer mb-2">
-        <span class="float-left">
-          <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ art.artist.user.userprofile.image.url }}"></a>
-        </span>
-        <span class="float-left ml-3">
-          <a href="{% url 'artist_card' art.artist.user.id %}">{{ art.artist.user.username }}</a>
-        </span>
-        <span class="float-right" >
-            <form id = "form-id"  >
-                {% csrf_token %}
-                <a class="like_button button"type="submit" onclick="{% if user.is_authenticated %}like_button({{art.id}}){% endif %}" onload="heart_sign_color()" > <i id="heart_sign_color_{{art.id}}"class="fas fa-heart {%isLiked art.id user.id%}" ></i></a>
-            </form>
-        </span>
-        <span class="float-right" >
-        <p id="like_count_{{artwork.id}}"class= "mr-1">{{art.artwork_likes.count}}</p>
-        </span>
-        <span class="float-right">
-          <a  class="" href="{% url 'artDetail_page' art.id %}" data-toggle="tooltip" data-placement="top" title="Add a comment"><i class="far fa-comments mr-3"></i></a>
-        </span>
+<div class="row">
+  <div class="col-sm 8 col-sm-offset-2">
+    <table class="table">
 
-      </div>
-    </div>
-    <!--/.Card content-->
+      <div class="card-columns">
+        {% for art in object_list %}
+
+        <tr>
+          <td>
+            <!--Card-->
+            <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 ">
+              <!--Card image-->
+              <div class="view view-cascade overlay">
+                <img class="card-img-top" style="height: 300px; width: 300px; position: relative; "src="{{ art.artwork_photo.url }}"
+                alt="artwork">
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+              <!--/.Card image-->
+                <!--Card footer-->
+                <div class="card-footer mb-2">
+                  <span class="float-left">
+                    <a class="" data-toggle="tooltip" data-placement="top" title="Add a commint"><img class="rounded-circle article-img"  src="{{ art.artist.user.userprofile.image.url }}"></a>
+                  </span>
+                  <span class="float-left ml-3">
+                    <a href="{% url 'artist_card' art.artist.user.id %}">{{ art.artist.user.username }}</a>
+                  </span>
+                  <span class="float-right" >
+                      <form id = "form-id"  >
+                          {% csrf_token %}
+                          <a class="like_button button"type="submit" onclick="{% if user.is_authenticated %}like_button({{art.id}}){% endif %}" onload="heart_sign_color()" > <i id="heart_sign_color_{{art.id}}"class="fas fa-heart {%isLiked art.id user.id%}" ></i></a>
+                      </form>
+                  </span>
+                  <span class="float-right" >
+                  <p id="like_count_{{artwork.id}}"class= "mr-1">{{art.artwork_likes.count}}</p>
+                  </span>
+                  <span class="float-right">
+                    <a  class="" href="{% url 'artDetail_page' art.id %}" data-toggle="tooltip" data-placement="top" title="Add a comment"><i class="far fa-comments mr-3"></i></a>
+                  </span>
+
+                </div>
+              <!--/.Card content-->
+            </div>
+            <!--/.Card-->
+          </td>
+          <td>
+              <!--Card content-->
+            <div class="card-body card-body-cascade">
+              <!--Category & Title-->
+              <h4 class="card-title text-center"><strong><a href="{% url 'artDetail_page' art.id %}">{{ art.artwork_name }}</a></strong></h4>
+              <!--Description-->
+              <p class="card-text">{{art.artwork_description }}</p>
+            </div>
+          </td>
+          <td>
+            <h3 style="font-size: 150%;"> €{{  art.artwork_price  }} </h3>
+          </td>
+        </tr>
+        {% endfor %}
+
+
+       </div>
+    </table>
   </div>
-  <!--/.Card-->
-
-  {% endfor %}
-
-
 </div>
+
 
 {% else %}
     <h1>No search results for this query.<h1/>
@@ -65,10 +83,12 @@
 
 {% endblock body %}
 
+
 {% block javascript %}
 
-
 <script>
+
+  var amountOfResults = 0
 
   function like_button(id){
     var post_url ="{% url 'home_page' %}"
@@ -99,4 +119,5 @@
 
 
 </script>
-{% endblock %}
+
+{% endblock javascript %}
