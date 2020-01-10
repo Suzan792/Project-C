@@ -14,4 +14,4 @@ This website is for a project on our school.
 
 * [Sopa](https://github.com/tensopa) 
 
- vist our website on http://artdrop.nl (comming soon..!)
+ vist our website on http://artdrop.nl
