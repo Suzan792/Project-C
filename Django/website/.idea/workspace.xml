@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b73fed75-b6b6-45c6-b8df-5c629da03272" name="Default Changelist" comment="RECENTLY JOINED ARTISTS added to homepage / comment button renamed">
+    <list default="true" id="b73fed75-b6b6-45c6-b8df-5c629da03272" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/media/art_pics/dutch_golden_age_1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/design_pics/design_4ssEN8A.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/design_pics/design_JmdfIaS.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/design_pics/design_bripJMo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/order_pics/orderdesign_lECoIro.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/art/templates/art/artwork_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/art/templates/art/artwork_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/art/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/art/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.well-known/acme-challenge/QyI5ZfneR6fIwUE1yI95ldrh4FRptm60tLn4ihPtq6E" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.well-known/acme-challenge/n3Q4mpudgaWKYl988GXf677Iq5tmO1iWrW6X1HfmOrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/templates/artistCard.html" beforeDir="false" afterPath="$PROJECT_DIR$/users/templates/artistCard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/templates/users/info_artist_register.html" beforeDir="false" afterPath="$PROJECT_DIR$/users/templates/users/info_artist_register.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +96,21 @@
       <option name="project" value="LOCAL" />
       <updated>1576492615410</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="user status in userprofile">
+      <created>1578311518933</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1578311518934</updated>
+    </task>
+    <task id="LOCAL-00006" summary=":)">
+      <created>1578612280059</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1578612280061</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -111,7 +132,9 @@
     <MESSAGE value="Artist Card" />
     <MESSAGE value="Artist Card shows Artist artworks + links added to search_page" />
     <MESSAGE value="DEBUG = True" />
-    <option name="LAST_COMMIT_MESSAGE" value="DEBUG = True" />
+    <MESSAGE value="user status in userprofile" />
+    <MESSAGE value=":)" />
+    <option name="LAST_COMMIT_MESSAGE" value=":)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

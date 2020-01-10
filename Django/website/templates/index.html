@@ -18,12 +18,11 @@
     {% for advertisementSlide in advertisementSlides %}
     <div class="carousel-item {% if  forloop.counter == 1 %} active{% endif %}">
       <div class="view">
-        <img class="d-block w-100 " src='{{ advertisementSlide.image.url }}'alt="First slide"></img>
+        <a href="{% url 'artDetail_page' advertisementSlide.art.id %}"> <img class="d-block w-100 " src='{{ advertisementSlide.image.url }}'alt="First slide"></img></a>
         <div class="mask rgba-black-light"></div>
       </div>
       <div class="carousel-caption">
-        <h3 class="h3-responsive">{{advertisementSlide.title}}</h3>
-        <p>{{advertisementSlide.description}}</p>
+        <h3 class="h3-responsive" style="font-size: 1.5vw">{{advertisementSlide.title}}</h3>
       </div>
     </div>
     {% endfor %}
@@ -50,7 +49,7 @@
   <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 ">
     <!--Card image-->
     <div class="view view-cascade overlay">
-      <a href="{% url 'artDetail_page' artwork.id %}"><img class="card-img-top" src="{{ artwork.artwork_photo.url }}"alt="artwork"> </img></a> 
+      <a href="{% url 'artDetail_page' artwork.id %}"><img class="card-img-top" src="{{ artwork.artwork_photo.url }}"alt="artwork"> </img></a>
       <a>
         <div class="mask rgba-white-slight"></div>
       </a>

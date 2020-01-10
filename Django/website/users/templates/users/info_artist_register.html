@@ -3,7 +3,10 @@
 
 {% block body %}
 <h3 class="mt-5 mb-3">To join us as artist </h3>
-<p>You have to sign up as normal user then we will ask you to upload an example of your artwork</p>
+{% if user.is_authenticated == False %}
+<p>You have to sign up as normal user</p>
+{% endif %}
+<p>we will ask you to upload an example of your artwork</p></p>
 <p>One of our specialists will evaluate your artworks and activate your artist account</p>
 <p>Notice that your artwork should meets our conditions</p>
 <ul class="list-group">
