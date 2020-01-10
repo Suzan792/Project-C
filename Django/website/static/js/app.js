@@ -48,7 +48,7 @@ function flashMessage(message,type){
 
 
 
-function deleteProductDesign(url,csrfToken, id){
+function deleteProductDesign(url,csrfToken, id,actionText){
   $( "#dialog-confirm" ).dialog({
     resizable: false,
     height: "auto",
@@ -56,7 +56,7 @@ function deleteProductDesign(url,csrfToken, id){
     modal: true,
     buttons: {
       "Yes I am sure": function() {
-            $.post(url, {csrfmiddlewaretoken: csrfToken, action: "delete", pk: id}, function(){
+            $.post(url, {csrfmiddlewaretoken: csrfToken, action: actionText, pk: id}, function(){
               window.location.reload();
             })
       },

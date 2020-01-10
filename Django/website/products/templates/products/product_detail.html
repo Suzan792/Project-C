@@ -34,7 +34,7 @@
           {% if design.user != None %}
           <a class="" style="position: absolute; top:-15px;left:66px; " data-toggle="tooltip" data-placement="top" ><img class="rounded-circle" style="width: 18px;" src="{{ user.userprofile.image.url }}"></a>
 
-          <a class="" onclick="deleteProductDesign('{% url 'productDetail_page' art.id product.id %}','{{ csrf_token }}', {{design.id}})"
+          <a class="" onclick="deleteProductDesign('{% url 'productDetail_page' art.id product.id %}','{{ csrf_token }}', {{design.id}},"delete")"
           style=" cursor: pointer; position: absolute; top:78px;left:68px; " data-toggle="tooltip" data-placement="top" title="Add a commint">
           <img class="rounded-circle" style="width: 18px;" src="{% static '../media/Icons/delete.jpg'%}"></a>
 
