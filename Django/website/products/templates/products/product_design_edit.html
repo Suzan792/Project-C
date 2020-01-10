@@ -75,7 +75,7 @@
           <button class="btn btn-primary mb-2" type="submit" value="add_design">Add product design</button>
         </form>
 
-        <button class="btn btn-danger mb-2" method="DELETE" onclick="deleteDesign('{% url 'editProduct_page' art.id %}','{{ csrf_token }}')" value="delete_design">Delete product design</button>
+        <button class="btn btn-danger mb-2" id="deleteButton"method="DELETE" onclick="deleteDesign('{% url 'editProduct_page' art.id %}','{{ csrf_token }}')" value="delete_design">Delete product design</button>
       </div>
     </div>
   </div>
@@ -191,12 +191,13 @@ if({{designs.count}} != 0){
 }
 if({{designs.count}} == 0){
   $("#save_button").hide();
+  $("#deleteButton").hide();
 }
-$("#dialog-confirm").css("display","none");
+$("#dialog-confirm").hide();
 
 
 function deleteDesign(url,csrfToken){
-  deleteProductDesign(url,csrfToken,activeDesignId,"delete");
+  popUpDialog(url,csrfToken,activeDesignId,"#dialog-confirm");
 }
 
 function productChoiceButton(id,imageUrl,url,csrfToken,pageName){

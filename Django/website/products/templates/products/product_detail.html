@@ -34,7 +34,7 @@
           {% if design.user != None %}
           <a class="" style="position: absolute; top:-15px;left:66px; " data-toggle="tooltip" data-placement="top" ><img class="rounded-circle" style="width: 18px;" src="{{ user.userprofile.image.url }}"></a>
 
-          <a class="" onclick="deleteProductDesign('{% url 'productDetail_page' art.id product.id %}','{{ csrf_token }}', {{design.id}},'delete')"
+          <a class="" onclick="popUpDialog('{% url 'productDetail_page' art.id product.id %}','{{ csrf_token }}', {{design.id}},'#dialog-confirm')"
           style=" cursor: pointer; position: absolute; top:78px;left:68px; " data-toggle="tooltip" data-placement="top" title="Add a commint">
           <img class="rounded-circle" style="width: 18px;" src="{% static '../media/Icons/delete.jpg'%}"></a>
 
@@ -214,18 +214,18 @@ $( "#design_text").css({top:'{{designs.0.designTextCoordinate.coordinate_top}}'+
 'font-style':'{{designs.0.designTextCoordinate.font_style}}','color':'{{designs.0.designTextCoordinate.font_color}}',
 'font-size':'{{designs.0.designTextCoordinate.font_size}}'+'px'})
 
-$("#font").val('{{designs.0.designTextCoordinate.font}}')
-$("#font-style").val('{{designs.0.designTextCoordinate.font_style}}')
-$("#font-weight").val('{{designs.0.designTextCoordinate.font_weight}}')
-$("#font-color").val('{{designs.0.designTextCoordinate.font_color}}')
+$("#font").val('{{designs.0.designTextCoordinate.font}}');
+$("#font-style").val('{{designs.0.designTextCoordinate.font_style}}');
+$("#font-weight").val('{{designs.0.designTextCoordinate.font_weight}}');
+$("#font-color").val('{{designs.0.designTextCoordinate.font_color}}');
 
-$('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'})
-$('#productChoiceButton_'+'{{designs.0.id}}').css({ 'border-bottom': 'solid 4px #f76c6c'})
+$('.productChoiceButton').css({ 'border-bottom': 'solid 4px white'});
+$('#productChoiceButton_'+'{{designs.0.id}}').css({ 'border-bottom': 'solid 4px #f76c6c'});
 designEditButtons()
 }
-$("#save_button").hide()
-$("#art_image_edit_controller_space").hide()
-$("#dialog-confirm").css("display","none");
+$("#save_button").hide();
+$("#art_image_edit_controller_space").hide();
+$("#dialog-confirm").hide();
 
 activeDesignId = parseInt('{{designs.0.id}}');
 if('{{designs.0.user}}' != 'None'){
@@ -254,9 +254,9 @@ function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName
   draggability =art_draggability;
 
   if (art_draggability=='enable'){
-    $("#art_image_edit_controller_space").show()
+    $("#art_image_edit_controller_space").show();
   }else{
-    $("#art_image_edit_controller_space").hide()
+    $("#art_image_edit_controller_space").hide();
   }
   $( function() {
     $( ".crop_frame" ).draggable().draggable(draggability);

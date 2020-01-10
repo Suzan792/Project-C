@@ -48,15 +48,15 @@ function flashMessage(message,type){
 
 
 
-function deleteProductDesign(url,csrfToken, id,actionText){
-  $( "#dialog-confirm" ).dialog({
+function popUpDialog(url,csrfToken, id,dialogId){
+  $( dialogId ).dialog({
     resizable: false,
     height: "auto",
     width: 400,
     modal: true,
     buttons: {
       "Yes I am sure": function() {
-            $.post(url, {csrfmiddlewaretoken: csrfToken, action: actionText, pk: id}, function(){
+            $.post(url, {csrfmiddlewaretoken: csrfToken, action: "delete", pk: id}, function(){
               window.location.reload();
             })
       },
