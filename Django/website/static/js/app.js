@@ -48,7 +48,7 @@ function flashMessage(message,type){
 
 
 
-function popUpDialog(url,csrfToken, id,dialogId){
+function popUpDialog(url,csrfToken, id,dialogId,actionName){
   $( dialogId ).dialog({
     resizable: false,
     height: "auto",
@@ -56,7 +56,7 @@ function popUpDialog(url,csrfToken, id,dialogId){
     modal: true,
     buttons: {
       "Yes I am sure": function() {
-            $.post(url, {csrfmiddlewaretoken: csrfToken, action: "delete", pk: id}, function(){
+            $.post(url, {csrfmiddlewaretoken: csrfToken, action: actionName, pk: id}, function(){
               window.location.reload();
             })
       },
