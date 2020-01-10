@@ -34,7 +34,7 @@
           {% if design.user != None %}
           <a class="" style="position: absolute; top:-15px;left:66px; " data-toggle="tooltip" data-placement="top" ><img class="rounded-circle" style="width: 18px;" src="{{ user.userprofile.image.url }}"></a>
 
-          <a class="" onclick="deleteProductDesign('{% url 'productDetail_page' art.id product.id %}','{{ csrf_token }}', {{design.id}},"delete")"
+          <a class="" onclick="deleteProductDesign('{% url 'productDetail_page' art.id product.id %}','{{ csrf_token }}', {{design.id}},'delete')"
           style=" cursor: pointer; position: absolute; top:78px;left:68px; " data-toggle="tooltip" data-placement="top" title="Add a commint">
           <img class="rounded-circle" style="width: 18px;" src="{% static '../media/Icons/delete.jpg'%}"></a>
 
@@ -190,7 +190,7 @@
   {% endif %}
 </div>
 <div id="dialog-confirm" title="Delete this product design?">
-  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;" ></span>These design will be permanently deleted and cannot be recovered. Are you sure?</p>
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;" ></span>This design will be permanently deleted and cannot be recovered. Are you sure?</p>
 </div>
 {% endblock body%}
 {% block javascript %}
