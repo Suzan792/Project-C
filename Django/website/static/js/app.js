@@ -124,7 +124,7 @@ function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmation
     success: alert,
     dataType: 'json'
   });
-  });
+
   function alert(data) {
     var data = data
     if (confirmationMessage=='true'){
@@ -153,5 +153,6 @@ function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmation
     $(buttonArtId+activeDesignId+'').css({ top: small_art_coordinate_top, left: small_art_coordinate_left, height: small_art_height});
     $(buttonFrameId+activeDesignId+'').css({ top: small_frame_coordinate_top, left: small_frame_coordinate_left, height: small_frame_height, width:small_frame_width, 'border-radius': small_frame_frame_border_radius});
     saveDesign = false;
-  };
+    };
+    });
 };
