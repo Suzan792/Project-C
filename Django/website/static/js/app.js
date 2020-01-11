@@ -70,28 +70,28 @@ function popUpDialog(url,csrfToken, id,dialogId,actionName){
 
 function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmationMessage,buttonTextId,buttonArtId,buttonFrameId){
   $(".crop_frame").css({ 'backgroud-color': 'black', border: '5px solid rgba(250, 0, 0, 0)'})
-  var imageUri;
   window.scrollTo(0,0);
   html2canvas(document.querySelector("#imageEditSpace")).then(canvas => {
-      imageUri = canvas.toDataURL();
-  var art_top = $( artId ).css("top")
-  var art_left = $( artId ).css("left")
-  var height = $( artId ).css("height")
-  var width = $( artId ).css("width")
-  var rotation = $(artId).css("transform")
-  var frame_top = $( frameClass ).css("top")
-  var frame_left = $( frameClass ).css("left")
-  var frame_height = $( frameClass ).css("height")
-  var frame_width = $( frameClass).css("width")
-  var frame_border_radius = $( frameClass).css("border-top-left-radius")
-  var designId = activeDesignId
+
+  var imageUri = canvas.toDataURL();
+  var art_top = $( artId ).css("top");
+  var art_left = $( artId ).css("left");
+  var height = $( artId ).css("height");
+  var width = $( artId ).css("width");
+  var rotation = $(artId).css("transform");
+  var frame_top = $( frameClass ).css("top");
+  var frame_left = $( frameClass ).css("left");
+  var frame_height = $( frameClass ).css("height");
+  var frame_width = $( frameClass).css("width");
+  var frame_border_radius = $( frameClass).css("border-top-left-radius");
+  var designId = activeDesignId;
   // text
-  var font = $( TextId ).css("font-family")
-  var font_weight = $( TextId ).css("font-weight")
-  var font_style = $( TextId ).css("font-style")
-  var font_color = $( TextId ).css("color")
-  var text_top = $( TextId ).css("top")
-  var text_left = $( TextId ).css("left")
+  var font = $( TextId ).css("font-family");
+  var font_weight = $( TextId ).css("font-weight");
+  var font_style = $( TextId ).css("font-style");
+  var font_color = $( TextId ).css("color");
+  var text_top = $( TextId ).css("top");
+  var text_left = $( TextId ).css("left");
   var text = $( TextId).text();
   var text_size = $(TextId).css("font-size");
   $.ajax({
@@ -124,11 +124,13 @@ function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmation
     success: alert,
     dataType: 'json'
   });
+  });
   function alert(data) {
     var data = data
     if (confirmationMessage=='true'){
       flashMessage("Your design is saved successfully","success")
     }
+      console.log("hi--")
     var schale = 0.15
     var small_art_coordinate_top = parseInt(art_top)*schale
     var small_art_coordinate_left = parseInt(art_left)*schale
@@ -152,5 +154,4 @@ function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmation
     $(buttonFrameId+activeDesignId+'').css({ top: small_frame_coordinate_top, left: small_frame_coordinate_left, height: small_frame_height, width:small_frame_width, 'border-radius': small_frame_frame_border_radius});
     saveDesign = false;
   };
-  });
 };
