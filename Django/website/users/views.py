@@ -15,8 +15,7 @@ from django.views.generic import DetailView, DeleteView, ListView
 
 from .models import isArtist,UserProfile
 from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm , artistApplication
-from .functions import send_confirmation_email, deactivate_account
-from .tokens import account_activation_token
+from .functions import activation_token, send_confirmation_email, deactivate_account
 from art.models import Artwork
 from website import settings
 
@@ -58,16 +57,16 @@ def register(request):
 
 def activate(request, uidb64, token):
     '''
-    This function activates a user's account by checking the token and decoding the uid. 
+    This function activates a user's account by checking the token and decoding the user's id. 
     Then, the user's account is either activated, or the user gets redirected to the 'invalid link' page.
     '''
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
+        user_id = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=user_id)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
-    if user is not None and account_activation_token.check_token(user, token):
+    if user is not None and activation_token.check_token(user, token):
         user.is_active = True
         user.save()
         login(request, user)

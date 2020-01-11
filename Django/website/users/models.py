@@ -18,6 +18,7 @@ class UserProfile(models.Model):
     language = models.CharField(max_length = 60, choices=(('english','English'),('dutch','Dutch')),default = 'English')
     sign_up_date = models.DateField(("Date"), default=datetime.date.today)
     activated_artist_date = models.DateTimeField(blank=True, null = True)
+    active_email = models.BooleanField(default=True)
 
 
     def __str__(self):
