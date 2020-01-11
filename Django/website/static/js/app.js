@@ -117,7 +117,7 @@ function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmation
       'font_color':font_color,
       'text_top':text_top,
       'text_left':text_left,
-      'text':text,
+      'text':text_,
       'text_size':text_size,
       'image':imageUri
     },
@@ -145,6 +145,7 @@ function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmation
     var small_text_left =parseInt(text_left)*schale
     var small_font_size = parseInt(text_size)*schale
     var small_font_weight =parseInt(font_weight)*schale
+    console.log(text_)
     $(buttonTextId+activeDesignId+'').text(text_)
     $( buttonTextId+activeDesignId+'').css({top:small_text_top,left:small_text_left,
     'font-family':font,'font-weight':small_font_weight+'px',
