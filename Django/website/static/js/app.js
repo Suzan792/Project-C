@@ -92,7 +92,7 @@ function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmation
   var font_color = $( TextId ).css("color");
   var text_top = $( TextId ).css("top");
   var text_left = $( TextId ).css("left");
-  var text = $( TextId).text();
+  var text_ = $( TextId).text();
   var text_size = $(TextId).css("font-size");
   $.ajax({
     type: 'POST',
@@ -145,7 +145,7 @@ function saveDesignCoordinate(url,csrfToken,artId,frameClass,TextId,confirmation
     var small_text_left =parseInt(text_left)*schale
     var small_font_size = parseInt(text_size)*schale
     var small_font_weight =parseInt(font_weight)*schale
-    $(buttonTextId+activeDesignId+'').text(text)
+    $(buttonTextId+activeDesignId+'').text(text_)
     $( buttonTextId+activeDesignId+'').css({top:small_text_top,left:small_text_left,
     'font-family':font,'font-weight':small_font_weight+'px',
     'font-style':font_style,'color':font_color,
