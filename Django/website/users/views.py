@@ -1,25 +1,25 @@
 from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.core.mail import send_mail
-from django.utils.decorators import method_decorator
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.urls import reverse
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
-from django.http import HttpResponse
-from django.views.generic import DetailView, DeleteView
-from art.models import Artwork
-from website import settings
+from django.http import JsonResponse, HttpResponse
+from django.views.generic import DetailView, DeleteView, ListView
+
 from .models import isArtist,UserProfile
 from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm , artistApplication
-from .functions import send_confirmation_email
+from .functions import send_confirmation_email, deactivate_account
 from .tokens import account_activation_token
-from django.views.generic import ListView
-# Create your views here.
-
+from art.models import Artwork
+from website import settings
 
 class ArtistCard(DetailView):
     model = User
@@ -47,7 +47,7 @@ def register(request):
                 user.is_active = False
                 user.save()
                 username = form.cleaned_data.get('username')
-                messages.success(request, f'account created for {username}')
+                messages.success(request, f'Account created for {username}')
 
                 email = form.cleaned_data.get('email')
                 send_confirmation_email(request, form, user, email)
@@ -73,7 +73,11 @@ def activate(request, uidb64, token):
 
 @login_required
 def profile(request):
-    if request.method == 'POST':
+    if request.is_ajax():
+        if request.POST.get('action') == "deactivate":
+            deactivate_account(request)
+            return JsonResponse({})
+    elif request.method == 'POST':
         user_update_form = UserUpdateForm(request.POST,instance=request.user)
         profile_photo_update_form = ProfilePhotoUpdateForm(request.POST,request.FILES,
                                                         instance=request.user.userprofile)

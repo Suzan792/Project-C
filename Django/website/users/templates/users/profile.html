@@ -48,15 +48,24 @@
           <button class="btn btn-outline-info" type="submit">Update</button>
         </div>
       </form>
-      <button class="btn btn-outline-danger" type="button">Deactivate</button>
+      <button class="btn btn-outline-danger" type="button" onclick="deactivateAccount('{% url 'profile_page' %}','{{ csrf_token }}','{{ user.id }}')">Deactivate</button>
     </div>
 
   </div>
+  </div>
+  <div id="dialog-confirm-deactivation" title="Deactivate your account">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;" ></span>Your account will be deactivated. To reactivate your account, you can send an email to artdrop.project@gmail.com. Are you sure?</p>
   </div>
 {% endblock body %}
 
 {% block javascript %}
 <script>
-$("#profile_page").parent().addClass("active")
+$("#profile_page").parent().addClass("active");
+
+$("#dialog-confirm-deactivation").hide();
+
+function deactivateAccount(url,csrfToken,user){
+  popUpDialog(url,csrfToken,user,"#dialog-confirm-deactivation",'deactivate');
+}
 </script>
 {% endblock %}
