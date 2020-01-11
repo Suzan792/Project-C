@@ -1,5 +1,4 @@
 from datetime import datetime
-from paypal.standard.conf import POSTBACK_ENDPOINT, SANDBOX_POSTBACK_ENDPOINT
 import requests
 
 from django.conf import settings
@@ -11,7 +10,7 @@ from django.views.generic import View
 
 from .models import Cart
 from .forms import PayPalForm
-from order import views as order_views 
+from .functions import *
 from products.models import Product, Design
 
 def view(request):
@@ -93,7 +92,7 @@ def payment(request, cart, total):
     form = PayPalForm(initial=paypal_form)
 
     return cart, form
-
+    
 
 @csrf_exempt
 def payment_done(request):
@@ -105,61 +104,34 @@ def payment_cancelled(request):
     messages.warning(request, f'Payment was cancelled')
     return redirect('cart')
 
-def move_to_orderhistory(request, cart):
-    '''
-    Use this function to add an item to the order history.
-    It returns the date and time of the order so it can be passed as an invoice to paypal.
-    '''
-    today = datetime.today()
-    date_time = datetime.now()
-
-    for item in cart.item.all():
-        order_views.add_orders(request, item, today, date_time)
-        cart.item.remove(item)
-
-    return date_time
-
 @csrf_exempt
 def request_to_paypal(request):
     '''
-    This view calls a function that moves the products in the cart to the order history.
+    This view calls a function that moves the products in the cart to the order history if the user has specified his/her address.
     It also sends a post request to PayPal.
     '''
-    def get_cart(request):
-        '''
-        This function returns the current cart if its id is saved in the session. 
-        '''
-        cart_id = request.session['cart_id']
-        cart = Cart.objects.get(id=cart_id)
-        return cart
 
-    date_time = move_to_orderhistory(request, get_cart(request))
+    if check_address(request):
+        date_time = move_to_orderhistory(request, get_cart(request))
 
-    post_data = {
-        'cmd' : request.POST.get("cmd",''),
-        'charset' : request.POST.get("charset",''),
-        'currency_code' : request.POST.get("currency_code",''),
-        'no_shipping' : request.POST.get("no_shipping",''),
-        'business' : request.POST.get("business",''),
-        'amount' : request.POST.get("amount",''),
-        'item_name' : request.POST.get("item_name",''),
-        'invoice' : date_time,
-        'notify_url' : request.POST.get("notify_url",''),
-        'cancel_return' : request.POST.get("cancel_return",''),
-        'return' : request.POST.get("return",''),
-    }
+        post_data = {
+            'cmd' : request.POST.get("cmd",''),
+            'charset' : request.POST.get("charset",''),
+            'currency_code' : request.POST.get("currency_code",''),
+            'no_shipping' : request.POST.get("no_shipping",''),
+            'business' : request.POST.get("business",''),
+            'amount' : request.POST.get("amount",''),
+            'item_name' : request.POST.get("item_name",''),
+            'invoice' : date_time,
+            'notify_url' : request.POST.get("notify_url",''),
+            'cancel_return' : request.POST.get("cancel_return",''),
+            'return' : request.POST.get("return",''),
+        }
 
-    def get_endpoint():
-        '''
-        Returns the endpoint url for the form. 
-        This is where the information in the form will be sent.
-        '''
-        if getattr(settings, 'PAYPAL_TEST', True):
-            return SANDBOX_POSTBACK_ENDPOINT
-        else:
-            return POSTBACK_ENDPOINT
-        
-    r = requests.post(get_endpoint(), data=post_data)
+        response = requests.post(get_endpoint(), data=post_data)
 
-    return redirect(r.url)
+        return redirect(response.url)
+    else:
+        messages.warning(request, f'Please enter your address at your profile page before ordering.')
+        return redirect('cart')
     

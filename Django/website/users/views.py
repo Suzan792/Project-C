@@ -6,7 +6,6 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_text
@@ -38,7 +37,7 @@ def artist_register_info(request):
 
 def register(request):
     if request.user.is_authenticated:
-        return HttpResponse("you are already logged in!")
+        return HttpResponse("You are already logged in!")
     else:
         if request.method == 'POST':
             form = UserRegistrationForm(request.POST)
@@ -58,11 +57,16 @@ def register(request):
         return render(request,'users/register.html',{'form':form})
 
 def activate(request, uidb64, token):
+    '''
+    This function activates a user's account by checking the token and decoding the uid. 
+    Then, the user's account is either activated, or the user gets redirected to the 'invalid link' page.
+    '''
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
+
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
@@ -104,7 +108,7 @@ def profile(request):
 @login_required
 def isartist(request):
     if isArtist.objects.filter(applicant=request.user.userprofile).exists():
-        return HttpResponse("you are already sent a application!")
+        return HttpResponse("You have are already sent a application!")
     else:
         if request.method == 'POST':
             form = artistApplication(request.POST,request.FILES)
@@ -113,7 +117,7 @@ def isartist(request):
                 instance = form.save(commit=False)
                 instance.applicant = request.user.userprofile
                 instance.save()
-                messages.success(request, f'Your application is received, you will receive an answer very quick  ')
+                messages.success(request, f'Your application has been received. You will receive an answer as soon as possible.')
                 return redirect('home_page')
         else:
             form = artistApplication()
@@ -139,8 +143,8 @@ class rejectArtistApplication(DeleteView):
     success_url = '/administrator'
 
     def delete(self, request, *args, **kwargs):
-        subject = 'your application has been rejected'
-        message = 'sorry to tell that your request does not meet our requirement so it has been rejected.'
+        subject = 'Your application has been rejected.'
+        message = 'We are sorry to tell that your request does not meet our requirements, so it has been rejected.'
         email_from = settings.EMAIL_HOST_USER
         self.object = self.get_object()
         recipient_list = [self.object.applicant.user.email]
@@ -157,9 +161,9 @@ class approveArtistApplication(DeleteView):
     success_url = '/administrator'
 
     def delete(self, request, *args, **kwargs):
-        subject = 'your application has been approved'
-        message = 'Happy to tell that your request has been approved. your artist account has been activated. we are ' \
-                  'looking up to see your first artwork '
+        subject = 'Your application has been approved'
+        message = 'We are happy to tell that your request has been approved. Your artist account has been activated. We are ' \
+                  'looking forward to seeing your first artwork.'
         email_from = settings.EMAIL_HOST_USER
         self.object = self.get_object()
         recipient_list = [self.object.applicant.user.email]

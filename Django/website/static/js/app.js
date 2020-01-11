@@ -55,7 +55,7 @@ function popUpDialog(url,csrfToken, id,dialogId,actionName){
     width: 400,
     modal: true,
     buttons: {
-      "Yes I am sure": function() {
+      "Yes, I am sure": function() {
             $.post(url, {csrfmiddlewaretoken: csrfToken, action: actionName, pk: id}, function(){
               window.location.reload();
             })

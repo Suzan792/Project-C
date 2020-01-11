@@ -33,9 +33,6 @@
       {% endif %}
       </div>
       <legend class=" mb-4 mt-5">Update your profile information</legend>
-      <div class="form-group">
-            <button type="button" class="btn btn-outline-info" onclick= "location.href='{% url 'change_password' %}'"}>Change password</button>
-      </form>
       <form method="POST" class="mt-2" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
@@ -48,6 +45,12 @@
           <button class="btn btn-outline-info" type="submit">Update</button>
         </div>
       </form>
+
+      <legend class=" mb-4 mt-5">Change your password</legend>
+      <button type="button" class="btn btn-outline-info" onclick= "location.href='{% url 'change_password' %}'"}>Change password</button>
+
+      <legend class="mb-4 mt-5" style="color:#dc3545;">Deactivate your account</legend>
+      <p style="color:#dc3545;">If you deactivate your account, you will not be able to log in any longer.</p>
       <button class="btn btn-outline-danger" type="button" onclick="deactivateAccount('{% url 'profile_page' %}','{{ csrf_token }}','{{ user.id }}')">Deactivate</button>
     </div>
 
