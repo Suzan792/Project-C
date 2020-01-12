@@ -1,13 +1,17 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from django.core.paginator import Paginator
-from django.views.generic import ListView, DetailView, View
-from art.models import Artwork
-from users.models import User, UserProfile
-from advertisementSlide.models import AdvertisementSlide
-from products.models import Product
-from django.utils import timezone
 import json
+
+from django.contrib import messages
+from django.core.paginator import Paginator
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.utils import timezone
+from django.views.generic import ListView, DetailView, View
+
+from advertisementSlide.models import AdvertisementSlide
+from art.models import Artwork
+from products.models import Product
+from users.models import User, UserProfile
+
 def faq_page(request):
     return render(request,'faq/faq.html')
 def faq_q1_page(request):
@@ -21,6 +25,11 @@ class ArtListView(ListView):
     context_object_name = 'Artworks'
     ordering = ['-upload_date_time']
     paginate_by = 12
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and not request.user.userprofile.active_email:
+            messages.warning(request, "Please activate your email using the link that has been sent to your new email.")
+        return super(ArtListView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ArtListView, self).get_context_data(**kwargs)
