@@ -12,7 +12,7 @@ from django.utils.encoding import force_bytes
 def send_confirmation_email(request, form, user, user_email):
     current_site = get_current_site(request)
     mail_subject = 'Activate your account.'
-    message = render_to_string('email/activate_email.html', {
+    message = render_to_string('email/activate_account.html', {
         'user': user,
         'domain': current_site.domain,
         'uid':urlsafe_base64_encode(force_bytes(user.pk)),
@@ -25,6 +25,30 @@ def send_confirmation_email(request, form, user, user_email):
         'artdrop.project@gmail.com',
         [user_email],
     )
+
+def send_new_email_activation_mail(request, form):
+    user = request.user
+
+    new_email = request.POST.get('email')
+
+    current_site = get_current_site(request)
+    mail_subject = 'Your email has been modified.'
+    message = render_to_string('email/activate_email.html', {
+        'user': user,
+        'domain': current_site.domain,
+        'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+        'token':activation_token.make_token(user),
+    })
+
+    send_mail(
+        mail_subject,
+        message,
+        'artdrop.project@gmail.com',
+        [new_email],
+    )
+
+    user.userprofile.active_email = False
+
 
 class TokenGenerator(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, time):

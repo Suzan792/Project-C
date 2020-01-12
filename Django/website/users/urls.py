@@ -26,8 +26,8 @@ urlpatterns = [
     path('change-password/', auth_views.PasswordChangeView.as_view(template_name="registration/change_password.html"), name='change_password'),
     path('password_change_done/', auth_views.PasswordChangeDoneView.as_view(
         template_name="registration\password_change_done.html"), name='password_change_done'),
-    re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        views.activate, name='activate'),
+    re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
+    re_path(r'^activate_email/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate_email, name='activate_email'),
     path('artist/<int:pk>/', ArtistCard.as_view(), name='artist_card'),
 
 ]

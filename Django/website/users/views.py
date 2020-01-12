@@ -15,7 +15,7 @@ from django.views.generic import DetailView, DeleteView, ListView
 
 from .models import isArtist,UserProfile
 from .forms import UserRegistrationForm, UserUpdateForm, ProfilePhotoUpdateForm, ProfileInfoForm , artistApplication
-from .functions import activation_token, send_confirmation_email, deactivate_account
+from .functions import send_new_email_activation_mail, activation_token, send_confirmation_email, deactivate_account
 from art.models import Artwork
 from website import settings
 
@@ -74,8 +74,29 @@ def activate(request, uidb64, token):
     else:
         return render(request,'email/invalid_link.html')
 
+def activate_email(request, uidb64, token):
+    '''
+    This function changes the status of the 'activated_email' field of a user's account by checking the token and decoding the user's id. 
+    Then, the field is either changed to True, or the user gets redirected to the 'invalid link' page.
+    '''
+    try:
+        user_id = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=user_id)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and activation_token.check_token(user, token):
+        user.userprofile.active_email = True
+        user.userprofile.save()
+        user.save()
+        return render(request,'email/confirmation_complete.html')
+    else:
+        return render(request,'email/invalid_link.html')
+
+
 @login_required
 def profile(request):
+    email = request.user.email
     if request.is_ajax():
         if request.POST.get('action') == "deactivate":
             deactivate_account(request)
@@ -85,7 +106,9 @@ def profile(request):
         profile_photo_update_form = ProfilePhotoUpdateForm(request.POST,request.FILES,
                                                         instance=request.user.userprofile)
         profile_info_update_form = ProfileInfoForm(request.POST,instance=request.user.userprofile)
-        if user_update_form.is_valid and profile_photo_update_form.is_valid and profile_info_update_form.is_valid:
+        if user_update_form.is_valid() and profile_photo_update_form.is_valid() and profile_info_update_form.is_valid():
+            if email != request.POST.get('email'):
+                send_new_email_activation_mail(request, user_update_form)
             user_update_form.save()
             profile_info_update_form.save()
             profile_photo_update_form.save()

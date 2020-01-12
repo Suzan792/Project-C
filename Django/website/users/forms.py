@@ -46,6 +46,11 @@ class UserUpdateForm(forms.ModelForm):
     first_name = forms.CharField(max_length = 60)
     last_name = forms.CharField(max_length = 60)
     email = forms.EmailField(max_length = 60)
+    def clean_email(self):
+        cleaned_email = self.cleaned_data.get('email')
+        if User.objects.filter(email=cleaned_email).exists() and self.instance.email != cleaned_email:
+            raise forms.ValidationError('An account with this email already exists')
+        return cleaned_email
     class Meta:
         model = User
         fields =['first_name','last_name','username', 'email']
