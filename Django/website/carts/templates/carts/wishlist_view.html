@@ -5,10 +5,14 @@
 
 {%block body %}
 <div class="container">
+<h2 class="mt-3">Your Wish List</h2>
 
-{% if not wishlist.item.all %}
+{% if not user.is_authenticated %}
+<p>Please log in to view this page!</p>
 
-<h1 style="text-align:center;">NO</h1>
+{% elif not wishlist.item.all %}
+
+<p>You have not added anything to your Wish List yet!</p>
 
 {% else %}
     <div class="row">

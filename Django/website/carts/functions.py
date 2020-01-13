@@ -15,12 +15,14 @@ def get_users_wishlist(request):
     '''
     This function returns the logged in user's Wish List or makes a new one if it does not exist.
     '''
-    try:
-        wishlist = Wish.objects.get(user=request.user)
-    except:
-        wishlist = Wish(user = request.user)
-        wishlist.save()
-    
+    wishlist = None
+    if request.user.is_authenticated:
+        try:
+            wishlist = Wish.objects.get(user=request.user)
+        except:
+            wishlist = Wish(user = request.user)
+            wishlist.save()
+
     return wishlist
 
 def get_endpoint():
