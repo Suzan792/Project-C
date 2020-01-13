@@ -3,16 +3,25 @@ from paypal.standard.conf import POSTBACK_ENDPOINT, SANDBOX_POSTBACK_ENDPOINT
 
 from django.conf import settings
 
-from .models import Cart
+from .models import Cart, Wish
 from order import views as order_views 
 
 def get_cart(request):
-    '''
-    This function returns the current cart if its id is saved in the session. 
-    '''
     cart_id = request.session['cart_id']
     cart = Cart.objects.get(id=cart_id)
     return cart
+
+def get_users_wishlist(request):
+    '''
+    This function returns the logged in user's Wish List or makes a new one if it does not exist.
+    '''
+    try:
+        wishlist = Wish.objects.get(user=request.user)
+    except:
+        wishlist = Wish(user = request.user)
+        wishlist.save()
+    
+    return wishlist
 
 def get_endpoint():
     '''

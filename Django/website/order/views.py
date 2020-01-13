@@ -71,7 +71,7 @@ def get_orders(request):
 
 def check_status(request, item):
     '''
-    This function checks if items with the status 'NP' (Not paid) have the status 'Completed'.
+    This function checks if items with the status 'NP' (Not paid) have the payment status 'Completed'.
     If they do, the item's status is changed to 'IM' (In the making).
     If they don't, nothing changes.
     One item can be checked at a time.

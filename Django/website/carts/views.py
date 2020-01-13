@@ -3,12 +3,13 @@ import requests
 
 from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 
-from .models import Cart
+from .models import Cart, Wish
 from .forms import PayPalForm
 from .functions import *
 from products.models import Product, Design
@@ -135,3 +136,35 @@ def request_to_paypal(request):
         messages.warning(request, f'Please enter your address at your profile page before ordering.')
         return redirect('cart')
     
+def get_wishlist(request):
+    wishlist = get_users_wishlist(request)
+
+    template = "carts/wishlist_view.html"
+    context = {"wishlist": wishlist}
+
+    return render(request, template, context)
+
+def add_wish_item(request, design_pk):
+    product = Design.objects.get(id=design_pk)
+
+    wishlist = get_users_wishlist(request)
+
+    if not product in wishlist.item.all():
+        wishlist.item.add(product)
+        messages.success(request, "Item has been successfully added to your Wish List.")
+    else:
+        messages.warning(request, "This item is already in your Wish List.")
+
+    return JsonResponse({})
+        
+def delete_wish_item(request, design_pk):
+    product = Design.objects.get(id=design_pk)
+
+    wishlist = get_users_wishlist(request)
+
+    if product in wishlist.item.all():
+        wishlist.item.remove(product)
+
+    messages.success(request, "Item has been deleted.")
+
+    return HttpResponseRedirect(reverse("wish_list"))

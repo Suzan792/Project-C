@@ -92,6 +92,7 @@
           <a href="#">{{product.product_name}}</a>
           {% if designs.count >= 1 %}
           <button id="addToCart" class="btn btn-success" onclick="addToCart({% if user.is_authenticated %}true{% else %}false{% endif %})">Add to Cart</button>
+          <button id="addToWishlist" class="btn btn-success" onclick="addToWishList({% if user.is_authenticated %}true{% else %}false{% endif %})">Add to Wish List</button>
           {% endif %}
         </h4>
         <h5 id = "price">€{%addFloat product.price art.artwork_price%}</h5>
@@ -246,7 +247,16 @@ function addToCart(authenticated){
   }else{
     flashMessage("You must be logged in to be able to purchase a product","info")
   }
-
+}
+function addToWishList(authenticated){
+  console.log(authenticated)
+  if(authenticated==true){
+    $.get('/wish-list/'+activeDesignId+'/' ,function( data ) {
+      window.location.reload();
+    })
+  }else{
+    flashMessage("You must be logged in to add an item to your Wish List.","info")
+  }
 }
 
 function productChoiceButton(id,imageUrl,art_draggability,url,csrfToken,pageName){

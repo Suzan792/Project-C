@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% load custom_templatetags_art %}
+
+{% block title %}Wish List{% endblock title %}
+
+{%block body %}
+<div class="container">
+
+{% if not wishlist.item.all %}
+
+<h1 style="text-align:center;">NO</h1>
+
+{% else %}
+    <div class="row">
+        <div class="col-sm 8 col-sm-offset-2">
+            <table class="table">
+                <thead>
+                    <th>Item</th>
+                    <th>Item name</th>
+                    <th></th>
+                    <th></th>
+                </thead>
+                {% for item in wishlist.item.all %}
+                <tr>
+                    <td>
+                        <img id="product_image_order" style="height: 90px; width: 90px; position: relative; text-align:center;"src="{{item.design_photo.url}}" alt="product image is not loading error">
+                    </td>
+                    <td><a href="{% url 'productDetail_page' item.art.id item.product.id %}" >{{ item }}</a></td>
+                    <td></td>
+                    <td><a href="{% url 'delete_from_wishlist' item.id %}" style="color: crimson; font-weight: bold">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endif %}
+</div>
+
+{% endblock body %}

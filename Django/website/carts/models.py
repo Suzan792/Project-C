@@ -1,5 +1,7 @@
 from django.db import models
+
 from products.models import Design
+from users.models import User
 
 
 class Cart(models.Model):
@@ -11,3 +13,10 @@ class Cart(models.Model):
 
     def __str__(self):
         return "Cart id: %s" % self.id
+
+class Wish(models.Model):
+    item = models.ManyToManyField(Design, null=True, blank=True)
+    user =  models.ForeignKey(User, on_delete = models.CASCADE)
+
+    def __str__(self):
+        return "Wish list id: %s" % self.id
