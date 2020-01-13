@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.models import User
+
+from .functions import check_email_already_used
 from .models import UserProfile, isArtist
 
 
@@ -34,10 +36,9 @@ class UserRegistrationForm(UserCreationForm):
     last_name = forms.CharField(max_length = 60)
     email = forms.EmailField(max_length = 60)
     def clean_email(self):
-        cleaned_email = self.cleaned_data.get('email')
-        if User.objects.filter(email=cleaned_email).exists():
-            raise forms.ValidationError('An account with this email already exists')
-        return cleaned_email
+        email = self.cleaned_data.get('email')
+        check_email_already_used(email)
+        return email
     class Meta:
         model = User
         fields =['first_name','last_name','username', 'email', 'password1', 'password2']
@@ -47,10 +48,10 @@ class UserUpdateForm(forms.ModelForm):
     last_name = forms.CharField(max_length = 60)
     email = forms.EmailField(max_length = 60)
     def clean_email(self):
-        cleaned_email = self.cleaned_data.get('email')
-        if User.objects.filter(email=cleaned_email).exists() and self.instance.email != cleaned_email:
-            raise forms.ValidationError('An account with this email already exists')
-        return cleaned_email
+        email = self.cleaned_data.get('email')
+        if self.instance.email != email:
+            check_email_already_used(email)
+        return email
     class Meta:
         model = User
         fields =['first_name','last_name','username', 'email']
