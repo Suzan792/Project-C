@@ -39,11 +39,17 @@
             <a class="nav-link" id="about_page" href="{% url 'about_page' %}">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="faq_page" href="{% url 'faq_page' %}">FQA</a>
+            <a class="nav-link" id="faq_page" href="{% url 'faq_page' %}">FAQ</a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" id="profile_page" href="{% url 'profile_page' %}">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="card_page" href="{% url 'cart' %}">Cart <span class="badge" style="background-color: #c5c5c5">{% if request.session.items_total >= 1 %} {{ request.session.items_total }} {% endif %}</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="wishlist_page" href="{% url 'wishlist_page' %}">Wish List</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="logout_page" href="{% url 'logout_page' %}">Logout</a>
@@ -63,9 +69,6 @@
             <a class="nav-link" id="login_page"href="{% url 'login_page' %}">Login</a>
           </li>
           {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" id="card_page" href="{% url 'cart' %}">Cart <span class="badge" style="background-color: #c5c5c5">{% if request.session.items_total >= 1 %} {{ request.session.items_total }} {% endif %}</span></a>
-          </li>
           {% block hide %}
           {% if user.is_authenticated %}
           <li class="nav-item mt-1 ml-2">

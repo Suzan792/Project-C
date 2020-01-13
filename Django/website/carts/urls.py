@@ -12,7 +12,7 @@ urlpatterns = [
     path('payment_done', views.payment_done, name='payment_done'),
     path('payment_cancelled', views.payment_cancelled, name='payment_cancelled'),
     path('paypal/', include('paypal.standard.ipn.urls')),
-    path('wish-list/', views.get_wishlist, name='wish_list'),
+    path('wish-list/', views.get_wishlist, name='wishlist_page'),
     path('wish-list/<int:design_pk>/', views.add_wish_item, name='add_to_wishlist'),
     path('wish-list/delete/<int:design_pk>/', views.delete_wish_item, name='delete_from_wishlist'),
 ]

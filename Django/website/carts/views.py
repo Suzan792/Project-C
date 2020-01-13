@@ -167,4 +167,4 @@ def delete_wish_item(request, design_pk):
 
     messages.success(request, "Item has been deleted.")
 
-    return HttpResponseRedirect(reverse("wish_list"))
+    return HttpResponseRedirect(reverse("wishlist_page"))
