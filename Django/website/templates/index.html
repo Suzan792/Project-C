@@ -41,8 +41,19 @@
 </div>
 
 <!--/.Carousel Wrapper-->
-<h1 class="display-9 text-center ">Our current favorites</h1>
+<label for="colorSelect">Sort By:</label>
+<select type="text" id="artworkFilter" name="artworkFilter">
+      <option value="newest"><selected>Newest</option>
+      <option value="oldest">Oldest</option>
+      <option value="highestPrice"><selected>Highest Price</option>
+      <option value="lowestPrice"><selected>Lowest Price</option>
+      <option value="mostLiked">Most Liked</option>
+  </select>
 <div class="card-columns">
+
+  <!-- <form method="GET">
+    {{filter.form}}
+  </form> -->
   {% for artwork in Artworks %}
 
   <!--Card-->
@@ -150,5 +161,17 @@
 {% block javascript %}
 <script>
 $("#home_page").parent().addClass("active")
+if('{{filter}}'=='None'){
+  $("#artworkFilter").val('newest')
+}else{
+  $("#artworkFilter").val('{{filter}}')
+}
+
+$("#artworkFilter").change(function(){
+  choice = $("#artworkFilter").val();
+  window.location.href = "/"+choice+"/";
+});
+
+
 </script>
 {% endblock %}

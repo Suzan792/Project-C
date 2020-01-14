@@ -27,6 +27,7 @@ from website import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ArtListView.as_view(), name='home_page'),
+    path('<filter>/', ArtListView.as_view(), name='home_page_filter'),
     path('about/', views.about_page, name='about_page'),
     path('faq/', views.faq_page, name='faq_page'),
     path('faq/q1', views.faq_q1_page, name='faq_q1_page'),
