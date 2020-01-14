@@ -43,6 +43,7 @@ class DesignTextCoordinate(models.Model):
 class Design(models.Model):
     product = models.ForeignKey( Product,on_delete=models.CASCADE)
     created_on = models.DateTimeField(default=timezone.now)
+    quantity = models.IntegerField(default=1)
     design_photo = models.ImageField(default='design_pics/defaultDesign.png',upload_to='design_pics',null=True,blank=True)
     art = models.ForeignKey(art.Artwork,on_delete=models.CASCADE)
     user = models.ForeignKey(users.UserProfile,on_delete=models.CASCADE,default=None,blank=True, null=True)

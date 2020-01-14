@@ -53,7 +53,7 @@ class FreshCart(View):
         try:
             the_id = request.session['cart_id']
         except:
-            new_cart = Cart()
+            new_cart = Cart(user=request.user)
             new_cart.save()
             request.session['cart_id'] = new_cart.id
             the_id = new_cart.id
