@@ -162,7 +162,7 @@
 <script>
 $("#home_page").parent().addClass("active")
 
-if('{{filter}}' != 'newest' || '{{filter}}' != 'oldest' || '{{filter}}' != 'highestPrice' || '{{filter}}' != 'lowestPrice' || '{{filter}}' != 'mostLiked' ){
+if('{{filter}}' != 'newest' && '{{filter}}' != 'oldest' && '{{filter}}' != 'highestPrice' && '{{filter}}' != 'lowestPrice' && '{{filter}}' != 'mostLiked' ){
   $("#artworkFilter").val('newest')
 }else{
   $("#artworkFilter").val('{{filter}}')
