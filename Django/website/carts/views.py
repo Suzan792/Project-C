@@ -15,6 +15,10 @@ from .functions import *
 from products.models import Product, Design
 
 def view(request):
+    '''
+    This function first checks for an active session of the cart to display. If the cart is empty it shows a message.
+    Second it calculates the total of the cart and it can start the payment process.
+    '''
     try:
         the_id = request.session['cart_id']
     except:
@@ -22,7 +26,7 @@ def view(request):
     if the_id:
         cart = Cart.objects.get(id=the_id)
     else:
-        empty_message = "Your Cart is Empty, please add something to your cart."
+        empty_message = "Your cart is empty, please add something to your cart."
         context = {"empty": True, "empty_message": empty_message}
 
     try:
@@ -49,11 +53,15 @@ def view(request):
 
 class FreshCart(View):
     def get(self, request, *args, **kwargs):
+        '''
+        When you add a product it first checks if you are in a session, if not it creates one.
+        Second it adds the product to the cart.
+        '''
         request.session.set_expiry(12000)
         try:
             the_id = request.session['cart_id']
         except:
-            new_cart = Cart()
+            new_cart = Cart(user=request.user)
             new_cart.save()
             request.session['cart_id'] = new_cart.id
             the_id = new_cart.id

@@ -63,9 +63,6 @@
               <p class="card-text">{{art.artwork_description }}</p>
             </div>
           </td>
-          <td>
-            <h3 style="font-size: 150%;"> €{{  art.artwork_price  }} </h3>
-          </td>
         </tr>
         {% endfor %}
 
@@ -86,8 +83,6 @@
 {% block javascript %}
 
 <script>
-
-  var amountOfResults = 0
 
   function like_button(id){
     var post_url ="{% url 'home_page' %}"
