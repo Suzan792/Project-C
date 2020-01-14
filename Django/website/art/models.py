@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 import users.models as users
 import datetime
 import os
@@ -15,7 +16,7 @@ class Artwork(models.Model):
     artwork_likes = models.ManyToManyField(users.UserProfile,related_name="likes",blank=True)
     artwork_price = models.DecimalField(max_digits=1000, decimal_places=2,default=24.99)
     artwork_photo = models.ImageField(default='default_art.png',upload_to='art_pics')
-    upload_date_time = models.DateField(("Date"), default=datetime.date.today)
+    upload_date_time = models.DateTimeField(default=timezone.now)
 
     # delete the image from the DB if object is deleted
     def delete(self, *args, **kwargs):
@@ -38,5 +39,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Comment for artwork: ' + self.comment
-
-
