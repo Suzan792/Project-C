@@ -161,7 +161,12 @@
 {% block javascript %}
 <script>
 $("#home_page").parent().addClass("active")
-if('{{filter}}'=='None'){
+newest
+oldest
+highestPrice
+lowestPrice
+mostLiked
+if('{{filter}}' != 'newest' || '{{filter}}' != 'oldest' || '{{filter}}' != 'highestPrice' || '{{filter}}' != 'lowestPrice' || '{{filter}}' != 'mostLiked' ){
   $("#artworkFilter").val('newest')
 }else{
   $("#artworkFilter").val('{{filter}}')
