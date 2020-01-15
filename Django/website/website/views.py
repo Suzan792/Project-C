@@ -37,11 +37,14 @@ class ArtListView(ListView):
         context['newest'] = UserProfile.objects.filter(user_role = 'artist').order_by('activated_artist_date').reverse()[:4]
         context['advertisementSlides'] = AdvertisementSlide.objects.all()
         context['filter'] = self.kwargs.get('filter')
+        context['category'] = self.kwargs.get('category')
         return context
 
     def get_queryset(self):
         query = '-upload_date_time'
-        print(self.kwargs.get('filter'))
+        category_ = self.kwargs.get('category')
+        if self.kwargs.get('filter')== None :
+            return Artwork.objects.order_by(query)
         if self.kwargs.get('filter')=='newest':
             query = '-upload_date_time'
         if self.kwargs.get('filter')=='oldest':
@@ -52,7 +55,11 @@ class ArtListView(ListView):
             query = 'artwork_price'
         if self.kwargs.get('filter')=='mostLiked':
             return  Artwork.objects.annotate(Count('artwork_likes')).order_by('-artwork_likes__count')
-        return Artwork.objects.order_by(query)
+
+        if category_=='all':
+            return Artwork.objects.order_by(query)
+
+        return Artwork.objects.filter(category=category_).order_by(query)
 
 
     def post(self, request, *args, **kwargs):

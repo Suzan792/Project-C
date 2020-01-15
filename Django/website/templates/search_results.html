@@ -5,13 +5,35 @@
 {% block body %}
 
 {% if request.GET.q != "" %}
-<h1 class="display-5 text center">Results for:  '{{ request.GET.q }}'</h1>
+<h1 class="h3 mt-5 text center">Results for:  '{{ query }}'</h1>
 <p> {{object_list.count}} Results</p>
 
-<div class="row">
+<div class="row p-1 m-0">
   <div class="col-sm 8 col-sm-offset-2">
     <table class="table">
-
+      <div class="row">
+        <div class="col-4">
+      <label class="h5 mt-3"for="colorSelect">Order By:</label>
+      <select type="text" id="artworkFilter" name="artworkFilter">
+            <option value="newest"><selected>Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="highestPrice"><selected>Highest Price</option>
+            <option value="lowestPrice"><selected>Lowest Price</option>
+            <option value="mostLiked">Most Liked</option>
+        </select>
+        </div>
+        <div class="col-4">
+        <label class="h5 mt-3"for="colorSelect">Filter By:</label>
+        <select type="text" id="categoryFilter" name="artworkFilter">
+              <option value="all"><selected>All</option>
+              <option value="photography"><selected>Photography</option>
+              <option value="fineArt">FineArt</option>
+              <option value="graphic"><selected>Graphic</option>
+              <option value="drawing"><selected>Drawing</option>
+              <option value="modernArt">ModernArt</option>
+          </select>
+        </div>
+        </div>
       <div class="card-columns">
         {% for art in object_list %}
 
@@ -58,7 +80,8 @@
               <!--Card content-->
             <div class="card-body card-body-cascade">
               <!--Category & Title-->
-              <h4 class="card-title text-center"><strong><a href="{% url 'artDetail_page' art.id %}">{{ art.artwork_name }}</a></strong></h4>
+              <h4 class="card-title text-left"><strong><a href="{% url 'artDetail_page' art.id %}">{{ art.artwork_name }}</a></strong></h4>
+              <p class="h7"><strong><a href="{% url 'artDetail_page' art.id %}">Category: {{ art.category }}</a></strong></p>
               <!--Description-->
               <p class="card-text">{{art.artwork_description }}</p>
             </div>
@@ -83,6 +106,21 @@
 {% block javascript %}
 
 <script>
+  if('{{filter}}' != 'newest' && '{{filter}}' != 'oldest'
+  && '{{filter}}' != 'highestPrice' && '{{filter}}' != 'lowestPrice'
+  && '{{filter}}' != 'mostLiked' ){
+    $("#artworkFilter").val('newest')
+  }else{
+    $("#artworkFilter").val('{{filter}}')
+  }
+
+  if('{{category}}' != 'all' && '{{category}}' != 'photography'
+  && '{{category}}' != 'fineArt' && '{{category}}' != 'graphic'
+  && '{{category}}' != 'drawing' &&  '{{category}}' != 'modernArt' ){
+    $("#categoryFilter").val('all')
+  }else{
+    $("#categoryFilter").val('{{category}}')
+  }
 
   function like_button(id){
     var post_url ="{% url 'home_page' %}"
@@ -110,6 +148,21 @@
       }
     };
   };
+
+
+
+    $("#artworkFilter").change(function(){
+      choice = $("#artworkFilter").val();
+      category = $("#categoryFilter").val();
+      window.location.href = "/search/"+'{{query}}'+"/"+choice+"/"+category;
+    });
+    $("#categoryFilter").change(function(){
+      choice = $("#artworkFilter").val();
+      category = $("#categoryFilter").val();
+      console.log("hi")
+      window.location.href = "/search/"+'{{query}}'+"/"+choice+"/"+category;
+    });
+
 
 
 </script>
