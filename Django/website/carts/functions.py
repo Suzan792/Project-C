@@ -25,6 +25,20 @@ def get_users_wishlist(request):
 
     return wishlist
 
+def get_users_cart(request):
+    '''
+    This function returns the logged in user's Shopping Cart or makes a new one if it does not exist.
+    '''
+    cart = None
+    if request.user.is_authenticated:
+        try:
+            cart = Cart.objects.get(user=request.user)
+        except:
+            cart = Cart(user = request.user)
+            cart.save()
+
+    return cart
+
 def get_endpoint():
     '''
     Returns the endpoint url for the form. 
