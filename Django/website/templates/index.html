@@ -149,7 +149,7 @@
     <div class="col-lg-3 col-md-4 col-6">
       <p class="text-center font-weight-bold">{{item.user|capfirst}}</p>
       <a href="{% url 'artist_card' item.user.id %}" class="d-block mb-4 h-100">
-            <img class="img-fluid img-thumbnail account-img prifile-pic rounded mx-auto d-block" src="{{item.user.userprofile.image.url}}" alt="userimage">
+            <img class="img-fluid img-thumbnail account-img profile-pic rounded mx-auto d-block" src="{{item.user.userprofile.image.url}}" alt="userimage">
           </a>
     </div>
 {% endfor %}
