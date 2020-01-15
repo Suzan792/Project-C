@@ -7,7 +7,7 @@ from .models import Comment
 class uploadArt(forms.ModelForm):
     class Meta:
         model = models.Artwork
-        fields = ['artwork_name','artwork_description','artwork_price','artwork_photo']
+        fields = ['artwork_name','artwork_description','artwork_price','category','artwork_photo']
 
 
 class CommentForm(forms.ModelForm):
