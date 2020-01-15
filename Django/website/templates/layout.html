@@ -112,7 +112,10 @@
           <script>
           $("#searchBar").change(function(){
             searchValue = $("#searchBar").val();
-            window.location.href = "/search/"+searchValue;
+            if(searchValue!=''){
+              window.location.href = "/search/"+searchValue;
+            }
+
           })
           </script>
         </div>
