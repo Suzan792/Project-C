@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b73fed75-b6b6-45c6-b8df-5c629da03272" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/art/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/art/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/art/templates/art/artwork_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/art/templates/art/artwork_detail.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -115,7 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578950906379</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update artwork price was missing">
+      <created>1579032100196</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1579032100196</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -141,7 +148,8 @@
     <MESSAGE value=":)" />
     <MESSAGE value="improvements" />
     <MESSAGE value="delete artwork with comment" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete artwork with comment" />
+    <MESSAGE value="update artwork price was missing" />
+    <option name="LAST_COMMIT_MESSAGE" value="update artwork price was missing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
