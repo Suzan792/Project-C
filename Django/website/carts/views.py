@@ -19,21 +19,10 @@ def view(request):
     This function first checks for an active session of the cart to display. If the cart is empty it shows a message.
     Second it calculates the total of the cart and it can start the payment process.
     '''
-    try:
-        the_id = request.session['cart_id']
-    except:
-        the_id = None
-    if the_id:
-        cart = Cart.objects.get(id=the_id)
-    else:
-        empty_message = "Your cart is empty, please add something to your cart."
-        context = {"empty": True, "empty_message": empty_message}
 
-    try:
-        the_id
-    except cart.DoesNotExist:
-        pass
-    if the_id:
+    cart = get_users_cart(request)
+
+    if cart:
         new_total = 0.00
         for a in cart.item.all():
             new_total += float(a.product.price + a.art.artwork_price)
@@ -46,39 +35,30 @@ def view(request):
         form = payment_data[1]
 
         context = {"cart": cart, 'order': order, 'form': form}
+    else:
+         context = {"empty": True}
 
     template = "carts/view.html"
     return render(request, template, context)
 
 
 class FreshCart(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, design_pk, *args, **kwargs):
         '''
         When you add a product it first checks if you are in a session, if not it creates one.
         Second it adds the product to the cart.
         '''
-        request.session.set_expiry(12000)
-        try:
-            the_id = request.session['cart_id']
-        except:
-            new_cart = Cart(user=request.user)
-            new_cart.save()
-            request.session['cart_id'] = new_cart.id
-            the_id = new_cart.id
+        product = Design.objects.get(id=design_pk)
 
-        cart = Cart.objects.get(id=the_id)
+        cart = get_users_cart(request)
 
-        try:
-            product = Design.objects.get(id=self.kwargs.get('design_pk'))
-        except Product.DoesNotExist:
-            pass
-        except:
-            pass
         if not product in cart.item.all():
             cart.item.add(product)
-            messages.success(request, "Item has been successfully added to your shopping cart.")
+            messages.success(request, "Item has been successfully added to your Shopping Cart.")
         else:
             cart.item.remove(product)
+            return HttpResponseRedirect(reverse("cart"))
+
         return JsonResponse({})
 
 
