@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b73fed75-b6b6-45c6-b8df-5c629da03272" name="Default Changelist" comment="improvements">
+    <list default="true" id="b73fed75-b6b6-45c6-b8df-5c629da03272" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.well-known/acme-challenge/QyI5ZfneR6fIwUE1yI95ldrh4FRptm60tLn4ihPtq6E" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.well-known/acme-challenge/n3Q4mpudgaWKYl988GXf677Iq5tmO1iWrW6X1HfmOrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/art/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/art/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/art_pics/b00e04fe879b16e411e65831cf206eaec43353f0.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/default_art.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/art/templates/art/artwork_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/art/templates/art/artwork_detail.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -112,7 +108,21 @@
       <option name="project" value="LOCAL" />
       <updated>1578615698565</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="delete artwork with comment">
+      <created>1578950906379</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1578950906379</updated>
+    </task>
+    <task id="LOCAL-00009" summary="update artwork price was missing">
+      <created>1579032100196</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1579032100196</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -137,7 +147,9 @@
     <MESSAGE value="user status in userprofile" />
     <MESSAGE value=":)" />
     <MESSAGE value="improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="improvements" />
+    <MESSAGE value="delete artwork with comment" />
+    <MESSAGE value="update artwork price was missing" />
+    <option name="LAST_COMMIT_MESSAGE" value="update artwork price was missing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

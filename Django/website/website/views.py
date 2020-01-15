@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, View
+from django.db.models import Count
 
 from advertisementSlide.models import AdvertisementSlide
 from art.models import Artwork
@@ -35,7 +36,24 @@ class ArtListView(ListView):
         context = super(ArtListView, self).get_context_data(**kwargs)
         context['newest'] = UserProfile.objects.filter(user_role = 'artist').order_by('activated_artist_date').reverse()[:4]
         context['advertisementSlides'] = AdvertisementSlide.objects.all()
+        context['filter'] = self.kwargs.get('filter')
         return context
+
+    def get_queryset(self):
+        query = '-upload_date_time'
+        print(self.kwargs.get('filter'))
+        if self.kwargs.get('filter')=='newest':
+            query = '-upload_date_time'
+        if self.kwargs.get('filter')=='oldest':
+            query = 'upload_date_time'
+        if self.kwargs.get('filter')=='highestPrice':
+            query = '-artwork_price'
+        if self.kwargs.get('filter')=='lowestPrice':
+            query = 'artwork_price'
+        if self.kwargs.get('filter')=='mostLiked':
+            return  Artwork.objects.annotate(Count('artwork_likes')).order_by('-artwork_likes__count')
+        return Artwork.objects.order_by(query)
+
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:

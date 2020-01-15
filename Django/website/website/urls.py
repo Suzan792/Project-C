@@ -39,6 +39,7 @@ urlpatterns = [
     path('', include('carts.urls')),
     # path('art/', art_views, name='art'),
     # path('paypal/', include('paypal.standard.ipn.urls')),
+    path('<filter>/', ArtListView.as_view(), name='home_page_filter'),
 ]
 
 if settings.DEBUG:

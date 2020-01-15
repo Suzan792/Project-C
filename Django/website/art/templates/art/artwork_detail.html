@@ -59,11 +59,16 @@
         {% endif %}
       </form>
       <div class="main-comment-section">
+        <br>
         {{comments.count}} Comment{{ comments|pluralize }}
+        <br>
+        <br>
         {% for comment in comments %}
         <blockquote class="blockquote">
+          <footer class="blockquote-footer"><a class="" data-toggle="tooltip" data-placement="top" >
+            <img class="rounded-circle article-img"  src="{{ comment.commenter.user.userprofile.image.url }}"></a>
+             <cite title="Source Title">{{ comment.commenter.user.username|capfirst}}</cite></footer>
           <p class="mb-0">{{ comment.comment}}</p>
-          <footer class="blockquote-footer">by <cite title="Source Title">{{ comment.commenter|capfirst}}</cite></footer>
           <hr>
         </blockquote>
         {% endfor %}
@@ -119,3 +124,4 @@
   </div>
   </div>
 {% endblock %}
+
