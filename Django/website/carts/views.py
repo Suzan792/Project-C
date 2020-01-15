@@ -16,8 +16,8 @@ from products.models import Product, Design
 
 def view(request):
     '''
-    This function first checks for an active session of the cart to display. If the cart is empty it shows a message.
-    Second it calculates the total of the cart and it can start the payment process.
+    This function checks if the user has a cart, if not, it creates one.
+    Then when a product is added it calculates the total.
     '''
 
     cart = get_users_cart(request)
@@ -35,8 +35,6 @@ def view(request):
         form = payment_data[1]
 
         context = {"cart": cart, 'order': order, 'form': form}
-    else:
-         context = {"empty": True}
 
     template = "carts/view.html"
     return render(request, template, context)
@@ -45,8 +43,7 @@ def view(request):
 class FreshCart(View):
     def get(self, request, design_pk, *args, **kwargs):
         '''
-        When you add a product it first checks if you are in a session, if not it creates one.
-        Second it adds the product to the cart.
+        This function adds or removes a product from the cart. Giving a notification when adding one.
         '''
         product = Design.objects.get(id=design_pk)
 
