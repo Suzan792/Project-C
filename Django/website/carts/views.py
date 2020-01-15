@@ -76,9 +76,12 @@ class FreshCart(View):
             pass
         if not product in cart.item.all():
             cart.item.add(product)
+            messages.success(request, "Item has been successfully added to your shopping cart.")
         else:
             cart.item.remove(product)
-        return HttpResponseRedirect(reverse("cart"))
+        # return HttpResponseRedirect(reverse("cart"))
+        return JsonResponse({})
+
 
 def payment(request, cart, total):
     '''
