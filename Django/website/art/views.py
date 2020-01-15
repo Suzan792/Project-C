@@ -38,7 +38,7 @@ def upload_art(request):
 
 class ArtworkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Artwork
-    fields = ['artwork_name', 'artwork_description', 'artwork_photo']
+    fields = ['artwork_name', 'artwork_description', 'artwork_price', 'artwork_photo']
     template_name = 'uploadArt.html'
     success_url = '/artistwork'
 

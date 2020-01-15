@@ -242,7 +242,7 @@ function addToCart(authenticated){
   console.log(authenticated)
   if(authenticated==true){
     $.get('/cart/'+activeDesignId+'/',function( data ) {
-      window.location.href = "/cart/";
+      window.location.reload();
     })
   }else{
     flashMessage("You must be logged in to be able to purchase a product","info")
