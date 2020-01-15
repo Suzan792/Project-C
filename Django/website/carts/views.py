@@ -25,7 +25,6 @@ def get_shopping_cart(request):
         new_total = 0.00
         for a in cart.item.all():
             new_total += float(a.product.price + a.art.artwork_price)
-        request.session['items_total'] = cart.item.count()
         cart.total = round(new_total, 2)
         cart.save()
 
@@ -49,9 +48,11 @@ def add_delete_product(request, design_pk):
 
     if not product in cart.item.all():
         cart.item.add(product)
+        request.session['items_total'] = cart.item.count()
         messages.success(request, "Item has been successfully added to your Shopping Cart.")
     else:
         cart.item.remove(product)
+        request.session['items_total'] = cart.item.count()
         return HttpResponseRedirect(reverse("cart"))
 
     return JsonResponse({})
