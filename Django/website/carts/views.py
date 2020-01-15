@@ -79,7 +79,6 @@ class FreshCart(View):
             messages.success(request, "Item has been successfully added to your shopping cart.")
         else:
             cart.item.remove(product)
-        # return HttpResponseRedirect(reverse("cart"))
         return JsonResponse({})
 
 
