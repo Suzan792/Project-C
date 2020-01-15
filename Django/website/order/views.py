@@ -31,7 +31,7 @@ def add_orders(request, order, order_date, order_datetime):
         order_datetime=order_datetime,
         status='NP',  
         paid_price=artwork.artwork_price + product.price,
-        quantity=1,   
+        quantity=order.quantity,   
     )
     
     return order_history_item_instance
