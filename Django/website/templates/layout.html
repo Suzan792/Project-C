@@ -42,7 +42,7 @@
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item ">
-            <a class="nav-link"id="cart_page" href="{% url 'cart' %}">Cart <span class="badge" style="background-color: #c5c5c5">{% if request.session.items_total >= 1 %} {{ request.session.items_total }} {% endif %}</span></a>
+            <a class="nav-link"id="cart_page" href="{% url 'cart' %}">Cart <span class="badge" style="background-color: #c5c5c5">{% if cart.item.count() >= 1 %} {{ cart.item.count() }} {% endif %}</span></a>
           </li>
           {% else %}
           <li class="nav-item dropdown">

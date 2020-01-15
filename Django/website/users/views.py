@@ -130,7 +130,7 @@ def profile(request):
 @login_required
 def isartist(request):
     if isArtist.objects.filter(applicant=request.user.userprofile).exists():
-        return HttpResponse("You have are already sent a application!")
+        return HttpResponse("You have already sent a application!")
     else:
         if request.method == 'POST':
             form = artistApplication(request.POST,request.FILES)
