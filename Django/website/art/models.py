@@ -14,9 +14,9 @@ class Artwork(models.Model):
     artwork_description = models.TextField(max_length = 600)
     artwork_likes = models.ManyToManyField(users.UserProfile,related_name="likes",blank=True)
     artwork_price = models.DecimalField(max_digits=1000, decimal_places=2,default=24.99)
-    artwork_photo = models.ImageField(default='default_art.png',upload_to='art_pics')
+    artwork_photo = models.ImageField(upload_to='art_pics')
     upload_date_time = models.DateTimeField(default=timezone.now)
-    category = models.CharField(max_length = 60 ,default="",choices=(('','Choose category'),('photography','Photography'),('fineArt','FineArt'),('graphic','Graphic'),('drawing','Drawing')))
+    category = models.CharField(max_length = 60 ,default="",choices=(('','Choose category'),('photography','Photography'),('fineArt','Fine Art'),('graphic','Graphic'),('drawing','Drawing'),('modernArt','modern Art')))
 
     # delete the image from the DB if object is deleted
     def delete(self, *args, **kwargs):
