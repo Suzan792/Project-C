@@ -103,7 +103,7 @@ def request_to_paypal(request):
     '''
 
     if check_address(request):
-        date_time = move_to_orderhistory(request, get_cart(request))
+        date_time = move_to_orderhistory(request, get_users_cart(request))
 
         post_data = {
             'cmd' : request.POST.get("cmd",''),

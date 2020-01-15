@@ -8,10 +8,9 @@ from website import settings
 # Create your models here.
 
 
-
 class Artwork(models.Model):
     artwork_name = models.CharField(max_length = 60)
-    artist = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
+    artist = models.ForeignKey(users.UserProfile, on_delete = models.CASCADE)
     artwork_description = models.TextField(max_length = 600)
     artwork_likes = models.ManyToManyField(users.UserProfile,related_name="likes",blank=True)
     artwork_price = models.DecimalField(max_digits=1000, decimal_places=2,default=24.99)
@@ -32,7 +31,7 @@ class Artwork(models.Model):
 
 
 class Comment(models.Model):
-    commenter = models.ForeignKey(users.UserProfile, on_delete = models.SET('unknown'))
+    commenter = models.ForeignKey(users.UserProfile, on_delete = models.CASCADE)
     artwork = models.ForeignKey(Artwork, on_delete = models.CASCADE)
     comment = models.TextField(max_length = 500)
     upload_date_time = models.DateField(("Date"), default=datetime.date.today)
