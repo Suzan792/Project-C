@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %} {{ art.artwork_name }} {% endblock %}
+{% block body %}
+<a href="{% url 'artDetail_page' art.id %}"> <img src="{{art.artwork_photo.url}}" class="mt-5"style="height: 200px"></img></a>
+<p class="h4 mt-2">{{art.artwork_name}}</p>
+<p class="h4 mt-5">Liked by</p>
+{% for user_ in likes %}
+<div class="row m-0 p-0" style="border-top: 1px solid black; ">
+  <div class="col-0.5 pt-1 ">
+    <a href="{% url 'artist_card' user_.id %}" data-toggle="tooltip" data-placement="top" ><img class="rounded-circle article-img"  src="{{ user_.image.url }}"></a>
+    </div>
+    <div class="col-1 pt-1 ">
+    <a href="{% url 'artist_card' user_.id %}"><p>{{user_.user.username}}</p></a> 
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
