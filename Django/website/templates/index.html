@@ -196,7 +196,7 @@ if('{{category}}' != 'all' && '{{category}}' != 'photography'
 $("#artworkFilter").change(function(){
   choice = $("#artworkFilter").val();
   category = $("#categoryFilter").val();
-  window.location.href = "/"+category+"/";
+  window.location.href = "/"+choice+"/"+category+"/";
 });
 $("#categoryFilter").change(function(){
   choice = $("#artworkFilter").val();
