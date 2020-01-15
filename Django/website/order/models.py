@@ -11,7 +11,7 @@ class OrderHistoryItem(models.Model):
         ('NP', 'Not paid'),
     ]
     
-    name = models.CharField(max_length = 60)
+    name = models.CharField(max_length = 500)
     design_photo = models.ImageField(default='design_pics/defaultDesign.png',upload_to='order_pics')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_date = models.DateField(("Date"), default=datetime.date.today)

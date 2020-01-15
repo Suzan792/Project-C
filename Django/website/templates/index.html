@@ -49,7 +49,7 @@
       <option value="lowestPrice"><selected>Lowest Price</option>
       <option value="mostLiked">Most Liked</option>
   </select>
-<div class="card-columns">
+<div class="card-columns" >
 
   <!-- <form method="GET">
     {{filter.form}}
@@ -57,7 +57,7 @@
   {% for artwork in Artworks %}
 
   <!--Card-->
-  <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 ">
+  <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 " >
     <!--Card image-->
     <div class="view view-cascade overlay">
       <a href="{% url 'artDetail_page' artwork.id %}"><img class="card-img-top" src="{{ artwork.artwork_photo.url }}"alt="artwork"> </img></a>
@@ -92,10 +92,10 @@
             </form>
         </span>
         <span class="float-right" >
-        <p id="like_count_{{artwork.id}}"class= "mr-1">{{artwork.artwork_likes.count}}</p>
+        <a href="{% url 'artworkLikeList_page' artwork.id %}"><p id="like_count_{{artwork.id}}"class= "mr-1">{{artwork.artwork_likes.count}}</p></a>
         </span>
         <span class="float-right">
-          <a  class="" href="{% url 'artDetail_page' artwork.id %}#show" data-toggle="tooltip" data-placement="top" title="Add a comment"><i class="far fa-comments mr-3"></i></a>
+          <a  class="" href="{% url 'artDetail_page' artwork.id %}" data-toggle="tooltip" data-placement="top" title="Add a comment"><i class="far fa-comments mr-3"></i></a>
         </span>
 
       </div>

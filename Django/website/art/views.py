@@ -126,3 +126,13 @@ class ArtDetailView(View):
             art_pk = self.kwargs.get('pk')
             like_count = art.artwork_likes.count()
             return JsonResponse({'liked':liked,'like_count':like_count,'art_pk':art_pk})
+
+class ArtworkLikeListView(View):
+    def get(self, request, *args, **kwargs):
+        art = Artwork.objects.get(pk=self.kwargs.get('pk'))
+        likes = art.artwork_likes.all()
+        context= {
+        'art':art,
+        'likes':likes
+        }
+        return render(request, 'art/likeList.html', context)
