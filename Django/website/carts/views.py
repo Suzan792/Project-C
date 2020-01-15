@@ -14,12 +14,11 @@ from .forms import PayPalForm
 from .functions import *
 from products.models import Product, Design
 
-def view(request):
+def get_shopping_cart(request):
     '''
     This function checks if the user has a cart, if not, it creates one.
     Then when a product is added it calculates the total.
     '''
-
     cart = get_users_cart(request)
 
     if cart:
@@ -40,23 +39,22 @@ def view(request):
     return render(request, template, context)
 
 
-class FreshCart(View):
-    def get(self, request, design_pk, *args, **kwargs):
-        '''
-        This function adds or removes a product from the cart. Giving a notification when adding one.
-        '''
-        product = Design.objects.get(id=design_pk)
+def add_delete_product(request, design_pk):
+    '''
+    This function adds or removes a product from the cart. Giving a notification when adding one.
+    '''
+    product = Design.objects.get(id=design_pk)
 
-        cart = get_users_cart(request)
+    cart = get_users_cart(request)
 
-        if not product in cart.item.all():
-            cart.item.add(product)
-            messages.success(request, "Item has been successfully added to your Shopping Cart.")
-        else:
-            cart.item.remove(product)
-            return HttpResponseRedirect(reverse("cart"))
+    if not product in cart.item.all():
+        cart.item.add(product)
+        messages.success(request, "Item has been successfully added to your Shopping Cart.")
+    else:
+        cart.item.remove(product)
+        return HttpResponseRedirect(reverse("cart"))
 
-        return JsonResponse({})
+    return JsonResponse({})
 
 
 def payment(request, cart, total):
@@ -100,7 +98,7 @@ def request_to_paypal(request):
     '''
 
     if check_address(request):
-        date_time = move_to_orderhistory(request, get_cart(request))
+        date_time = move_to_orderhistory(request, get_users_cart(request))
 
         post_data = {
             'cmd' : request.POST.get("cmd",''),

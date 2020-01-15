@@ -6,11 +6,6 @@ from django.conf import settings
 from .models import Cart, Wish
 from order import views as order_views 
 
-def get_cart(request):
-    cart_id = request.session['cart_id']
-    cart = Cart.objects.get(id=cart_id)
-    return cart
-
 def get_users_wishlist(request):
     '''
     This function returns the logged in user's Wish List or makes a new one if it does not exist.
