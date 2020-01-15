@@ -27,6 +27,7 @@ def get_shopping_cart(request):
             new_total += float(a.product.price + a.art.artwork_price)
         cart.total = round(new_total, 2)
         cart.save()
+        request.session['items_total'] = cart.item.count()
         payment_data = payment(request, cart, new_total)
         order = payment_data[0]
         form = payment_data[1]
@@ -47,9 +48,12 @@ def add_delete_product(request, design_pk):
 
     if not product in cart.item.all():
         cart.item.add(product)
+        request.session['items_total'] = cart.item.count()
         messages.success(request, "Item has been successfully added to your Shopping Cart.")
     else:
         cart.item.remove(product)
+        request.session['items_total'] = cart.item.count()
+        # messages.success(request, "This item is already in your shopping cart.")
         return HttpResponseRedirect(reverse("cart"))
 
     return JsonResponse({})
