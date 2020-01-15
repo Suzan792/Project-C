@@ -32,8 +32,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto nav-pills">
           <li class="nav-item">
-            <a class="nav-link" id="home_page" href="{% url 'home_page' %}">Home
-            </a>
+            <a class="nav-link" id="home_page" href="{% url 'home_page' %}">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="about_page" href="{% url 'about_page' %}">About</a>
@@ -42,19 +41,9 @@
             <a class="nav-link" id="faq_page" href="{% url 'faq_page' %}">FAQ</a>
           </li>
           {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" id="profile_page" href="{% url 'profile_page' %}">Profile</a>
+          <li class="nav-item ">
+            <a class="nav-link"id="cart_page" href="{% url 'cart' %}">Cart <span class="badge" style="background-color: #c5c5c5">{% if request.session.items_total >= 1 %} {{ request.session.items_total }} {% endif %}</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" id="card_page" href="{% url 'cart' %}">Cart <span class="badge" style="background-color: #c5c5c5">{% if request.session.items_total >= 1 %} {{ request.session.items_total }} {% endif %}</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="wishlist_page" href="{% url 'wishlist_page' %}">Wish List</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="logout_page" href="{% url 'logout_page' %}">Logout</a>
-          </li>
-
           {% else %}
           <li class="nav-item dropdown">
             <a id="register_pages" class="nav-link dropdown-toggle" id="signup_page" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">SignUp</a>
@@ -71,11 +60,21 @@
           {% endif %}
           {% block hide %}
           {% if user.is_authenticated %}
-          <li class="nav-item mt-1 ml-2">
+          <!-- <li class="nav-item mt-1 ml-2">
             <a  href="{% url 'profile_page' %}" data-toggle="tooltip" data-placement="top"><img class="rounded-circle article-img"  src="{{ user.userprofile.image.url }}"></a>
-          </li>
-          <li class="nav-item mt-1 ml-2">
-            <a href="{% url 'profile_page' %}"><h1  class="h6 mt-1" style="color: white;">Hi {{user.username}}</h1></a>
+          </li> -->
+          <!-- <li class="nav-item mt-1 ml-2"> -->
+          <li class="nav-item dropdown">
+            <!-- <a href="{% url 'profile_page' %}"><h1  class="h6 mt-1" style="color: white;"></h1></a> -->
+            <a class="nav-link dropdown-toggle" id="dropdown_head" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle article-img"  src="{{ user.userprofile.image.url }}">  Hi {{user.username}}</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" id="profile_page" href="{% url 'profile_page' %}">Profile</a>              
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" id="wishlist_page" href="{% url 'wishlist_page' %}">Wish List</a>
+              <a class="dropdown-item" id="order_page" href="{% url 'order_page' %}">Your Orders</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" id="logout_page" href="{% url 'logout_page' %}">Logout</a>
+            </div>
           </li>
           {% endif %}
           {% endblock %}
