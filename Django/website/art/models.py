@@ -16,7 +16,7 @@ class Artwork(models.Model):
     artwork_price = models.DecimalField(max_digits=1000, decimal_places=2,default=24.99)
     artwork_photo = models.ImageField(upload_to='art_pics')
     upload_date_time = models.DateTimeField(default=timezone.now)
-    category = models.CharField(max_length = 60 ,default="",choices=(('','Choose category'),('photography','Photography'),('fineArt','Fine Art'),('graphic','Graphic'),('drawing','Drawing'),('modernArt','modern Art')))
+    category = models.CharField(max_length = 60 ,default="",choices=(('','Choose category'),('photography','Photography'),('fineArt','FineArt'),('graphic','Graphic'),('drawing','Drawing'),('modernArt','Modern Art')))
 
     # delete the image from the DB if object is deleted
     def delete(self, *args, **kwargs):

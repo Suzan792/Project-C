@@ -26,9 +26,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <!-- Search form -->
-      <form action="{% url 'search_results' %}" method="GET" value="{{request.GET.q}}">
-      <input class="form-control col- " name="q" type="text" value="{{request.GET.q}}" placeholder="Search" aria-label="Search">
-      </form>
+
+      <input id="searchBar" class="form-control col " name="q" type="text" value="{{query}}" placeholder="Search" aria-label="Search">
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto nav-pills">
           <li class="nav-item">
@@ -68,7 +67,7 @@
             <!-- <a href="{% url 'profile_page' %}"><h1  class="h6 mt-1" style="color: white;"></h1></a> -->
             <a class="nav-link dropdown-toggle" id="dropdown_head" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle article-img"  src="{{ user.userprofile.image.url }}">  Hi {{user.username}}</a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" id="profile_page" href="{% url 'profile_page' %}">Profile</a>              
+              <a class="dropdown-item" id="profile_page" href="{% url 'profile_page' %}">Profile</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" id="wishlist_page" href="{% url 'wishlist_page' %}">Wish List</a>
               <a class="dropdown-item" id="order_page" href="{% url 'order_page' %}">Your Orders</a>
@@ -110,6 +109,15 @@
             <p class="flashMessage"></p>
           </div>
           {% block javascript %}{% endblock %}
+          <script>
+          $("#searchBar").change(function(){
+            searchValue = $("#searchBar").val();
+            if(searchValue!=''){
+              window.location.href = "/search/"+searchValue;
+            }
+
+          })
+          </script>
         </div>
       </div>
     </div>

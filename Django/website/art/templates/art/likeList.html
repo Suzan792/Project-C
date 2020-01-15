@@ -7,10 +7,10 @@
 {% for user_ in likes %}
 <div class="row m-0 p-0" style="border-top: 1px solid black; ">
   <div class="col-0.5 pt-1 ">
-    <a href="{% url 'artist_card' user_.id %}" data-toggle="tooltip" data-placement="top" ><img class="rounded-circle article-img"  src="{{ user_.image.url }}"></a>
+    <a href="{% url 'artist_card' user_.user.id %}" data-toggle="tooltip" data-placement="top" ><img class="rounded-circle article-img"  src="{{ user_.image.url }}"></a>
     </div>
     <div class="col-1 pt-1 ">
-    <a href="{% url 'artist_card' user_.user.id %}"><p>{{user_.user.username}}</p></a> 
+    <a href="{% url 'artist_card' user_.user.id %}"><p>{{user_.user.username}}</p></a>
   </div>
 </div>
 {% endfor %}

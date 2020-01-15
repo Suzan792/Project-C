@@ -41,6 +41,8 @@
 </div>
 
 <!--/.Carousel Wrapper-->
+<div class="row m-0 p-0">
+  <div class="col-4">
 <label class="h5 mt-3"for="colorSelect">Order By:</label>
 <select type="text" id="artworkFilter" name="artworkFilter">
       <option value="newest"><selected>Newest</option>
@@ -49,6 +51,19 @@
       <option value="lowestPrice"><selected>Lowest Price</option>
       <option value="mostLiked">Most Liked</option>
   </select>
+  </div>
+  <div class="col-4">
+  <label class="h5 mt-3"for="colorSelect">Filter By:</label>
+  <select type="text" id="categoryFilter" name="artworkFilter">
+        <option value="all"><selected>All</option>
+        <option value="photography"><selected>Photography</option>
+        <option value="fineArt">FineArt</option>
+        <option value="graphic"><selected>Graphic</option>
+        <option value="drawing"><selected>Drawing</option>
+        <option value="modernArt">Modern Art</option>
+    </select>
+  </div>
+  </div>
 <div class="card-columns" >
 
   <!-- <form method="GET">
@@ -162,16 +177,35 @@
 <script>
 $("#home_page").parent().addClass("active")
 
-if('{{filter}}' != 'newest' && '{{filter}}' != 'oldest' && '{{filter}}' != 'highestPrice' && '{{filter}}' != 'lowestPrice' && '{{filter}}' != 'mostLiked' ){
+if('{{filter}}' != 'newest' && '{{filter}}' != 'oldest'
+&& '{{filter}}' != 'highestPrice' && '{{filter}}' != 'lowestPrice'
+&& '{{filter}}' != 'mostLiked' ){
   $("#artworkFilter").val('newest')
 }else{
   $("#artworkFilter").val('{{filter}}')
 }
 
+if('{{category}}' != 'all' && '{{category}}' != 'photography'
+&& '{{category}}' != 'fineArt' && '{{category}}' != 'graphic'
+&& '{{category}}' != 'drawing' &&  '{{category}}' != 'modernArt' ){
+  $("#categoryFilter").val('all')
+}else{
+  $("#categoryFilter").val('{{category}}')
+}
+
 $("#artworkFilter").change(function(){
   choice = $("#artworkFilter").val();
-  window.location.href = "/"+choice+"/";
+  category = $("#categoryFilter").val();
+  window.location.href = "/"+choice+"/"+category+"/";
 });
+$("#categoryFilter").change(function(){
+  choice = $("#artworkFilter").val();
+  category = $("#categoryFilter").val();
+  window.location.href = "/"+choice+"/"+category+"/";
+});
+
+
+
 
 
 </script>
