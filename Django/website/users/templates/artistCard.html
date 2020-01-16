@@ -10,7 +10,7 @@
   <div class="card-body">
     <h5 class="card-title text-center">{{user.first_name|capfirst}} {{user.last_name|capfirst}}</h5>
     <p class="card-text text-center">{{user}} is from {{user.userprofile.country|capfirst}}</p>
-    <p class="card-text text-center">Date of join : {{user.date_joined|date:"M d, Y"}}</p>
+    <p class="card-text text-center">Joining date: {{user.date_joined|date:"M d, Y"}}</p>
     <a href="{% url 'home_page'%}" class="btn btn-primary">Back to home</a>
   </div>
 
