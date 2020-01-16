@@ -59,18 +59,13 @@
                     <a href="{% url 'artist_card' art.artist.user.id %}">{{ art.artist.user.username }}</a>
                   </span>
                   <span class="float-right" >
-                    <form id = "form-id"  >
-                        {% csrf_token %}
-                        <a class="like_button button"type="submit"
-                        onclick="
-                        like_button({{art.id}},
-                        '{% url 'search_results' query filter category %}',
-                        '{{ csrf_token }}',
-                        '{{user.is_authenticated}}')" > <i id="heart_sign_color_{{art.id}}"class="fas fa-heart {%isLiked art.id user.id %}" ></i></a>
-                    </form>
+                      <form id = "form-id"  >
+                          {% csrf_token %}
+                          <a class="like_button button"type="submit" onclick="{% if user.is_authenticated %}like_button({{art.id}}){% endif %}" onload="heart_sign_color()" > <i id="heart_sign_color_{{art.id}}"class="fas fa-heart {%isLiked art.id user.id%}" ></i></a>
+                      </form>
                   </span>
                   <span class="float-right" >
-                    <p id="like_count_{{art.id}}" class= "mr-1">{{art.artwork_likes.count}}</p>
+                  <p id="like_count_{{artwork.id}}"class= "mr-1">{{art.artwork_likes.count}}</p>
                   </span>
                   <span class="float-right">
                     <a  class="" href="{% url 'artDetail_page' art.id %}" data-toggle="tooltip" data-placement="top" title="Add a comment"><i class="far fa-comments mr-3"></i></a>
