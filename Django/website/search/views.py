@@ -35,3 +35,17 @@ class SearchResultsView(ListView):
         context['category'] = self.kwargs.get('category')
         context['query'] = self.kwargs.get('query')
         return context
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            art_pk = request.POST.get('id', None)
+            art = Artwork.objects.get(pk=art_pk)
+            user = request.user.userprofile
+
+            if art.artwork_likes.filter(id=user.id).exists():
+                art.artwork_likes.remove(user)
+                liked = False
+            else:
+                art.artwork_likes.add(user)
+                liked = True
+            like_count = art.artwork_likes.count()
+            return JsonResponse({'liked':liked,'like_count':like_count,'art_pk':art_pk})
