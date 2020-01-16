@@ -85,7 +85,7 @@
           <h4 class="card-title">
             <a href="{% url 'productDetail_page' design.art.id design.product.id %}">{{design.product.product_name}}</a>
           </h4>
-          <h5>${%addFloat design.product.price design.art.artwork_price%}</h5>
+          <h5>€{%addFloat design.product.price design.art.artwork_price%}</h5>
           <div id="collapsible_text"class="collapse-content">
           <!-- Text -->
           <p class="card-text collapse" id="collapseContent_{{design.product.id}}">{{design.product.description}}</p>
@@ -107,7 +107,7 @@
           <h4 class="card-title">
             <a href="{% url 'productDetail_page' object.id product.id %}">{{product.product_name}}</a>
           </h4>
-          <h5>${%addFloat product.price object.artwork_price%}</h5>
+          <h5>€{%addFloat product.price object.artwork_price%}</h5>
           <div id="collapsible_text"class="collapse-content">
           <!-- Text -->
           <p class="card-text collapse" id="collapseContent_{{product.id}}">{{product.description}}</p>
