@@ -136,16 +136,7 @@
           <h5 class="font-weight-bold text-uppercase mt-3 mb-4">About us</h5>
           <ul class="list-unstyled">
             <li>
-              <a href="#!">Blog</a>
-            </li>
-            <li>
-              <a href="#!">News</a>
-            </li>
-            <li>
-              <a href="#!">Contact</a>
-            </li>
-            <li>
-              <a href="#!">Who we are</a>
+              <a href="{% url 'about_page' %}">Who we are</a>
             </li>
           </ul>
         </div>
@@ -156,18 +147,11 @@
           <!-- Links -->
           <h5 class="font-weight-bold text-uppercase mt-3 mb-4">For artists</h5>
           <ul class="list-unstyled">
-            <li>
-              <a href="#!">Starting guide</a>
-            </li>
-            <li>
-              <a href="#!">Why sell?</a>
-            </li>
+
             <li>
               <a href="{% url 'register_artist_info' %}">Create an Artist account</a>
             </li>
-            <li>
-              <a href="#!">Terms of service</a>
-            </li>
+
           </ul>
         </div>
         <!-- Grid column -->
@@ -178,38 +162,12 @@
           <h5 class="font-weight-bold text-uppercase mt-3 mb-4">For buyers</h5>
           <ul class="list-unstyled">
             <li>
-              <a href="#!">FAQ</a>
-            </li>
-            <li>
-              <a href="#!">Catalogue</a>
-            </li>
-            <li>
-              <a href="#!">Transport and shipment</a>
+              <a href="{% url 'faq_page' %}">FAQ</a>
             </li>
           </ul>
         </div>
         <!-- Grid column -->
         <hr class="clearfix w-100 d-md-none">
-        <!-- Grid column -->
-        <div class="col-md-3 mx-auto">
-          <!-- Links -->
-          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Top categories</h5>
-          <ul class="list-unstyled">
-            <li>
-              <a href="#!">Photos</a>
-            </li>
-            <li>
-              <a href="#!">Paintings</a>
-            </li>
-            <li>
-              <a href="#!">Digital art</a>
-            </li>
-            <li>
-              <a href="#!">Customizations</a>
-            </li>
-          </ul>
-        </div>
-        <!-- Grid column -->
       </div>
       <!-- Grid row -->
     </div>
