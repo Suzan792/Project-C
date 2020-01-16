@@ -12,8 +12,8 @@
   <div class="col-sm 8 col-sm-offset-2">
     <table class="table">
       <div class="row">
-        <div class="col-4">
-      <label class="h5 col-md-4 col-sm-12"for="colorSelect">Order By:</label>
+        <div class="col-md-5 col-sm-12">
+      <label class="h5 "for="colorSelect">Order By:</label>
       <select type="text" id="artworkFilter" name="artworkFilter">
             <option value="newest"><selected>Newest</option>
             <option value="oldest">Oldest</option>
@@ -22,8 +22,8 @@
             <option value="mostLiked">Most Liked</option>
         </select>
         </div>
-        <div class="col-md-4 col-sm-12">
-        <label class="h5 mt-3"for="colorSelect">Filter By:</label>
+        <div class="col-md-5 col-sm-12">
+        <label class="h5"for="colorSelect">Filter By:</label>
         <select type="text" id="categoryFilter" name="artworkFilter">
               <option value="all"><selected>All</option>
               <option value="photography"><selected>Photography</option>
@@ -43,7 +43,7 @@
             <div id="art_item" class="card card-cascade card-ecommerce narrower mt-2 ">
               <!--Card image-->
               <div class="view view-cascade overlay">
-                <img class="card-img-top" style=" width: 300px; position: relative; "src="{{ art.artwork_photo.url }}"
+                <img class="card-img-top" style="width: 300px; position: relative; "src="{{ art.artwork_photo.url }}"
                 alt="artwork">
                 <a>
                   <div class="mask rgba-white-slight"></div>
