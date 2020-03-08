@@ -13,5 +13,3 @@ This website is for a project on our school.
 * [Sebastian](https://github.com/SFP010) 
 
 * [Sopa](https://github.com/tensopa) 
-
- vist our website on http://artdrop.nl
